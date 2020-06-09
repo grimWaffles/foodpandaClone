@@ -6,4 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".Location_Access_Page">
 
+    <ImageView
+        android:id="@+id/logo_img"
+        android:layout_width="252dp"
+        android:layout_height="335dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/foodpanda_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/use_current_loc"
+        android:layout_width="212dp"
+        android:layout_height="64dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Use Current Location"
+        android:textColor="@android:color/white"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_img" />
+
+    <Button
+        android:id="@+id/select_another"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:text="Select another location"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/use_current_loc"
+        app:layout_constraintVertical_bias="0.0" />
+
+
 </android.support.constraint.ConstraintLayout>

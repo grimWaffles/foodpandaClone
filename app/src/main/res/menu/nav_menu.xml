@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
-        <item>
+    <group>
+        <item
+            android:id="@+id/my_orders"
+            android:icon="@drawable/my_orrders"
+            android:title="My Orders"
+            />
+        <item
+            android:id="@+id/help"
+            android:icon="@drawable/help"
+            android:title="Help"
 
-        </item>
-        <item>
-
-        </item>
-        <item>
-
-        </item>
-
-
-        <item>
-
-        </item>
+            />
+        <item
+            android:id="@+id/settings"
+            android:title="Settings"
+            android:icon="@drawable/settings"
+            />
+        <item
+            android:id="@+id/terms_and_conditions"
+            android:title="Terms and Conditions"
+            android:icon="@drawable/business"
+            />
     </group>
 </menu>

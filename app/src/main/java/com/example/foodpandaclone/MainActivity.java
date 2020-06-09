@@ -1,6 +1,6 @@
 package com.example.foodpandaclone;
 
-import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -64,16 +64,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.setTitle("");
+
         //Initialized toolbar:
         Toolbar toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //ActionBar actionBar=getSupportActionBar(toolbar);
 
         //Initialized NavDrawer:
         drawerLayout=findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,
                 R.string.drawer_open,R.string.drawer_close);
+
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
 
         toggle.syncState();
 
@@ -88,9 +91,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TabLayout tabLayout=findViewById(R.id.tablayout_main);
         tabLayout.setupWithViewPager(sectionPager);
 
+        NavigationView navigationView=findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
     }
 
-    //toolbar methods start
+    //toolbar methods
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
@@ -103,14 +109,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch(item.getItemId()){
             //todo
             default:
-
                 return super.onOptionsItemSelected(item);
         }
 
     }
-    //toolbar methods end
 
-    //Drawer layout back button toggle
+
+    //NavDrawer back button toggle
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -121,22 +126,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
-    //drawerLayout toggle end
 
-    //navigation view onClick start
+    //NavDrawer onClick
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
+        Intent intent;
+
         switch(menuItem.getItemId()){
-            //todo
+            case R.id.my_orders:
+                intent=new Intent(this,AppSettings.class);
+                intent.putExtra("message","Clicked my_orders");
+                startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return  true;
 
+            case R.id.help:
+                intent=new Intent(this,AppSettings.class);
+                intent.putExtra("message","Clicked help");
+                startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return  true;
+
+            case R.id.settings:
+                intent=new Intent(this,AppSettings.class);
+                intent.putExtra("message","Clicked settings");
+                startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return  true;
+
+            case R.id.terms_and_conditions:
+                intent=new Intent(this,AppSettings.class);
+                intent.putExtra("message","Clicked T&C");
+                startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return  true;
         }
-
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return  true;
+        return true;
 
     }
-    //navigation view onClick  end
-
 
 }

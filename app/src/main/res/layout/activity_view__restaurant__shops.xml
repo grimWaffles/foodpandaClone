@@ -6,4 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".View_Restaurant_Shops">
 
+    <TextView
+        android:layout_width="408dp"
+        android:layout_height="63dp"
+        android:layout_gravity="center|center_vertical"
+        android:layout_marginTop="292dp"
+        android:text="You Have Reached: View Restaurant or shops. Please wait 2 seconds...TeeHee"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/promptMessage"/>
+
+    <Button
+        android:id="@+id/go_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="176dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Go to Home Screen"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
