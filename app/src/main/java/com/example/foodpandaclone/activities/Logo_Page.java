@@ -1,9 +1,11 @@
-package com.example.foodpandaclone;
+package com.example.foodpandaclone.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+
+import com.example.foodpandaclone.R;
 
 public class Logo_Page extends AppCompatActivity {
 

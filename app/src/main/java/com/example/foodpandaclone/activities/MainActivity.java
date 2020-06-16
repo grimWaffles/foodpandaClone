@@ -1,4 +1,4 @@
-package com.example.foodpandaclone;
+package com.example.foodpandaclone.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.foodpandaclone.R;
+import com.example.foodpandaclone.activities.AppSettings;
+import com.example.foodpandaclone.fragments.Delivery_Fragment;
+import com.example.foodpandaclone.fragments.Pickup_Fragment;
+import com.example.foodpandaclone.fragments.Shop_Fragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -135,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch(menuItem.getItemId()){
             case R.id.my_orders:
-                intent=new Intent(this,AppSettings.class);
+                intent=new Intent(this, AppSettings.class);
                 intent.putExtra("message","Clicked my_orders");
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
