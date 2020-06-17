@@ -18,6 +18,7 @@
             android:textSize="12sp"
             android:textColor="@android:color/white"
             android:backgroundTint="@color/colorAccent"
+            style="?android:attr/borderlessButtonStyle"
             />
 
     </LinearLayout>

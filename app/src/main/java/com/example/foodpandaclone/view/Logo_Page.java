@@ -1,15 +1,19 @@
 package com.example.foodpandaclone.view;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.foodpandaclone.R;
+import com.example.foodpandaclone.model.DummyDB;
 
 public class Logo_Page extends AppCompatActivity {
 
-    private ImageView logo_img;
+    private ImageView logo_img; private TextView tvName;private DummyDB dummy; private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,19 +21,14 @@ public class Logo_Page extends AppCompatActivity {
         setContentView(R.layout.activity_logo__page);
 
         logo_img=findViewById(R.id.logo_img);
+        tvName=findViewById(R.id.logo_name);
 
-        //main thread waits 4 secs  for dramtic effect
-        synchronized (this){
-            try{
-                wait(5000);
+        dummy=new DummyDB();
 
-            }catch(InterruptedException e){
-                e.printStackTrace();
-            }
+        if(dummy.isDatabaseAvailable()){
+            intent=new Intent(this,Location_Access_Page.class);
+            startActivity(intent);
+            finish();
         }
-
-        Intent intent=new Intent(this,Location_Access_Page.class);
-        startActivity(intent);
-        finish();
     }
 }

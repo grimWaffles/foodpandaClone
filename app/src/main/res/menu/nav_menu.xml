@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
+
         <item
             android:id="@+id/my_orders"
             android:icon="@drawable/my_orrders"
@@ -10,17 +11,20 @@
             android:id="@+id/help"
             android:icon="@drawable/help"
             android:title="Help"
-
             />
+
         <item
             android:id="@+id/settings"
-            android:title="Settings"
+            android:title="Settings"/>
+            <!--
             android:icon="@drawable/settings"
-            />
+            -->
+
         <item
             android:id="@+id/terms_and_conditions"
-            android:title="Terms and Conditions"
+            android:title="Terms and Conditions"/>
+            <!--
             android:icon="@drawable/business"
-            />
+            -->
     </group>
 </menu>

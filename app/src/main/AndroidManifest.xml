@@ -9,18 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.AppSettings" android:parentActivityName=".view.MainActivity" android:label="Settings"></activity>
+
+        <activity android:name=".view.AppSettings" android:parentActivityName=".view.MainActivity" android:label="Settings">
+
+        </activity>
+
         <activity android:name=".view.View_Restaurant_Shops">
+
+        </activity>
+
+        <activity android:name=".view.Location_Access_Page" />
+
+        <activity android:name=".view.Logo_Page">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.Location_Access_Page" />
-        <activity android:name=".view.Logo_Page">
 
-        </activity>
         <activity android:name=".view.MainActivity" android:label="">
 
         </activity>
