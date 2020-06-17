@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.activities;
+package com.example.foodpandaclone.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

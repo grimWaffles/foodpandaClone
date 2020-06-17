@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.fragments;
+package com.example.foodpandaclone.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

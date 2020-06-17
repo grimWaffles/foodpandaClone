@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.activities;
+package com.example.foodpandaclone.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,51 +17,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.foodpandaclone.R;
-import com.example.foodpandaclone.activities.AppSettings;
-import com.example.foodpandaclone.fragments.Delivery_Fragment;
-import com.example.foodpandaclone.fragments.Pickup_Fragment;
-import com.example.foodpandaclone.fragments.Shop_Fragment;
+import com.example.foodpandaclone.adapters.ViewPagerAdapter;
+import com.example.foodpandaclone.viewModel.MainActivityViewModel;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    private class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm){
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-
-            switch(i){
-                case 0:
-                    return new Delivery_Fragment();
-                case 1:
-                    return new Pickup_Fragment();
-                case 2:
-                    return new Shop_Fragment();
-            }
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch(position){
-                case 0:
-                    return getResources().getString(R.string.delivery_tab);
-                case 1:
-                    return getResources().getString(R.string.pickup_tab);
-                case 2:
-                    return getResources().getString(R.string.store_tab);
-            }
-            return null;
-        }
-    }
 
     DrawerLayout drawerLayout;
 
@@ -89,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
 
         //Initialized ViewPager and the tabView:
-        SectionsPagerAdapter pagerAdapter=new SectionsPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter pagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
 
         ViewPager sectionPager=findViewById(R.id.section_pager);
         sectionPager.setAdapter(pagerAdapter);

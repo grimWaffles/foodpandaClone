@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.activities;
+package com.example.foodpandaclone.view;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -7,8 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.example.foodpandaclone.R;
-
-import org.w3c.dom.Text;
 
 public class AppSettings extends AppCompatActivity {
 
