@@ -5,22 +5,12 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Foodpanda"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="foodpanda"
+        android:roundIcon="@mipmap/foodpanda_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".view.AppSettings" android:parentActivityName=".view.MainActivity" android:label="Settings">
-
-        </activity>
-
-        <activity android:name=".view.View_Restaurant_Shops">
-
-        </activity>
-
-        <activity android:name=".view.Location_Access_Page" />
-
-        <activity android:name=".view.Logo_Page">
+        <activity android:name=".view.TempActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,10 +18,25 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.MainActivity" android:label="">
+        <activity
+            android:name=".view.AppSettings"
+            android:label="Settings"
+            android:parentActivityName=".view.MainActivity">
+
+        </activity>
+        <activity android:name=".view.View_Restaurant_Shops">
 
         </activity>
 
+        <activity android:name=".view.Location_Access_Page" />
+
+        <activity android:name=".view.Logo_Page">
+
+        </activity>
+
+        <activity android:name=".view.MainActivity" android:label="">
+
+        </activity>
     </application>
 
 </manifest>

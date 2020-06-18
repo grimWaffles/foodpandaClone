@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="280dp"
+    android:layout_height="230dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="125dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/food_img"
+                android:src="@drawable/foodpanda_logo"
+                android:scaleType="centerCrop"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/discount_status"
+                android:text="Discount"
+                android:background="@android:color/white"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/delivery_status"
+                android:text="Deliver status"
+                android:background="@android:color/white"
+                android:layout_marginTop="40dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/shop_name"
+                android:text="Tehari Ghor"
+                android:textStyle="bold"
+                android:paddingLeft="4dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/shop_review"
+                android:text="4.2(1K+)"
+                android:layout_gravity="right"
+                android:layout_marginLeft="140dp"
+                android:paddingLeft="4dp"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/price_lvl_categories"
+            android:text="$$$,Burgers, pasta,more.."
+            android:layout_marginTop="8dp"
+            android:paddingLeft="4dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/delivery_cost"
+            android:text="Free Delivery"
+            android:layout_marginTop="16dp"
+            android:paddingLeft="4dp"
+            />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

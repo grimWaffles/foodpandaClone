@@ -7,14 +7,18 @@ public class DummyDB {
 
         int num=10;
 
-        if(num==10){
-            try{
-                wait(6000);
+        synchronized (this){
+            if(num==10){
+                try{
+                    wait(6000);
 
-            }catch(InterruptedException e){
-                e.printStackTrace();
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }
             }
+            return true;
         }
-        return true;
+
+
     }
 }
