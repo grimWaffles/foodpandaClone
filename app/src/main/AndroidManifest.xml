@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/foodpanda_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activities.Restaurant_Activity"></activity>
+        <activity android:name=".view.activities.CartActivity"></activity>
+        <activity android:name=".view.activities.Restaurant_Activity" />
         <activity android:name=".view.TempActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,13 +21,13 @@
         <activity
             android:name=".view.activities.AppSettings"
             android:label="Settings"
-            android:parentActivityName=".view.activities.MainActivity"></activity>
-        <activity android:name=".view.activities.View_Restaurant_Shops"></activity>
+            android:parentActivityName=".view.activities.MainActivity" />
+        <activity android:name=".view.activities.View_Restaurant_Shops" />
         <activity android:name=".view.activities.Location_Access_Page" />
-        <activity android:name=".view.activities.Logo_Page"></activity>
+        <activity android:name=".view.activities.Logo_Page" />
         <activity
             android:name=".view.activities.MainActivity"
-            android:label=""></activity>
+            android:label="" />
     </application>
 
 </manifest>

@@ -8,5 +8,12 @@
         android:orderInCategory="1"
         app:showAsAction="ifRoom"
         />
-
+    <item
+        android:id="@+id/my_cart"
+        android:title="Cart"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/cart_empty"
+        android:iconTint="@color/colorAccent"
+        />
 </menu>

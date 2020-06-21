@@ -12,19 +12,21 @@
             android:icon="@drawable/help"
             android:title="Help"
             />
+    </group>
 
+    <group>
         <item
             android:id="@+id/settings"
             android:title="Settings"/>
-            <!--
-            android:icon="@drawable/settings"
-            -->
+        <!--
+        android:icon="@drawable/settings"
+        -->
 
         <item
             android:id="@+id/terms_and_conditions"
             android:title="Terms and Conditions"/>
-            <!--
-            android:icon="@drawable/business"
-            -->
+        <!--
+        android:icon="@drawable/business"
+        -->
     </group>
 </menu>
