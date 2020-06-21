@@ -1,8 +1,6 @@
-package com.example.foodpandaclone.view;
+package com.example.foodpandaclone.view.activities;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;

@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.view;
+package com.example.foodpandaclone.view.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +29,7 @@ public class View_Restaurant_Shops extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
 
         if(view.getId()==R.id.to_food || view.getId()==R.id.to_shops){
-            Intent intent=new Intent(this,com.example.foodpandaclone.view.MainActivity.class);
+            Intent intent=new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
         }

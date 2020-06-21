@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Location_Access_Page">
+    tools:context=".view.activities.Location_Access_Page">
 
     <ImageView
         android:id="@+id/logo_img"

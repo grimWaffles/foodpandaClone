@@ -3,22 +3,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Delivery_Fragment">
+    tools:context=".view.fragments.Delivery_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello Deliveries"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:layout_gravity="center"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="30dp"
-            android:id="@+id/text"/>
-    </LinearLayout>
+        android:layout_height="match_parent">
+
+        <!--Enter searchbar here-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:text="Panda Favorites"
+
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                />
+
+            <include
+                layout="@layout/card_fd"
+                android:id="@+id/panda_favorites"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:text="Homemade with love"
+
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/homemade"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:text="Top Rated"
+
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/top_rated"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:text="All Restaurants"
+
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/all_restaurants"
+
+                android:scrollbars="vertical"
+                />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </FrameLayout>

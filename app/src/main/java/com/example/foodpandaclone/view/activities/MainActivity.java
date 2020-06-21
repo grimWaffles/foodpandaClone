@@ -1,12 +1,9 @@
-package com.example.foodpandaclone.view;
+package com.example.foodpandaclone.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -17,8 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.foodpandaclone.R;
-import com.example.foodpandaclone.adapters.ViewPagerAdapter;
-import com.example.foodpandaclone.viewModel.MainActivityViewModel;
+import com.example.foodpandaclone.adapters.ViewPagerMainActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,17 +43,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout.addDrawerListener(toggle);
 
+        NavigationView navigationView=findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         //Initialized ViewPager and the tabView:
-        ViewPagerAdapter pagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerMainActivity pagerAdapter=new ViewPagerMainActivity(getSupportFragmentManager());
 
         ViewPager sectionPager=findViewById(R.id.section_pager);
         sectionPager.setAdapter(pagerAdapter);
 
         TabLayout tabLayout=findViewById(R.id.tablayout_main);
         tabLayout.setupWithViewPager(sectionPager);
-
-        NavigationView navigationView=findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
     }
 

@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.view;
+package com.example.foodpandaclone.view.activities;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;

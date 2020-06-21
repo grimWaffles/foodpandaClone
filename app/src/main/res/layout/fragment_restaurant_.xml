@@ -3,14 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragments.Delivery_Fragment">
+    tools:context=".view.fragments.Restaurant_Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <!--Enter searchbar here-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,19 +17,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:text="Available for pickup"
-
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:id="@+id/category_name"
                 />
             <android.support.v7.widget.RecyclerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/pickup_shops"
+                android:id="@+id/restaurant_items"
                 />
-
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

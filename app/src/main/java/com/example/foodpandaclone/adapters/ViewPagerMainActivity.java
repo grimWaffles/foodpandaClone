@@ -4,13 +4,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.foodpandaclone.view.Delivery_Fragment;
-import com.example.foodpandaclone.view.Pickup_Fragment;
-import com.example.foodpandaclone.view.Shop_Fragment;
+import com.example.foodpandaclone.view.fragments.Delivery_Fragment;
+import com.example.foodpandaclone.view.fragments.Pickup_Fragment;
+import com.example.foodpandaclone.view.fragments.Shop_Fragment;
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+import java.util.List;
 
-    public ViewPagerAdapter(FragmentManager fm) {
+public class ViewPagerMainActivity extends FragmentPagerAdapter {
+
+    public ViewPagerMainActivity(FragmentManager fm) {
         super(fm);
     }
 

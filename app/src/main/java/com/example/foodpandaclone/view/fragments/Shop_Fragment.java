@@ -1,7 +1,8 @@
-package com.example.foodpandaclone.view;
+package com.example.foodpandaclone.view.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import com.example.foodpandaclone.R;
 
 public class Shop_Fragment extends Fragment {
 
+    private RecyclerView stores;
+
     public Shop_Fragment() {
         // Required empty public constructor
     }
@@ -17,7 +20,12 @@ public class Shop_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 
+        View rootView=inflater.inflate(R.layout.fragment_shop_,container,false);
 
-        return inflater.inflate(R.layout.fragment_shop_,container,false);
+        stores=(RecyclerView) rootView.findViewById(R.id.stores);
+
+        //todo
+
+        return rootView;
     }
 }
