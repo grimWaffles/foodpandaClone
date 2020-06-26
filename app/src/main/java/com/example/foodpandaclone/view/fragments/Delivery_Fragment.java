@@ -27,13 +27,12 @@ public class Delivery_Fragment extends Fragment {
 
         View rootView= inflater.inflate(R.layout.fragment_delivery_,container,false);
 
-        homemade=(RecyclerView)rootView.findViewById(R.id.homemade); top_rated=(RecyclerView)rootView.findViewById(R.id.top_rated); all_restaurants=(RecyclerView)rootView.findViewById(R.id.all_restaurants);
+        homemade=(RecyclerView)rootView.findViewById(R.id.homemade);
+        top_rated=(RecyclerView)rootView.findViewById(R.id.top_rated);
+        all_restaurants=(RecyclerView)rootView.findViewById(R.id.all_restaurants);
         panda_favorites=(CardView)rootView.findViewById(R.id.panda_favorites);
 
-
         //todo
-
-
 
         return rootView;
     }

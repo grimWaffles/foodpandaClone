@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "59380098251",
+    "firebase_url": "https://foodpanda-clone-65231.firebaseio.com",
+    "project_id": "foodpanda-clone-65231",
+    "storage_bucket": "foodpanda-clone-65231.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59380098251:android:3760dc314c6cf2c13e674e",
+        "android_client_info": {
+          "package_name": "com.example.foodpandaclone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "59380098251-ukbm8kcj6tci5ok6aajnrojhkc06k08c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodpandaclone",
+            "certificate_hash": "eeed3567d238357101e06edd8fceaf60486aac65"
+          }
+        },
+        {
+          "client_id": "59380098251-s3gbei58sjcdql60imptl8kf5kp9q1eg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwMHtIW-uaJm-X1wfzhI95qUHR4aUTJKM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "59380098251-s3gbei58sjcdql60imptl8kf5kp9q1eg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -21,8 +21,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:text="Available for pickup"
-
+                android:text="Available for pickup:"
+                android:textStyle="bold"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
@@ -31,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/pickup_shops"
+                android:layout_marginLeft="4dp"
                 />
 
         </LinearLayout>
