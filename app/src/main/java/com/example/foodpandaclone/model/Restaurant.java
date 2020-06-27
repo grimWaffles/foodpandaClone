@@ -4,22 +4,51 @@ import java.util.List;
 
 public class Restaurant {
 
-    private String name, primaryKey, locationName;
-    private int noOfReviews, delivery_cost, current_discount;
-    private float rating;
+    private String restaurantID,name,location,phoneNumber,priceLevel;
+    private int numberOfReviews, discount,deliveryCost;
+    private List<String> categoriesOffered;
     private List<Item> items;
+    private float rating;
 
-    //add the time objects and location object
+    /*
+    * private Time openingTime
+    * private Time closingTime
+    * private Location googleMapsLocation
+    */
+    // TODO: 28-Jun-20
 
-    public Restaurant(String name, String locationName, int noOfReviews, int delivery_cost, int current_discount, float rating, List<Item> items) {
+    //check manual for more
+
+    public Restaurant(String name, String location, String phoneNumber, int numberOfReviews, int discount, int deliveryCost, String priceLevel, List<String> categoriesOffered, List<Item> items, float rating) {
         this.name = name;
-        //this.primaryKey = primaryKey;
-        this.locationName = locationName;
-        this.noOfReviews = noOfReviews;
-        this.delivery_cost = delivery_cost;
-        this.current_discount = current_discount;
-        this.rating = rating;
+        this.location = location;
+        this.phoneNumber = phoneNumber;
+        this.numberOfReviews = numberOfReviews;
+        this.discount = discount;
+        this.deliveryCost = deliveryCost;
+        this.priceLevel = priceLevel;
+        this.categoriesOffered = categoriesOffered;
         this.items = items;
+        this.rating = rating;
+    }
+
+    //getters and setters... auto-generated
+
+
+    public String getRestaurantID() {
+        return restaurantID;
+    }
+
+    public void setRestaurantID(String restaurantID) {
+        this.restaurantID = restaurantID;
+    }
+
+    public int getDeliveryCost() {
+        return deliveryCost;
+    }
+
+    public void setDeliveryCost(int deliveryCost) {
+        this.deliveryCost = deliveryCost;
     }
 
     public String getName() {
@@ -30,44 +59,60 @@ public class Restaurant {
         this.name = name;
     }
 
-    public String getPrimaryKey() {
-        return primaryKey;
+    public String getLocation() {
+        return location;
     }
 
-    public void setPrimaryKey(String primaryKey) {
-        this.primaryKey = primaryKey;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public String getLocationName() {
-        return locationName;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public int getNoOfReviews() {
-        return noOfReviews;
+    public int getNumberOfReviews() {
+        return numberOfReviews;
     }
 
-    public void setNoOfReviews(int noOfReviews) {
-        this.noOfReviews = noOfReviews;
+    public void setNumberOfReviews(int numberOfReviews) {
+        this.numberOfReviews = numberOfReviews;
     }
 
-    public int getDelivery_cost() {
-        return delivery_cost;
+    public int getDiscount() {
+        return discount;
     }
 
-    public void setDelivery_cost(int delivery_cost) {
-        this.delivery_cost = delivery_cost;
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
-    public int getCurrent_discount() {
-        return current_discount;
+    public List<String> getCategoriesOffered() {
+        return categoriesOffered;
     }
 
-    public void setCurrent_discount(int current_discount) {
-        this.current_discount = current_discount;
+    public void setCategoriesOffered(List<String> categoriesOffered) {
+        this.categoriesOffered = categoriesOffered;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public String getPriceLevel() {
+        return priceLevel;
+    }
+
+    public void setPriceLevel(String priceLevel) {
+        this.priceLevel = priceLevel;
     }
 
     public float getRating() {
@@ -78,11 +123,14 @@ public class Restaurant {
         this.rating = rating;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public String strDeliveryCost(){
+        return Integer.toString(this.deliveryCost);
+    }
+    public String strRating(){
+        return Float.toString(this.rating);
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public String strDiscount() {
+        return Integer.toString(this.discount);
     }
 }

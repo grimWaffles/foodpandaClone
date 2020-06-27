@@ -14,41 +14,41 @@ import com.example.foodpandaclone.model.Restaurant;
 
 import java.util.List;
 
-public class PickupFragAdapter extends RecyclerView.Adapter<PickupFragAdapter.ViewHolder> {
+public class DiscountResAdapter extends RecyclerView.Adapter<DiscountResAdapter.ViewHolder> {
 
 
-    private List<Restaurant> list; private String isDeliveryOrPickup; public Listener listener;
+private List<Restaurant> list; public Listener listener;
 
     public interface Listener{
         void onClick(int position);
     }
 
-    public void setListener(Listener listener){
+    public void setListener(DiscountResAdapter.Listener listener){
         this.listener=listener;
     }
 
-    public PickupFragAdapter(List<Restaurant> list, String deliveryOrPickup){
+    public DiscountResAdapter(List<Restaurant> list){
         this.list=list;
-        this.isDeliveryOrPickup=deliveryOrPickup;
     }
 
 
     @Override
-    public PickupFragAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
+    public DiscountResAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
 
-       CardView cardView=(CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_fd,parent,false);
+        CardView cardView=(CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_dfd,parent,false);
 
-        return new ViewHolder(cardView);
+        return new DiscountResAdapter.ViewHolder(cardView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder,final int i) {
+    public void onBindViewHolder(DiscountResAdapter.ViewHolder viewHolder, final int i) {
 
         CardView cardView=viewHolder.cardView;
 
         //getting references:
 
         ImageView food_img=cardView.findViewById(R.id.food_img);
+        TextView discount=cardView.findViewById(R.id.discount_amount);
         TextView deliveryOrPickup=cardView.findViewById(R.id.delivery_pickup);
         TextView shop_name=cardView.findViewById(R.id.shop_name);
         TextView shop_rating=cardView.findViewById(R.id.shop_rating);
@@ -61,16 +61,11 @@ public class PickupFragAdapter extends RecyclerView.Adapter<PickupFragAdapter.Vi
 
         Restaurant res=list.get(i);
 
-        if(isDeliveryOrPickup.equals("delivery")){
-            if(res.getDeliveryCost()==0){
-                deliveryOrPickup.setText("Free Delivery");
-            }
-            else{
-                delivery_cost.setText(res.strDeliveryCost() + " Tk");
-            }
+        if(res.getDeliveryCost()==0){
+            deliveryOrPickup.setText("Free Delivery");
         }
         else{
-            deliveryOrPickup.setText("PICKUP");
+            delivery_cost.setText(res.strDeliveryCost() + " Tk");
         }
 
 
@@ -101,6 +96,7 @@ public class PickupFragAdapter extends RecyclerView.Adapter<PickupFragAdapter.Vi
         shop_name.setText(res.getName());
         shop_rating.setText(res.strRating());
         priceLevel.setText(res.getPriceLevel());
+        discount.setText(res.strDiscount());
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +116,7 @@ public class PickupFragAdapter extends RecyclerView.Adapter<PickupFragAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private CardView cardView;
+    private CardView cardView;
 
         public ViewHolder(CardView c) {
             super(c);

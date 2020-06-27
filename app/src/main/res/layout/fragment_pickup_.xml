@@ -6,7 +6,7 @@
     tools:context=".view.fragments.Delivery_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,11 +23,11 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:text="Available for pickup:"
                 android:textStyle="bold"
-                android:layout_marginLeft="4dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="20dp"
                 />
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/pickup_shops"
@@ -36,6 +36,6 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

@@ -6,10 +6,9 @@
     tools:context=".view.fragments.Delivery_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <!--Enter searchbar here-->
 
         <LinearLayout
@@ -32,36 +31,22 @@
                 android:id="@+id/panda_favorites"
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:text="Homemade with love"
 
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                />
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/homemade"
-
-                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:text="Top Rated"
+                android:text="Treat Hobe!"
 
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/top_rated"
+                android:id="@+id/treat_hobe"
                 />
 
             <TextView
@@ -74,7 +59,7 @@
                 android:layout_marginBottom="15dp"
                 />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/all_restaurants"
@@ -84,6 +69,6 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

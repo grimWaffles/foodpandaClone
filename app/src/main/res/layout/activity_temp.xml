@@ -57,10 +57,7 @@
                 android:text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                 android:textColor="@android:color/white"
                 />
-            <include
-                layout="@layout/card_fp"
-                android:id="@+id/card2"
-                />
+
         </LinearLayout>
 
     </ScrollView>

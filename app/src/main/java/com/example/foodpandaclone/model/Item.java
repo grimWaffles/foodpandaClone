@@ -2,16 +2,29 @@ package com.example.foodpandaclone.model;
 
 public class Item {
 
-    private String name, description, restaurant_name, primaryKey;
-    int price, quantity;
+    private String itemID,name,description,restaurantID,itemType;
+    private int price,quantity;
 
-    public Item(String name, String description, String restaurant_name,String primaryKey, int price, int quantity) {
+    //check manual for more later on
+    //itemCategory matches the one in restaurant and store model classes
+    // TODO: 28-Jun-20
+
+
+    public Item(String name, String description, String restaurantID, String itemType, int price, int quantity) {
         this.name = name;
         this.description = description;
-        this.restaurant_name = restaurant_name;
+        this.restaurantID = restaurantID;
+        this.itemType = itemType;
         this.price = price;
         this.quantity = quantity;
-        this.primaryKey=primaryKey;
+    }
+
+    public String getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
     }
 
     public String getName() {
@@ -30,20 +43,20 @@ public class Item {
         this.description = description;
     }
 
-    public String getRestaurant_name() {
-        return restaurant_name;
+    public String getRestaurantID() {
+        return restaurantID;
     }
 
-    public void setRestaurant_name(String restaurant_name) {
-        this.restaurant_name = restaurant_name;
+    public void setRestaurantID(String restaurantID) {
+        this.restaurantID = restaurantID;
     }
 
-    public String getPrimaryKey() {
-        return primaryKey;
+    public String getItemType() {
+        return itemType;
     }
 
-    public void setPrimaryKey(String primaryKey) {
-        this.primaryKey = primaryKey;
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 
     public int getPrice() {

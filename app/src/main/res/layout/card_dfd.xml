@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="280dp"
@@ -25,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/discount_status"
+                android:id="@+id/discount_amount"
                 android:text="Discount"
                 android:background="@android:color/white"
                 android:layout_marginTop="8dp"
@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/delivery_status"
+                android:id="@+id/delivery_pickup"
                 android:text="Deliver status"
                 android:background="@android:color/white"
                 android:layout_marginTop="40dp"
@@ -63,23 +63,49 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/shop_review"
-                android:text="4.2(1K+)"
+                android:id="@+id/shop_rating"
+                android:text="4.2"
                 android:layout_gravity="right"
-                android:layout_marginLeft="140dp"
+                android:layout_marginLeft="124dp"
+                android:paddingLeft="4dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/numberOfReviews"
+                android:text="(1K+)"
+                android:layout_gravity="right"
+                android:layout_marginLeft="4dp"
                 android:paddingLeft="4dp"
                 />
 
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/price_lvl_categories"
-            android:text="$$$,Burgers, pasta,more.."
-            android:layout_marginTop="8dp"
-            android:paddingLeft="4dp"
-            />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/price_level"
+                android:text="$$$"
+                android:layout_marginTop="8dp"
+                android:paddingStart="4dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/shop_categories"
+                android:text="Burgers, pasta,more.."
+                android:layout_marginTop="8dp"
+                android:paddingLeft="8dp"
+                />
+
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,4 +117,4 @@
 
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

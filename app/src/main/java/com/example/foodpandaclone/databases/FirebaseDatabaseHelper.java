@@ -34,7 +34,7 @@ public class FirebaseDatabaseHelper {
 
     public void insertRestaurantData(Restaurant restaurant, final DataStatus status){
         String key=ref.push().getKey();
-        restaurant.setPrimaryKey(key);
+        restaurant.setRestaurantID(key);
         ref.child("Restaurant").child(key).setValue(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -70,7 +70,7 @@ public class FirebaseDatabaseHelper {
     }
 
     public void deleteRestaurantData(Restaurant restaurant,final DataStatus status){
-        ref.child("Restaurant").child(restaurant.getPrimaryKey()).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+        ref.child("Restaurant").child(restaurant.getRestaurantID()).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 errorMessage="Successfully deleted restaurant data";
@@ -80,7 +80,7 @@ public class FirebaseDatabaseHelper {
     }
 
     public void updateRestaurantData(Restaurant restaurant,final DataStatus status){
-        ref.child("Restaurant").child(restaurant.getPrimaryKey()).setValue(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
+        ref.child("Restaurant").child(restaurant.getRestaurantID()).setValue(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 errorMessage="Successfully updated restaurant data";
