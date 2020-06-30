@@ -45,15 +45,9 @@ public class Delivery_Fragment extends Fragment {
 
         treat_hobe=rootView.findViewById(R.id.treat_hobe); all_restaurants=rootView.findViewById(R.id.all_restaurants);
 
-        DiscountResAdapter dra= new DiscountResAdapter(dfVM.getDataFromVM());
-        dra.setListener(new DiscountResAdapter.Listener() {
-            @Override
-            public void onClick(int position) {
-                Toast.makeText(getActivity(),"Card functions not implemented yet",Toast.LENGTH_LONG).show();
+        DiscountResAdapter dra= dfVM.getDataFromVM();
 
-            }
-        });
-
+/*
         PickupFragAdapter pfa= new PickupFragAdapter(dfVM.getDataFromVM(),"delivery");
 
         pfa.setListener(new PickupFragAdapter.Listener() {
@@ -63,18 +57,18 @@ public class Delivery_Fragment extends Fragment {
 
             }
         });
-
+*/
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
 
-
         treat_hobe.setAdapter(dra); Log.d(" adapter","Adapter set");
+
         treat_hobe.setLayoutManager(linearLayoutManager);
 
-
+/*
         all_restaurants=rootView.findViewById(R.id.all_restaurants);
         all_restaurants.setAdapter(pfa);
         all_restaurants.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+*/
         panda_favorites=rootView.findViewById(R.id.panda_favorites);
 
         panda_favorites.setOnClickListener(new View.OnClickListener() {

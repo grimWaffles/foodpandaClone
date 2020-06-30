@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.foodpandaclone.adapters.DiscountResAdapter;
 import com.example.foodpandaclone.model.Restaurant;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +21,7 @@ import java.util.concurrent.CountDownLatch;
 public class FirebaseDatabaseHelper {
 
     private DatabaseReference ref; private List<Restaurant> restaurants=new ArrayList<>();
+    private DiscountResAdapter discountResAdapter;
 
     public FirebaseDatabaseHelper(){
     }
@@ -27,7 +29,7 @@ public class FirebaseDatabaseHelper {
     //interface
     public interface DataStatus{
         void dataInserted();
-        void dataLoaded(List<Restaurant> restaurants);
+        void dataLoaded(DiscountResAdapter discountResAdapter);
         void dataUpdated();
         void dataDeleted();
     }
@@ -35,16 +37,16 @@ public class FirebaseDatabaseHelper {
     //Restaurant data API- called from repository class
 
     public void insertRestaurantData(Restaurant restaurant, final DataStatus status){
-        ref=FirebaseDatabase.getInstance().getReference();
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Restaurant");
         String key=ref.push().getKey();
         restaurant.setRestaurantID(key);
-        ref.child("Restaurant").child(key).setValue(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
+        ref.child(key).setValue(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 status.dataInserted();
             }
         });
-
     }
 
     public void loadRestaurantData(final DataStatus status){
@@ -63,8 +65,12 @@ public class FirebaseDatabaseHelper {
                     restaurants.add(res);
                     Log.d("Size of list",Integer.toString(restaurants.size()));
                 }
+
+                discountResAdapter=new DiscountResAdapter(restaurants);
+                discountResAdapter.notifyDataSetChanged();
+
                 Log.d("Size of list fetched",Integer.toString(restaurants.size()));
-                status.dataLoaded(restaurants);
+                status.dataLoaded(discountResAdapter);
 
             }
 

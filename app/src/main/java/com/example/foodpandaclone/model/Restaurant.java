@@ -19,8 +19,6 @@ public class Restaurant {
 
     //check manual for more
 
-    public Restaurant(){}
-
     public Restaurant(String name, String location, String phoneNumber, int numberOfReviews, int discount, int deliveryCost, String priceLevel, List<String> categoriesOffered, List<Item> items, float rating) {
         this.name = name;
         this.location = location;
@@ -33,6 +31,7 @@ public class Restaurant {
         this.items = items;
         this.rating = rating;
     }
+    public Restaurant(){}
 
     //getters and setters... auto-generated
 

@@ -2,6 +2,7 @@ package com.example.foodpandaclone.databases;
 
 import android.util.Log;
 
+import com.example.foodpandaclone.adapters.DiscountResAdapter;
 import com.example.foodpandaclone.model.Restaurant;
 
 import java.util.ArrayList;
@@ -10,12 +11,13 @@ import java.util.List;
 public class Repository {
 
     public List<Restaurant> restaurantData=new ArrayList<>(); FirebaseDatabaseHelper fireDB; String error;
+    private DiscountResAdapter dra;
 
     public Repository(){
 
     }
 
-    public void loadRestaurantData(){
+    public DiscountResAdapter loadRestaurantData(){
 
         fireDB=new FirebaseDatabaseHelper();
 
@@ -26,11 +28,11 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(List<Restaurant> restaurants) {
+            public void dataLoaded(DiscountResAdapter discountResAdapter) {
 
                 //populates this  list  of  restaurants
-                restaurantData=restaurants;
-                Log.d("Size of list in REPO",Integer.toString(restaurantData.size()));
+                dra=discountResAdapter;
+                Log.d("Size of list in REPO","Got adapter");
 
             }
 
@@ -45,9 +47,12 @@ public class Repository {
             }
         });
 
+        return dra;
     }
     
     public void addRestaurantData(Restaurant restaurant){
+
+        fireDB=new FirebaseDatabaseHelper();
 
         fireDB.insertRestaurantData(restaurant,new FirebaseDatabaseHelper.DataStatus() {
             @Override
@@ -55,7 +60,7 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(List<Restaurant> restaurants) {
+            public void dataLoaded(DiscountResAdapter discountResAdapter) {
 
             }
 
@@ -80,7 +85,7 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(List<Restaurant> restaurants) {
+            public void dataLoaded(DiscountResAdapter discountResAdapter) {
 
             }
 
@@ -103,7 +108,7 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(List<Restaurant> restaurants) {
+            public void dataLoaded(DiscountResAdapter discountResAdapter) {
 
             }
 
@@ -117,13 +122,6 @@ public class Repository {
 
             }
         });
-    }
-
-    public List<Restaurant> getRestaurantData(){
-
-        loadRestaurantData();
-
-        return restaurantData;
     }
 
 }

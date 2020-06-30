@@ -19,13 +19,13 @@ import java.util.List;
 public class DeveloperSettings extends AppCompatActivity implements View.OnClickListener{
 
     //Restaurant - Section 1
-    private EditText name,location,phoneNumber,priceLevel,numberOfReviews,discount,deliveryCost,rating,addCategory;
+    private EditText name,location,phoneNumber,priceLevel,numberOfReviews,discount,deliveryCost,rating;
 
     //Item - Section 2
     private EditText itemName,description,itemType,price,quantity;
 
     //Buttons
-    Button addItem,addRestaurant,addRestaurantCategory;
+    Button addItem,addRestaurant;
 
     //Objects
     Item item; Restaurant restaurant; List<Item> itemList; List<String> categories;
@@ -38,26 +38,27 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer_settings);
 
+        repository=new Repository();
+
         name=findViewById(R.id.name);location=findViewById(R.id.location); phoneNumber=findViewById(R.id.phoneNumber);priceLevel=findViewById(R.id.priceLevel);
         numberOfReviews=findViewById(R.id.numberOfReviews); discount=findViewById(R.id.discount); deliveryCost=findViewById(R.id.deliveryCost);
-        rating=findViewById(R.id.rating); addCategory=findViewById(R.id.add_category);
+        rating=findViewById(R.id.rating);
 
         itemName=findViewById(R.id.itemName);description=findViewById(R.id.description);itemType=findViewById(R.id.itemType); price=findViewById(R.id.price);
         quantity=findViewById(R.id.quantity);
 
-        addItem=findViewById(R.id.add_item); addRestaurant=findViewById(R.id.btn_add_restaurant); addRestaurantCategory=findViewById(R.id.add_restaurant_categories);
-        addItem.setOnClickListener(this); addRestaurantCategory.setOnClickListener(this);
+        addItem=findViewById(R.id.add_item); addRestaurant=findViewById(R.id.btn_add_restaurant);
+        addItem.setOnClickListener(this);
         itemList=new ArrayList<>(); categories=new ArrayList<>();
 
         addRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 restaurant=new Restaurant(name.getText().toString(),location.getText().toString(),phoneNumber.getText().toString(),
                         Integer.parseInt(numberOfReviews.getText().toString()),Integer.parseInt(discount.getText().toString()),
                         Integer.parseInt(deliveryCost.getText().toString()),priceLevel.getText().toString(),
                         categories,itemList,Float.parseFloat(rating.getText().toString()));
-
-                repository=new Repository();
 
                 repository.addRestaurantData(restaurant);
             }
@@ -67,20 +68,19 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+
             case R.id.add_item:
 
                 item=new Item(itemName.getText().toString(),description.getText().toString(),itemType.getText().toString(),
                         Integer.parseInt(price.getText().toString()),Integer.parseInt(quantity.getText().toString()));
 
-                itemList.add(item);
+                itemList.add(item); categories.add(itemType.getText().toString());
 
                 Toast.makeText(this, "Item added successfully", Toast.LENGTH_LONG).show();
+                return;
 
-            case R.id.add_restaurant_categories:
-
-                categories.add(addCategory.getText().toString());
-                Toast.makeText(this, "Category added success fully", Toast.LENGTH_LONG).show();
-                addCategory.setText("");
+            default:
+                Toast.makeText(this, "Nothing happened", Toast.LENGTH_SHORT).show();
         }
     }
 }
