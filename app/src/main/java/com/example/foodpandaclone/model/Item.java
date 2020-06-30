@@ -9,14 +9,16 @@ public class Item {
     //itemCategory matches the one in restaurant and store model classes
     // TODO: 28-Jun-20
 
+    public Item(){}
 
-    public Item(String name, String description, String restaurantID, String itemType, int price, int quantity) {
+    public Item(String name, String description, String itemType, int price, int quantity) {
         this.name = name;
         this.description = description;
-        this.restaurantID = restaurantID;
+        this.restaurantID = "0";
         this.itemType = itemType;
         this.price = price;
         this.quantity = quantity;
+        this.itemID="0";
     }
 
     public String getItemID() {

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.DeveloperSettings">
+
+    <!--Do this to add  restaurants and items-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:text="Create a restaurant:"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:textColor="@color/colorAccent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Section 1: Basic Information"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter name"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:id="@+id/name"
+            android:hint="Enter restaurant name"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter location"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:id="@+id/location"
+            android:hint="Enter restaurant location"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter phone"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="Enter restaurant phone number"
+            android:id="@+id/phoneNumber"
+            android:inputType="number"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter price level"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="Enter restaurant price level"
+            android:id="@+id/priceLevel"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter total reviews"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="Enter restaurant review number"
+            android:id="@+id/numberOfReviews"
+            android:inputType="number"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter discount"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="Enter restaurant discount amount"
+            android:id="@+id/discount"
+            android:inputType="number"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter delivery cost"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="Enter restaurant delivery cost"
+            android:id="@+id/deliveryCost"
+            android:inputType="number"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter rating"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="Enter restaurant rating"
+            android:id="@+id/rating"
+            android:inputType="number"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/add_category"
+                android:layout_width="187dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:hint="Enter categories"
+                android:inputType="text" />
+            <Button
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:text="Add Category"
+                android:background="@color/colorAccent"
+                android:layout_marginLeft="18dp"
+                android:padding="4dp"
+                android:textColor="@android:color/white"
+                android:id="@+id/add_restaurant_categories"
+                />
+
+        </LinearLayout>
+
+        <!--        Section 2 of adding starts here        -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Section 2: Adding Items"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter item name"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="Enter item name"
+            android:id="@+id/itemName"
+            android:inputType="text"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter item description"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="Enter item description"
+            android:id="@+id/description"
+            android:inputType="text"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter item type"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="Enter item type"
+            android:id="@+id/itemType"
+            android:inputType="text"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter item price"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="15dp"
+            />
+        <EditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="Enter item price"
+            android:id="@+id/price"
+            android:inputType="number"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter item quantity"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="15dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:hint="Enter item quantity"
+                android:id="@+id/quantity"
+                android:inputType="number"
+                android:layout_marginLeft="10dp"
+                />
+            <Button
+                android:layout_width="170dp"
+                android:layout_height="50dp"
+                android:text="Add item"
+                android:background="@color/colorAccent"
+                android:layout_marginLeft="10dp"
+                android:padding="4dp"
+                android:textColor="@android:color/white"
+                android:id="@+id/add_item"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="180dp"
+            android:layout_height="60dp"
+            android:text="Add restaurant!"
+            android:padding="4dp"
+            android:id="@+id/btn_add_restaurant"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
+            />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -7,7 +7,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.foodpandaclone.R;
+import com.example.foodpandaclone.databases.Repository;
 import com.example.foodpandaclone.model.DummyDB;
+import com.example.foodpandaclone.model.Restaurant;
+
+import java.util.List;
 
 public class Logo_Page extends AppCompatActivity {
 
@@ -21,12 +25,9 @@ public class Logo_Page extends AppCompatActivity {
         logo_img=findViewById(R.id.logo_img);
         tvName=findViewById(R.id.logo_name);
 
-        dummy=new DummyDB();
-
-        if(dummy.isDatabaseAvailable()){
-            intent=new Intent(this,Location_Access_Page.class);
-            startActivity(intent);
-            finish();
-        }
+        Repository repository=new Repository();
+        List<Restaurant> restaurants=repository.restaurantData;
+        Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
     }
 }

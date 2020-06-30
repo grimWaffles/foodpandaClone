@@ -28,5 +28,9 @@
         <!--
         android:icon="@drawable/business"
         -->
+        <item
+            android:id="@+id/dev_options"
+            android:title="Developer Options"
+            />
     </group>
 </menu>

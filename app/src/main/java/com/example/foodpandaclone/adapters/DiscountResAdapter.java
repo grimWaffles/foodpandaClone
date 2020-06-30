@@ -1,5 +1,6 @@
 package com.example.foodpandaclone.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.model.Restaurant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DiscountResAdapter extends RecyclerView.Adapter<DiscountResAdapter.ViewHolder> {
 
 
-private List<Restaurant> list; public Listener listener;
+private List<Restaurant> listOfRestaurants; public Listener listener;
 
     public interface Listener{
         void onClick(int position);
@@ -28,7 +30,7 @@ private List<Restaurant> list; public Listener listener;
     }
 
     public DiscountResAdapter(List<Restaurant> list){
-        this.list=list;
+        this.listOfRestaurants=list;
     }
 
 
@@ -59,7 +61,7 @@ private List<Restaurant> list; public Listener listener;
 
         //setting the appropriate values:
 
-        Restaurant res=list.get(i);
+        Restaurant res= listOfRestaurants.get(i);
 
         if(res.getDeliveryCost()==0){
             deliveryOrPickup.setText("Free Delivery");
@@ -97,6 +99,7 @@ private List<Restaurant> list; public Listener listener;
         shop_rating.setText(res.strRating());
         priceLevel.setText(res.getPriceLevel());
         discount.setText(res.strDiscount());
+        food_img.setImageResource(R.drawable.foodpanda_logo);
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +114,9 @@ private List<Restaurant> list; public Listener listener;
 
     @Override
     public int getItemCount() {
-        return list.size();
+        Log.d("Size in dresadapter",Integer.toString(listOfRestaurants.size()));
+        return listOfRestaurants.size();
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

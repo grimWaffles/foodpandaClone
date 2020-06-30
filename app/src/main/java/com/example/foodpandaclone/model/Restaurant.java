@@ -19,6 +19,8 @@ public class Restaurant {
 
     //check manual for more
 
+    public Restaurant(){}
+
     public Restaurant(String name, String location, String phoneNumber, int numberOfReviews, int discount, int deliveryCost, String priceLevel, List<String> categoriesOffered, List<Item> items, float rating) {
         this.name = name;
         this.location = location;
@@ -41,6 +43,11 @@ public class Restaurant {
 
     public void setRestaurantID(String restaurantID) {
         this.restaurantID = restaurantID;
+
+        for (int i=0;i<this.items.size();i++){
+            this.items.get(i).setRestaurantID(restaurantID);
+            this.items.get(i).setItemID(Integer.toString(i));
+        }
     }
 
     public int getDeliveryCost() {

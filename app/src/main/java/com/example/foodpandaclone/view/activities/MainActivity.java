@@ -2,6 +2,8 @@ package com.example.foodpandaclone.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.foodpandaclone.view.DeveloperSettings;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import androidx.core.view.GravityCompat;
@@ -122,9 +124,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return  true;
+
+            case R.id.dev_options:
+                intent=new Intent(this, DeveloperSettings.class);
+                startActivity(intent);
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return  true;
         }
         return true;
-
     }
 
 }

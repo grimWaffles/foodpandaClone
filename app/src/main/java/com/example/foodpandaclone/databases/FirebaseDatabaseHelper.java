@@ -1,5 +1,7 @@
 package com.example.foodpandaclone.databases;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.foodpandaclone.model.Restaurant;
@@ -12,59 +14,63 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 //this version only gets and receives restaurant objects for now
 public class FirebaseDatabaseHelper {
 
-    private DatabaseReference ref; private List<Restaurant> restaurants; private String errorMessage;
+    private DatabaseReference ref; private List<Restaurant> restaurants=new ArrayList<>();
 
     public FirebaseDatabaseHelper(){
-        this.ref= FirebaseDatabase.getInstance().getReference();
-        this.restaurants=new ArrayList<>();
-        this.errorMessage="";
     }
 
     //interface
     public interface DataStatus{
-        void dataInserted(String errorMessage);
-        void dataLoaded(List<Restaurant> restaurants,String errorMessage);
-        void dataUpdated(String errorMessage);
-        void dataDeleted(String errorMessage);
+        void dataInserted();
+        void dataLoaded(List<Restaurant> restaurants);
+        void dataUpdated();
+        void dataDeleted();
     }
 
+    //Restaurant data API- called from repository class
+
     public void insertRestaurantData(Restaurant restaurant, final DataStatus status){
+        ref=FirebaseDatabase.getInstance().getReference();
         String key=ref.push().getKey();
         restaurant.setRestaurantID(key);
         ref.child("Restaurant").child(key).setValue(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                errorMessage="Successfully inserted restaurant data";
-                status.dataInserted(errorMessage);
+                status.dataInserted();
             }
         });
+
     }
 
     public void loadRestaurantData(final DataStatus status){
-        ref.child("Restaurant");
+        ref=FirebaseDatabase.getInstance().getReference().child("Restaurant");
+
+        Log.d("Database navigated","True");
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
 
-                    for(DataSnapshot snap: snapshot.getChildren()){
-                        Restaurant res= snap.getValue(Restaurant.class);
-                        restaurants.add(res);
-                    }
+                for(DataSnapshot snap: snapshot.getChildren()){
+                    String key=snap.getKey();
+                    Restaurant res= snap.getValue(Restaurant.class);
+                    res.setRestaurantID(key);
+                    restaurants.add(res);
+                    Log.d("Size of list",Integer.toString(restaurants.size()));
                 }
-                errorMessage="Successfully loaded restaurant data";
-                status.dataLoaded(restaurants,errorMessage);
+                Log.d("Size of list fetched",Integer.toString(restaurants.size()));
+                status.dataLoaded(restaurants);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                errorMessage="Failed to load restaurants";
-                status.dataLoaded(restaurants,errorMessage);
+
             }
         });
     }
@@ -73,8 +79,8 @@ public class FirebaseDatabaseHelper {
         ref.child("Restaurant").child(restaurant.getRestaurantID()).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                errorMessage="Successfully deleted restaurant data";
-                status.dataDeleted(errorMessage);
+
+                status.dataDeleted();
             }
         });
     }
@@ -83,8 +89,7 @@ public class FirebaseDatabaseHelper {
         ref.child("Restaurant").child(restaurant.getRestaurantID()).setValue(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                errorMessage="Successfully updated restaurant data";
-                status.dataUpdated(errorMessage);
+            status.dataUpdated();
             }
         });
     }
