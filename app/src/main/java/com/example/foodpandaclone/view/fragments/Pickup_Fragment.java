@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,16 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapters.PickupFragAdapter;
 import com.example.foodpandaclone.model.Restaurant;
-import com.example.foodpandaclone.viewModel.PickupFragmentViewModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pickup_Fragment extends Fragment {
 
-    private RecyclerView pickup_shops; private PickupFragmentViewModel mPickupVM;
-    private List<Restaurant> restaurantList;
-    // TODO: 28-Jun-20
+    private RecyclerView pickup_shops;
+    private List<Restaurant> restaurantList; private DatabaseReference ref;
 
     public Pickup_Fragment() {
         // Required empty public constructor
@@ -31,27 +35,48 @@ public class Pickup_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 
-        mPickupVM=new PickupFragmentViewModel();
+
         restaurantList=new ArrayList<>();
 
-        View rootView=inflater.inflate(R.layout.fragment_pickup_,container,false);
+        final View rootView=inflater.inflate(R.layout.fragment_pickup_,container,false);
 
-        PickupFragAdapter pfa= new PickupFragAdapter(restaurantList,"pickup");
+        ref= FirebaseDatabase.getInstance().getReference().child("Restaurant");
 
-        pfa.setListener(new PickupFragAdapter.Listener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(int position) {
-                Toast.makeText(getActivity(),"Card functions not implemented yet",Toast.LENGTH_LONG).show();
-                /// TODO: 28-Jun-20
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                restaurantList.clear();
+
+                for(DataSnapshot snap: snapshot.getChildren()){
+                    Restaurant res=new Restaurant();
+                    res=snap.getValue(Restaurant.class);
+                    res.setRestaurantID(snap.getKey());
+                    restaurantList.add(res);
+                }
+
+                PickupFragAdapter pfa= new PickupFragAdapter(restaurantList,"pickup");
+
+                pfa.setListener(new PickupFragAdapter.Listener() {
+                    @Override
+                    public void onClick(int position) {
+                        Toast.makeText(getActivity(),"Card functions not implemented yet",Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
+                pickup_shops=rootView.findViewById(R.id.pickup_shops);
+                pickup_shops.setAdapter(pfa);
+                pickup_shops.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                pfa.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-
-        pickup_shops=rootView.findViewById(R.id.pickup_shops);
-
-        pickup_shops.setAdapter(pfa);
-
-        LinearLayoutManager llm=new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
-        pickup_shops.setLayoutManager(llm);
 
         return rootView;
     }

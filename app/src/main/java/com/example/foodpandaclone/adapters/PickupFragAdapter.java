@@ -83,9 +83,9 @@ public class PickupFragAdapter extends RecyclerView.Adapter<PickupFragAdapter.Vi
 
         StringBuilder stringBuilder=new StringBuilder();
 
-        for(int j=0;j<=3;j++){
+        for(int j=0;j<res.getCategoriesOffered().size();j++){
 
-            if(i!=3){
+            if(i!=res.getCategoriesOffered().size()){
                 stringBuilder.append(res.getCategoriesOffered().get(j));
                 stringBuilder.append(", ");
             }

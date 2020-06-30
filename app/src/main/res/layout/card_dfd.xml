@@ -2,8 +2,10 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="280dp"
-    android:layout_height="230dp">
+    android:layout_width="270dp"
+    android:layout_height="215dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,37 +14,34 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="125dp">
+            android:layout_height="133dp">
 
             <ImageView
+                android:id="@+id/food_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/food_img"
-                android:src="@drawable/foodpanda_logo"
                 android:scaleType="centerCrop"
-                />
+                android:src="@drawable/foodpanda_logo" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/discount_amount"
-                android:text="Discount"
-                android:background="@android:color/white"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/delivery_pickup"
-                android:text="Deliver status"
+                android:layout_marginTop="8dp"
                 android:background="@android:color/white"
-                android:layout_marginTop="40dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                />
+                android:text="Discount" />
+
+            <TextView
+                android:id="@+id/delivery_pickup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@android:color/white"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="Deliver status" />
 
         </FrameLayout>
 
@@ -111,7 +110,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/delivery_cost"
             android:text="Free Delivery"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:paddingLeft="4dp"
             />
 

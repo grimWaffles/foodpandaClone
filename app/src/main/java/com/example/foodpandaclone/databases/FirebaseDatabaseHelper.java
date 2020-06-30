@@ -21,7 +21,7 @@ import java.util.concurrent.CountDownLatch;
 public class FirebaseDatabaseHelper {
 
     private DatabaseReference ref; private List<Restaurant> restaurants=new ArrayList<>();
-    private DiscountResAdapter discountResAdapter;
+
 
     public FirebaseDatabaseHelper(){
     }
@@ -29,7 +29,7 @@ public class FirebaseDatabaseHelper {
     //interface
     public interface DataStatus{
         void dataInserted();
-        void dataLoaded(DiscountResAdapter discountResAdapter);
+        void dataLoaded(List<Restaurant> restaurants);
         void dataUpdated();
         void dataDeleted();
     }
@@ -65,12 +65,8 @@ public class FirebaseDatabaseHelper {
                     restaurants.add(res);
                     Log.d("Size of list",Integer.toString(restaurants.size()));
                 }
-
-                discountResAdapter=new DiscountResAdapter(restaurants);
-                discountResAdapter.notifyDataSetChanged();
-
                 Log.d("Size of list fetched",Integer.toString(restaurants.size()));
-                status.dataLoaded(discountResAdapter);
+                status.dataLoaded(restaurants);
 
             }
 

@@ -28,10 +28,10 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(DiscountResAdapter discountResAdapter) {
+            public void dataLoaded(List<Restaurant> restaurants) {
 
                 //populates this  list  of  restaurants
-                dra=discountResAdapter;
+                restaurantData=restaurants;
                 Log.d("Size of list in REPO","Got adapter");
 
             }
@@ -60,7 +60,7 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(DiscountResAdapter discountResAdapter) {
+            public void dataLoaded(List<Restaurant> restaurants) {
 
             }
 
@@ -85,7 +85,7 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(DiscountResAdapter discountResAdapter) {
+            public void dataLoaded(List<Restaurant> restaurants) {
 
             }
 
@@ -108,7 +108,7 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(DiscountResAdapter discountResAdapter) {
+            public void dataLoaded(List<Restaurant> restaurants) {
 
             }
 

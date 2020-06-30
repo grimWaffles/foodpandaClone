@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapters.ViewPagerMainActivity;
@@ -70,7 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected( MenuItem item) {
 
         switch(item.getItemId()){
-            //todo
+            case R.id.my_cart:
+                Toast.makeText(this, "Functionality not added yet", Toast.LENGTH_SHORT).show();
+                return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
         }

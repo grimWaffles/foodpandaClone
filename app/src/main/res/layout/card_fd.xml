@@ -2,71 +2,69 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="280dp"
-    android:layout_height="230dp">
+    android:layout_width="270dp"
+    android:layout_height="215dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="218dp"
         android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="125dp">
+            android:layout_height="133dp">
 
             <ImageView
+                android:id="@+id/food_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/food_img"
-                android:src="@drawable/foodpanda_logo"
                 android:scaleType="centerCrop"
-                />
+                android:src="@drawable/foodpanda_logo" />
 
             <TextView
+                android:id="@+id/delivery_pickup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/delivery_pickup"
-                android:text="Deliver status"
-                android:background="@android:color/white"
                 android:layout_marginTop="8dp"
+                android:background="@android:color/white"
                 android:paddingLeft="4dp"
-                />
+                android:text="Deliver status" />
 
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/shop_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/shop_name"
-                android:text="Tehari Ghor"
-                android:textStyle="bold"
                 android:paddingLeft="4dp"
-                />
+                android:text="Tehari Ghor"
+                android:textStyle="bold" />
             <!--Add a small star icon here-->
             <TextView
+                android:id="@+id/shop_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/shop_rating"
-                android:text="4.2"
                 android:layout_gravity="right"
                 android:layout_marginLeft="124dp"
                 android:paddingLeft="4dp"
-                />
+                android:text="4.2" />
+
             <TextView
+                android:id="@+id/numberOfReviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/numberOfReviews"
-                android:text="(1K+)"
                 android:layout_gravity="right"
                 android:layout_marginLeft="4dp"
                 android:paddingLeft="4dp"
-                />
+                android:text="(1K+)" />
 
         </LinearLayout>
 
@@ -76,34 +74,31 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/price_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/price_level"
-                android:text="$$$"
                 android:layout_marginTop="8dp"
                 android:paddingStart="4dp"
-                />
+                android:text="$$$" />
 
             <TextView
+                android:id="@+id/shop_categories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/shop_categories"
-                android:text="Burgers, pasta,more.."
                 android:layout_marginTop="8dp"
                 android:paddingLeft="8dp"
-                />
+                android:text="Burgers, pasta,more.." />
 
         </LinearLayout>
 
 
         <TextView
+            android:id="@+id/delivery_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/delivery_cost"
-            android:text="Free Delivery"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:paddingLeft="4dp"
-            />
+            android:text="Free Delivery" />
 
     </LinearLayout>
 
