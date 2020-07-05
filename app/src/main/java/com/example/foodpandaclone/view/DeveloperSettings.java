@@ -6,7 +6,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.databases.Repository;
@@ -31,12 +33,20 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
     Item item; Restaurant restaurant; List<Item> itemList; List<String> categories;
 
     //Repository
-    Repository repository;
+    Repository repository; Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer_settings);
+
+        this.setTitle("Create  a Restaurant");
+
+        toolbar=findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar=getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         repository=new Repository();
 
@@ -49,6 +59,7 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
 
         addItem=findViewById(R.id.add_item); addRestaurant=findViewById(R.id.btn_add_restaurant);
         addItem.setOnClickListener(this);
+        
         itemList=new ArrayList<>(); categories=new ArrayList<>();
 
         addRestaurant.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +72,7 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
                         categories,itemList,Float.parseFloat(rating.getText().toString()));
 
                 repository.addRestaurantData(restaurant);
+                Toast.makeText(DeveloperSettings.this, "Restaurant added successfully", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -76,7 +88,7 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
 
                 itemList.add(item); categories.add(itemType.getText().toString());
 
-                Toast.makeText(this, "Item added successfully", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Item + Category added successfully", Toast.LENGTH_LONG).show();
                 return;
 
             default:

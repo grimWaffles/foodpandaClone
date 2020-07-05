@@ -1,6 +1,11 @@
 package com.example.foodpandaclone.model;
 
-public class Item {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Item implements Parcelable {
 
     private String itemID,name,description,restaurantID,itemType;
     private int price,quantity;
@@ -19,6 +24,28 @@ public class Item {
         this.itemID="0";
     }
     public Item(){}
+
+    protected Item(Parcel in) {
+        itemID = in.readString();
+        name = in.readString();
+        description = in.readString();
+        restaurantID = in.readString();
+        itemType = in.readString();
+        price = in.readInt();
+        quantity = in.readInt();
+    }
+
+    public static final Creator<Item> CREATOR = new Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 
     public String getItemID() {
         return itemID;
@@ -74,5 +101,21 @@ public class Item {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(itemID);
+        parcel.writeString(name);
+        parcel.writeString(description);
+        parcel.writeString(restaurantID);
+        parcel.writeString(itemType);
+        parcel.writeInt(price);
+        parcel.writeInt(quantity);
     }
 }

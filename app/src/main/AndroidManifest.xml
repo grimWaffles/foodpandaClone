@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.activities.CartActivity"></activity>
-        <activity android:name=".view.activities.Restaurant_Activity" />
+        <activity android:name=".view.activities.Restaurant_Activity" android:parentActivityName=".view.activities.MainActivity">
+
+        </activity>
         <activity android:name=".view.DeveloperSettings">
 
         </activity>
@@ -31,7 +33,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 

@@ -1,5 +1,6 @@
 package com.example.foodpandaclone.view.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,12 +18,14 @@ import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapters.DiscountResAdapter;
 import com.example.foodpandaclone.adapters.PickupFragAdapter;
 import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.view.activities.Restaurant_Activity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,10 +67,13 @@ public class Delivery_Fragment extends Fragment {
                 LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
                 treat_hobe.setAdapter(dra); Log.d(" adapter","Adapter set");
                 treat_hobe.setLayoutManager(linearLayoutManager);
+
                 dra.setListener(new DiscountResAdapter.Listener() {
                     @Override
                     public void onClick(int position) {
-                        Toast.makeText(getActivity(),"Card functions not implemented yet",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getActivity(),"Card functions not implemented yet",Toast.LENGTH_LONG).show();
+                        onCardClick(position);
+                        Log.d("position of Card",Integer.toString(position));
                     }
                 });
 
@@ -106,5 +112,11 @@ public class Delivery_Fragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    public void onCardClick(int position){
+        Intent  intent=new Intent(getActivity(),Restaurant_Activity.class);
+        intent.putExtra("restaurant",restaurantList.get(position));
+        startActivity(intent);
     }
 }

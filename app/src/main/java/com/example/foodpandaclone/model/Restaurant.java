@@ -1,8 +1,12 @@
 package com.example.foodpandaclone.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class Restaurant {
+public class Restaurant implements Parcelable {
 
     private String restaurantID,name,location,phoneNumber,priceLevel;
     private int numberOfReviews, discount,deliveryCost;
@@ -35,6 +39,31 @@ public class Restaurant {
 
     //getters and setters... auto-generated
 
+
+    protected Restaurant(Parcel in) {
+        restaurantID = in.readString();
+        name = in.readString();
+        location = in.readString();
+        phoneNumber = in.readString();
+        priceLevel = in.readString();
+        numberOfReviews = in.readInt();
+        discount = in.readInt();
+        deliveryCost = in.readInt();
+        categoriesOffered = in.createStringArrayList();
+        rating = in.readFloat();
+    }
+
+    public static final Creator<Restaurant> CREATOR = new Creator<Restaurant>() {
+        @Override
+        public Restaurant createFromParcel(Parcel in) {
+            return new Restaurant(in);
+        }
+
+        @Override
+        public Restaurant[] newArray(int size) {
+            return new Restaurant[size];
+        }
+    };
 
     public String getRestaurantID() {
         return restaurantID;
@@ -138,5 +167,24 @@ public class Restaurant {
 
     public String strDiscount() {
         return Integer.toString(this.discount);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(restaurantID);
+        parcel.writeString(name);
+        parcel.writeString(location);
+        parcel.writeString(phoneNumber);
+        parcel.writeString(priceLevel);
+        parcel.writeInt(numberOfReviews);
+        parcel.writeInt(discount);
+        parcel.writeInt(deliveryCost);
+        parcel.writeStringList(categoriesOffered);
+        parcel.writeFloat(rating);
     }
 }

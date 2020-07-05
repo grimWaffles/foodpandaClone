@@ -2,10 +2,11 @@
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
     android:gravity="center_vertical|start"
     android:backgroundTint="@color/colorAccent"
-    >
+    app:layout_collapseMode="pin">
 
 </androidx.appcompat.widget.Toolbar>
