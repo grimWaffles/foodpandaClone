@@ -17,7 +17,7 @@ public class Repository {
 
     }
 
-    public DiscountResAdapter loadRestaurantData(){
+    public List<Restaurant> loadRestaurantData(){
 
         fireDB=new FirebaseDatabaseHelper();
 
@@ -47,7 +47,7 @@ public class Repository {
             }
         });
 
-        return dra;
+        return restaurantData;
     }
     
     public void addRestaurantData(Restaurant restaurant){

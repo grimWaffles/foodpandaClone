@@ -1,5 +1,6 @@
 package com.example.foodpandaclone.adapters;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.view.activities.Restaurant_Activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +63,7 @@ private List<Restaurant> listOfRestaurants; public Listener listener;
 
         //setting the appropriate values:
 
-        Restaurant res= listOfRestaurants.get(i);
+        final Restaurant res= listOfRestaurants.get(i);
 
         if(res.getDeliveryCost()==0){
             deliveryOrPickup.setText("Free Delivery");
@@ -101,12 +103,14 @@ private List<Restaurant> listOfRestaurants; public Listener listener;
         discount.setText(res.strDiscount());
         food_img.setImageResource(R.drawable.foodpanda_logo);
 
+        Log.d("Number of Items", Integer.toString(res.getItems().size()));
+
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(listener!=null){
-                    listener.onClick(i);
-                }
+                Intent intent=new Intent(view.getContext(), Restaurant_Activity.class);
+                intent.putExtra("restaurant",res);
+                view.getContext().startActivity(intent);
             }
         });
 

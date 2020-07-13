@@ -27,8 +27,8 @@ public class Restaurant_Fragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View rootView=inflater.inflate(R.layout.fragment_restaurant_, container, false);
 
         category_name=rootView.findViewById(R.id.category_name);
@@ -49,4 +49,6 @@ public class Restaurant_Fragment extends Fragment {
 
         return rootView;
     }
+
+
 }

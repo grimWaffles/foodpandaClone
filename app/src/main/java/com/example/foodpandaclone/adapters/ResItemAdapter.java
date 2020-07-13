@@ -18,14 +18,14 @@ import java.util.List;
 
 public class ResItemAdapter extends RecyclerView.Adapter<ResItemAdapter.ViewHolder> {
 
-    public DiscountResAdapter.Listener listener;  private List<Item> itemsR;
+    public Listerner listener;  private List<Item> itemsR;
 
     public interface Listerner{
         void onClick(int position);
     }
 
     public void setListener(ResItemAdapter.Listerner listener){
-        this.listener= (DiscountResAdapter.Listener) listener;
+        this.listener= listener;
     }
 
     public ResItemAdapter(List<Item> itemsR){

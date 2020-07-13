@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 
-public class Item implements Parcelable {
+public class Item implements Parcelable{
 
     private String itemID,name,description,restaurantID,itemType;
     private int price,quantity;
@@ -23,6 +23,7 @@ public class Item implements Parcelable {
         this.quantity = quantity;
         this.itemID="0";
     }
+
     public Item(){}
 
     protected Item(Parcel in) {

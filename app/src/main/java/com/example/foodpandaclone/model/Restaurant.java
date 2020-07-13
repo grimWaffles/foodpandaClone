@@ -4,14 +4,15 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant implements Parcelable {
 
     private String restaurantID,name,location,phoneNumber,priceLevel;
     private int numberOfReviews, discount,deliveryCost;
-    private List<String> categoriesOffered;
-    private List<Item> items;
+    private List<String> categoriesOffered=new ArrayList<>();
+    private List<Item> items=new ArrayList<>();
     private float rating;
 
     /*
@@ -51,6 +52,7 @@ public class Restaurant implements Parcelable {
         deliveryCost = in.readInt();
         categoriesOffered = in.createStringArrayList();
         rating = in.readFloat();
+        in.readTypedList(items, Item.CREATOR);
     }
 
     public static final Creator<Restaurant> CREATOR = new Creator<Restaurant>() {
@@ -186,5 +188,6 @@ public class Restaurant implements Parcelable {
         parcel.writeInt(deliveryCost);
         parcel.writeStringList(categoriesOffered);
         parcel.writeFloat(rating);
+        parcel.writeTypedList(items);
     }
 }

@@ -7,85 +7,91 @@
     android:orientation="vertical"
     tools:context=".view.activities.Restaurant_Activity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
-
-        <include
-            layout="@layout/toolbar_other"
-            android:id="@+id/toolbar"
-            />
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            android:background="@color/colorAccent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/res_name"
-                    android:text="Shumi's Hot Cake"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:textSize="26sp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/res_activity_navbar"
-                    android:padding="6dp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/res_location"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:textSize="22sp"
-                    android:text="-Banani"
-                    android:layout_marginTop="6dp"
-                    android:background="@drawable/res_activity_navbar"
-                    android:padding="6dp"
-                    android:layout_marginBottom="8dp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/res_delivery"
-                    android:layout_gravity="center"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:textSize="22sp"
-                    android:text="Delivery time:10 mins"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/res_activity_navbar"
-                    android:padding="6dp"
-                    android:layout_marginBottom="10dp"
-                    />
-
-            </LinearLayout>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        <include
-            layout="@layout/tablayout_main"
-            android:id="@+id/tab_layout"/>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.viewpager.widget.ViewPager
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/category_pager"
-        />
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            <include
+                layout="@layout/toolbar_other"
+                android:id="@+id/toolbar"
+                />
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                android:background="@color/colorAccent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/res_name"
+                        android:text="Shumi's Hot Cake"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:textSize="26sp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/res_activity_navbar"
+                        android:padding="6dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/res_location"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:textSize="22sp"
+                        android:text="-Banani"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/res_activity_navbar"
+                        android:padding="6dp"
+                        android:layout_marginBottom="8dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/res_delivery"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:textSize="22sp"
+                        android:text="Delivery time:10 mins"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/res_activity_navbar"
+                        android:padding="6dp"
+                        android:layout_marginBottom="10dp"
+                        />
+
+                </LinearLayout>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            <include
+                layout="@layout/tablayout_main"
+                android:id="@+id/tab_layout"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/category_pager"
+            />
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
