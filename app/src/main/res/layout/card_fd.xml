@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/foodpanda_logo" />
+                app:srcCompat="@drawable/foodpanda_logo" />
 
             <TextView
                 android:id="@+id/delivery_pickup"

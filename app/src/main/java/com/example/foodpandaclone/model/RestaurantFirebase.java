@@ -3,11 +3,10 @@ package com.example.foodpandaclone.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Restaurant implements Parcelable {
+public class RestaurantFirebase implements Parcelable {
 
     private String restaurantID,name,location,phoneNumber,priceLevel;
     private int numberOfReviews, discount,deliveryCost;
@@ -24,7 +23,7 @@ public class Restaurant implements Parcelable {
 
     //check manual for more
 
-    public Restaurant(String name, String location, String phoneNumber, int numberOfReviews, int discount, int deliveryCost, String priceLevel, List<String> categoriesOffered, List<Item> items, float rating) {
+    public RestaurantFirebase(String name, String location, String phoneNumber, int numberOfReviews, int discount, int deliveryCost, String priceLevel, List<String> categoriesOffered, List<Item> items, float rating) {
         this.name = name;
         this.location = location;
         this.phoneNumber = phoneNumber;
@@ -36,12 +35,12 @@ public class Restaurant implements Parcelable {
         this.items = items;
         this.rating = rating;
     }
-    public Restaurant(){}
+    public RestaurantFirebase(){}
 
     //getters and setters... auto-generated
 
 
-    protected Restaurant(Parcel in) {
+    protected RestaurantFirebase(Parcel in) {
         restaurantID = in.readString();
         name = in.readString();
         location = in.readString();
@@ -55,15 +54,15 @@ public class Restaurant implements Parcelable {
         in.readTypedList(items, Item.CREATOR);
     }
 
-    public static final Creator<Restaurant> CREATOR = new Creator<Restaurant>() {
+    public static final Creator<RestaurantFirebase> CREATOR = new Creator<RestaurantFirebase>() {
         @Override
-        public Restaurant createFromParcel(Parcel in) {
-            return new Restaurant(in);
+        public RestaurantFirebase createFromParcel(Parcel in) {
+            return new RestaurantFirebase(in);
         }
 
         @Override
-        public Restaurant[] newArray(int size) {
-            return new Restaurant[size];
+        public RestaurantFirebase[] newArray(int size) {
+            return new RestaurantFirebase[size];
         }
     };
 

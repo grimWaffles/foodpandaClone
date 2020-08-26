@@ -1,8 +1,6 @@
 package com.example.foodpandaclone.view.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +18,7 @@ import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapters.DiscountResAdapter;
 import com.example.foodpandaclone.adapters.PickupFragAdapter;
 import com.example.foodpandaclone.model.Item;
-import com.example.foodpandaclone.model.Restaurant;
-import com.example.foodpandaclone.view.activities.MainActivity;
-import com.example.foodpandaclone.view.activities.Restaurant_Activity;
+import com.example.foodpandaclone.model.RestaurantFirebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +33,7 @@ public class Delivery_Fragment extends Fragment {
     private RecyclerView treat_hobe,all_restaurants;
     private CardView panda_favorites;
 
-    private List<Restaurant> restaurantList=new ArrayList<>();
+    private List<RestaurantFirebase> restaurantList=new ArrayList<>();
 
     private DatabaseReference ref;
 
@@ -70,10 +66,10 @@ public class Delivery_Fragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 restaurantList.clear();
-                Restaurant res; final List<Item> iList=new ArrayList<>();
+                RestaurantFirebase res; final List<Item> iList=new ArrayList<>();
 
                 for(DataSnapshot snap: snapshot.getChildren()){
-                    res=snap.getValue(Restaurant.class);
+                    res=snap.getValue(RestaurantFirebase.class);
                     restaurantList.add(res);
                 }
 

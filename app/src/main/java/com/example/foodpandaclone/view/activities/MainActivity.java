@@ -3,7 +3,6 @@ package com.example.foodpandaclone.view.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.foodpandaclone.view.DeveloperSettings;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import androidx.core.view.GravityCompat;

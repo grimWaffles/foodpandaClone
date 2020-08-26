@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapters.PickupFragAdapter;
-import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.model.RestaurantFirebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +26,7 @@ import java.util.List;
 public class Pickup_Fragment extends Fragment {
 
     private RecyclerView pickup_shops;
-    private List<Restaurant> restaurantList; private DatabaseReference ref;
+    private List<RestaurantFirebase> restaurantList; private DatabaseReference ref;
 
     public Pickup_Fragment() {
         // Required empty public constructor
@@ -49,8 +49,8 @@ public class Pickup_Fragment extends Fragment {
                 restaurantList.clear();
 
                 for(DataSnapshot snap: snapshot.getChildren()){
-                    Restaurant res=new Restaurant();
-                    res=snap.getValue(Restaurant.class);
+                    RestaurantFirebase res=new RestaurantFirebase();
+                    res=snap.getValue(RestaurantFirebase.class);
                     res.setRestaurantID(snap.getKey());
                     restaurantList.add(res);
                 }

@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/foodpanda_logo" />
+                app:srcCompat="@drawable/foodpanda_logo" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/foodpanda_logo" />
+                app:srcCompat="@drawable/foodpanda_logo" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

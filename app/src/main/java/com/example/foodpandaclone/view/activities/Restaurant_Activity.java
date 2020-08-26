@@ -1,25 +1,22 @@
 package com.example.foodpandaclone.view.activities;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapters.ViewPagerResActivity;
-import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.model.RestaurantFirebase;
 import com.google.android.material.tabs.TabLayout;
 
 public class Restaurant_Activity extends AppCompatActivity {
 
-    private String titleOfPage; private Restaurant resObj;
+    private String titleOfPage; private RestaurantFirebase resObj;
     private TextView res_name,res_location,res_delivery;
     private TabLayout  tabLayout; private ViewPager resItemView;
 
@@ -42,12 +39,12 @@ public class Restaurant_Activity extends AppCompatActivity {
         if(savedInstanceState!=null){
 
             Log.d("Fetching data resActivity ","from bundle");
-            resObj=(Restaurant) savedInstanceState.getParcelable("RestaurantSaved");
+            resObj=(RestaurantFirebase) savedInstanceState.getParcelable("RestaurantSaved");
         }
         else{
 
             Log.d("Fetching data resActivity ","from intent");
-            resObj= (Restaurant) getIntent().getExtras().get("restaurant");
+            resObj= (RestaurantFirebase) getIntent().getExtras().get("restaurant");
         }
 
         Log.d("Reached restaurant activity","True");

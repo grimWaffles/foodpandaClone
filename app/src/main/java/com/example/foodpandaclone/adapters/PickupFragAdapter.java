@@ -10,14 +10,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodpandaclone.R;
-import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.model.RestaurantFirebase;
 
 import java.util.List;
 
 public class PickupFragAdapter extends RecyclerView.Adapter<PickupFragAdapter.ViewHolder> {
 
 
-    private List<Restaurant> list; private String isDeliveryOrPickup; public Listener listener;
+    private List<RestaurantFirebase> list; private String isDeliveryOrPickup; public Listener listener;
 
     public interface Listener{
         void onClick(int position);
@@ -27,7 +27,7 @@ public class PickupFragAdapter extends RecyclerView.Adapter<PickupFragAdapter.Vi
         this.listener=listener;
     }
 
-    public PickupFragAdapter(List<Restaurant> list, String deliveryOrPickup){
+    public PickupFragAdapter(List<RestaurantFirebase> list, String deliveryOrPickup){
         this.list=list;
         this.isDeliveryOrPickup=deliveryOrPickup;
     }
@@ -59,7 +59,7 @@ public class PickupFragAdapter extends RecyclerView.Adapter<PickupFragAdapter.Vi
 
         //setting the appropriate values:
 
-        Restaurant res=list.get(i);
+        RestaurantFirebase res=list.get(i);
 
         if(isDeliveryOrPickup.equals("delivery")){
             if(res.getDeliveryCost()==0){

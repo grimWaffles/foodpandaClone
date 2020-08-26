@@ -12,16 +12,15 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodpandaclone.R;
-import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.model.RestaurantFirebase;
 import com.example.foodpandaclone.view.activities.Restaurant_Activity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DiscountResAdapter extends RecyclerView.Adapter<DiscountResAdapter.ViewHolder> {
 
 
-private List<Restaurant> listOfRestaurants; public Listener listener;
+private List<RestaurantFirebase> listOfRestaurants; public Listener listener;
 
     public interface Listener{
         void onClick(int position);
@@ -31,7 +30,7 @@ private List<Restaurant> listOfRestaurants; public Listener listener;
         this.listener=listener;
     }
 
-    public DiscountResAdapter(List<Restaurant> list){
+    public DiscountResAdapter(List<RestaurantFirebase> list){
         this.listOfRestaurants=list;
     }
 
@@ -63,7 +62,7 @@ private List<Restaurant> listOfRestaurants; public Listener listener;
 
         //setting the appropriate values:
 
-        final Restaurant res= listOfRestaurants.get(i);
+        final RestaurantFirebase res= listOfRestaurants.get(i);
 
         if(res.getDeliveryCost()==0){
             deliveryOrPickup.setText("Free Delivery");

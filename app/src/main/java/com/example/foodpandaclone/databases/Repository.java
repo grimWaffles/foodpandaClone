@@ -3,21 +3,23 @@ package com.example.foodpandaclone.databases;
 import android.util.Log;
 
 import com.example.foodpandaclone.adapters.DiscountResAdapter;
-import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.model.RestaurantFirebase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Repository {
 
-    public List<Restaurant> restaurantData=new ArrayList<>(); FirebaseDatabaseHelper fireDB; String error;
+    public List<RestaurantFirebase> restaurantData=new ArrayList<>(); FirebaseDatabaseHelper fireDB; String error;
     private DiscountResAdapter dra;
 
     public Repository(){
 
     }
 
-    public List<Restaurant> loadRestaurantData(){
+    //FIREBASE QUERIES
+
+    public List<RestaurantFirebase> loadRestaurantData(){
 
         fireDB=new FirebaseDatabaseHelper();
 
@@ -28,7 +30,7 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(List<Restaurant> restaurants) {
+            public void dataLoaded(List<RestaurantFirebase> restaurants) {
 
                 //populates this  list  of  restaurants
                 restaurantData=restaurants;
@@ -50,7 +52,7 @@ public class Repository {
         return restaurantData;
     }
     
-    public void addRestaurantData(Restaurant restaurant){
+    public void addRestaurantData(RestaurantFirebase restaurant){
 
         fireDB=new FirebaseDatabaseHelper();
 
@@ -60,7 +62,7 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(List<Restaurant> restaurants) {
+            public void dataLoaded(List<RestaurantFirebase> restaurants) {
 
             }
 
@@ -76,7 +78,7 @@ public class Repository {
         });
     }
 
-    public void deleteRestaurantData(Restaurant restaurant){
+    public void deleteRestaurantData(RestaurantFirebase restaurant){
 
         fireDB.deleteRestaurantData(restaurant, new FirebaseDatabaseHelper.DataStatus() {
             @Override
@@ -85,7 +87,7 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(List<Restaurant> restaurants) {
+            public void dataLoaded(List<RestaurantFirebase> restaurants) {
 
             }
 
@@ -99,7 +101,7 @@ public class Repository {
         });
     }
 
-    public void updateRestaurantData(Restaurant restaurant){
+    public void updateRestaurantData(RestaurantFirebase restaurant){
 
         fireDB.updateRestaurantData(restaurant, new FirebaseDatabaseHelper.DataStatus() {
             @Override
@@ -108,7 +110,7 @@ public class Repository {
             }
 
             @Override
-            public void dataLoaded(List<Restaurant> restaurants) {
+            public void dataLoaded(List<RestaurantFirebase> restaurants) {
 
             }
 
@@ -123,5 +125,7 @@ public class Repository {
             }
         });
     }
+
+    //LOCAL QUERIES
 
 }
