@@ -1,37 +1,42 @@
 package com.example.foodpandaclone.databases;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
-public class LocalDatabaseHelper extends SQLiteOpenHelper {
+import com.example.foodpandaclone.dao.ItemDao;
+import com.example.foodpandaclone.dao.RestaurantDao;
+import com.example.foodpandaclone.dao.UserDao;
+import com.example.foodpandaclone.model.Item;
+import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.model.User;
 
-    private static final String DB_name="LocalDatabaseHelper"; private static int DB_version=1;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-   public LocalDatabaseHelper(Context context){
-       super(context,DB_name,null,DB_version);
+@Database(entities = {Restaurant.class, Item.class, User.class},version = 1,exportSchema = false)
+public abstract class LocalDatabaseHelper extends RoomDatabase {
 
+    public abstract RestaurantDao restaurantDao();
+    public abstract ItemDao itemDao();
+    public abstract UserDao userDao();
 
-   }
+    public static volatile LocalDatabaseHelper INSTANCE;
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
+    static final ExecutorService databaseWriterExecutor= Executors.newFixedThreadPool(4);
 
-       String sqlCurrentOrder="CREATE TABLE CURRENT_ORDER(_id INTEGER PRIMARY KEY,NAME TEXT,DESCRIPTION TEXT, RES_ID INTEGER,  CONSTRAINT );";
+    static LocalDatabaseHelper getDatabase(final Context context) {
 
-       String sqlRestaurant="CREATE TABLE RESTAURANT(_id INTEGER PRIMARY KEY,);";
-
-
-       db.execSQL(sqlRestaurant);
-       db.execSQL(sqlCurrentOrder);
-
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        if (INSTANCE == null) {
+            synchronized (LocalDatabaseHelper.class) {
+                INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                        LocalDatabaseHelper.class,
+                        "app_database")
+                        .build();
+            }
+        }
+        return INSTANCE;
     }
 }

@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.foodpandaclone.model.Item;
-import com.example.foodpandaclone.view.fragments.Restaurant_Fragment;
+import com.example.foodpandaclone.view.fragments.Restaurant_Item_Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +36,8 @@ public class ViewPagerResActivity extends FragmentPagerAdapter {
 
         for(Item i:items){
 
-            if(i.getItemType().equals(category)){
-                Log.d("Item type",i.getItemType());
+            if(i.getCategory().equals(category)){
+                Log.d("Item type",i.getCategory());
                 itemsToSend.add(i);
                 Log.d("Item added","Yes");
             }
@@ -48,7 +48,7 @@ public class ViewPagerResActivity extends FragmentPagerAdapter {
             }
         }
         
-        return new Restaurant_Fragment(itemsToSend);
+        return new Restaurant_Item_Fragment(itemsToSend);
     }
 
     @Override

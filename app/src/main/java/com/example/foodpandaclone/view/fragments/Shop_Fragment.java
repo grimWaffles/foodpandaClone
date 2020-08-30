@@ -24,8 +24,6 @@ public class Shop_Fragment extends Fragment {
 
         stores=(RecyclerView) rootView.findViewById(R.id.stores);
 
-        //todo
-
         return rootView;
     }
 }

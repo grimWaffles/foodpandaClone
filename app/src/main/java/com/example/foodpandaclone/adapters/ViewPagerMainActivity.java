@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.foodpandaclone.view.fragments.Delivery_Fragment;
-import com.example.foodpandaclone.view.fragments.Pickup_Fragment;
 import com.example.foodpandaclone.view.fragments.Shop_Fragment;
 
 public class ViewPagerMainActivity extends FragmentPagerAdapter {
@@ -20,8 +19,6 @@ public class ViewPagerMainActivity extends FragmentPagerAdapter {
             case 0:
                 return new Delivery_Fragment();
             case 1:
-                return new Pickup_Fragment();
-            case 2:
                 return new Shop_Fragment();
         }
         return null;
@@ -29,7 +26,7 @@ public class ViewPagerMainActivity extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override
@@ -38,8 +35,6 @@ public class ViewPagerMainActivity extends FragmentPagerAdapter {
             case 0:
                 return "Delivery";
             case 1:
-                return "Pickup";
-            case 2:
                 return "Stores";
         }
         return null;

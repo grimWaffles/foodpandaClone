@@ -3,7 +3,7 @@
 
     <string name="drawer_open">Drawer is open</string>
     <string name="drawer_close">Drawer is closed</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delivery_tab">Delivery</string>
     <string name="pickup_tab">Pickup</string>

@@ -16,13 +16,13 @@ import com.example.foodpandaclone.model.Item;
 
 import java.util.List;
 
-public class Restaurant_Fragment extends Fragment {
+public class Restaurant_Item_Fragment extends Fragment {
 
     private TextView category_name;
     private RecyclerView restaurant_items;
     private List<Item> itemsR;
 
-    public Restaurant_Fragment(List<Item> itemsR) {
+    public Restaurant_Item_Fragment(List<Item> itemsR) {
         this.itemsR=itemsR;
     }
 

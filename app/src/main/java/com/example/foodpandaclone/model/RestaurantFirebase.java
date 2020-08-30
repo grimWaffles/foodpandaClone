@@ -8,32 +8,49 @@ import java.util.List;
 
 public class RestaurantFirebase implements Parcelable {
 
-    private String restaurantID,name,location,phoneNumber,priceLevel;
-    private int numberOfReviews, discount,deliveryCost;
+    private int restaurantID;
+    private String name;
+    private String location;
+    private String phoneNumber;
+    private String priceLevel;
+    private int reviews;
+    private int discount;
+    private int deliveryCost;
+    private float rating;
+    private double latitude;
+    private double longitude;
     private List<String> categoriesOffered=new ArrayList<>();
     private List<Item> items=new ArrayList<>();
-    private float rating;
 
-    /*
-    * private Time openingTime
-    * private Time closingTime
-    * private Location googleMapsLocation
-    */
-    // TODO: 28-Jun-20
+    public double getLatitude() {
+        return latitude;
+    }
 
-    //check manual for more
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
-    public RestaurantFirebase(String name, String location, String phoneNumber, int numberOfReviews, int discount, int deliveryCost, String priceLevel, List<String> categoriesOffered, List<Item> items, float rating) {
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public RestaurantFirebase(String name, String location, String phoneNumber, int reviews, int discount, int deliveryCost, String priceLevel, List<String> categoriesOffered, List<Item> items, float rating, double latitude, double longitude) {
         this.name = name;
         this.location = location;
         this.phoneNumber = phoneNumber;
-        this.numberOfReviews = numberOfReviews;
+        this.reviews = reviews;
         this.discount = discount;
         this.deliveryCost = deliveryCost;
         this.priceLevel = priceLevel;
         this.categoriesOffered = categoriesOffered;
         this.items = items;
         this.rating = rating;
+        this.latitude=latitude;
+        this.longitude=longitude;
     }
     public RestaurantFirebase(){}
 
@@ -41,12 +58,12 @@ public class RestaurantFirebase implements Parcelable {
 
 
     protected RestaurantFirebase(Parcel in) {
-        restaurantID = in.readString();
+        restaurantID = in.readInt();
         name = in.readString();
         location = in.readString();
         phoneNumber = in.readString();
         priceLevel = in.readString();
-        numberOfReviews = in.readInt();
+        reviews = in.readInt();
         discount = in.readInt();
         deliveryCost = in.readInt();
         categoriesOffered = in.createStringArrayList();
@@ -66,16 +83,16 @@ public class RestaurantFirebase implements Parcelable {
         }
     };
 
-    public String getRestaurantID() {
+    public int getRestaurantID() {
         return restaurantID;
     }
 
-    public void setRestaurantID(String restaurantID) {
-        this.restaurantID = restaurantID;
+    public void setRestaurantID(int restaurantID) {
+        this.restaurantID =restaurantID;
 
         for (int i=0;i<this.items.size();i++){
             this.items.get(i).setRestaurantID(restaurantID);
-            this.items.get(i).setItemID(Integer.toString(i));
+            this.items.get(i).setItemID(i);
         }
     }
 
@@ -111,12 +128,12 @@ public class RestaurantFirebase implements Parcelable {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getNumberOfReviews() {
-        return numberOfReviews;
+    public int getReviews() {
+        return reviews;
     }
 
-    public void setNumberOfReviews(int numberOfReviews) {
-        this.numberOfReviews = numberOfReviews;
+    public void setReviews(int reviews) {
+        this.reviews = reviews;
     }
 
     public int getDiscount() {
@@ -177,12 +194,12 @@ public class RestaurantFirebase implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(restaurantID);
+        parcel.writeInt(restaurantID);
         parcel.writeString(name);
         parcel.writeString(location);
         parcel.writeString(phoneNumber);
         parcel.writeString(priceLevel);
-        parcel.writeInt(numberOfReviews);
+        parcel.writeInt(reviews);
         parcel.writeInt(discount);
         parcel.writeInt(deliveryCost);
         parcel.writeStringList(categoriesOffered);

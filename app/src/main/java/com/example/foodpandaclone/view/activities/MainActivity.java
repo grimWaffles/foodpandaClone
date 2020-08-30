@@ -27,12 +27,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.setTitle("");
+        this.setTitle("Foodpanda Clone");
 
         //Initialized toolbar:
         Toolbar toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         //Initialized NavDrawer:
         drawerLayout=findViewById(R.id.drawer_layout);

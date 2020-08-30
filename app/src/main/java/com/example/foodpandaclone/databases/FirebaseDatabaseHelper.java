@@ -21,33 +21,19 @@ public class FirebaseDatabaseHelper {
     private DatabaseReference ref; private List<RestaurantFirebase> restaurants=new ArrayList<>();
 
 
-    public FirebaseDatabaseHelper(){
-    }
-
-    //interface
-    public interface DataStatus{
-        void dataInserted();
-        void dataLoaded(List<RestaurantFirebase> restaurants);
-        void dataUpdated();
-        void dataDeleted();
-    }
+    public FirebaseDatabaseHelper(){}
 
     //Restaurant data API- called from repository class
 
-    public void insertRestaurantData(RestaurantFirebase restaurant, final DataStatus status){
+    public void insertRestaurantData(RestaurantFirebase restaurant){
 
-        ref=FirebaseDatabase.getInstance().getReference().child("Restaurant");
-        String key=ref.push().getKey();
-        restaurant.setRestaurantID(key);
-        ref.child(key).setValue(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                status.dataInserted();
-            }
-        });
+        ref=FirebaseDatabase.getInstance().getReference().child("Restaurant").child(Integer.toString(restaurant.getRestaurantID()));
+        ref.setValue(restaurant);
     }
 
-    public void loadRestaurantData(final DataStatus status){
+
+
+    public void loadRestaurantData(){
         ref=FirebaseDatabase.getInstance().getReference().child("Restaurant");
 
         Log.d("Database navigated","True");
@@ -57,15 +43,11 @@ public class FirebaseDatabaseHelper {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot snap: snapshot.getChildren()){
-                    String key=snap.getKey();
                     RestaurantFirebase res= snap.getValue(RestaurantFirebase.class);
-                    res.setRestaurantID(key);
                     restaurants.add(res);
                     Log.d("Size of list",Integer.toString(restaurants.size()));
                 }
                 Log.d("Size of list fetched",Integer.toString(restaurants.size()));
-                status.dataLoaded(restaurants);
-
             }
 
             @Override
@@ -74,29 +56,4 @@ public class FirebaseDatabaseHelper {
             }
         });
     }
-
-    public void deleteRestaurantData(RestaurantFirebase restaurant, final DataStatus status){
-        ref.child("Restaurant").child(restaurant.getRestaurantID()).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
-                status.dataDeleted();
-            }
-        });
-    }
-
-    public void updateRestaurantData(RestaurantFirebase restaurant, final DataStatus status){
-        ref.child("Restaurant").child(restaurant.getRestaurantID()).setValue(restaurant).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-            status.dataUpdated();
-            }
-        });
-    }
-
-    //add functions for stores and other shit
-
-
-
-
 }

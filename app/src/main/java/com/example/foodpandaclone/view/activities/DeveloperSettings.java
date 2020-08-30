@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.foodpandaclone.R;
-import com.example.foodpandaclone.databases.Repository;
+import com.example.foodpandaclone.databases.FirebaseDatabaseHelper;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.RestaurantFirebase;
 
@@ -33,7 +33,8 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
     Item item; RestaurantFirebase restaurant; List<Item> itemList; List<String> categories;
 
     //Repository
-    Repository repository; Toolbar toolbar;
+    FirebaseDatabaseHelper repository;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        repository=new Repository();
+        repository=new FirebaseDatabaseHelper();
 
         name=findViewById(R.id.name);location=findViewById(R.id.location); phoneNumber=findViewById(R.id.phoneNumber);priceLevel=findViewById(R.id.priceLevel);
         numberOfReviews=findViewById(R.id.numberOfReviews); discount=findViewById(R.id.discount); deliveryCost=findViewById(R.id.deliveryCost);
@@ -61,7 +62,7 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
         addItem.setOnClickListener(this);
         
         itemList=new ArrayList<>(); categories=new ArrayList<>();
-
+/**
         addRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,6 +76,7 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
                 Toast.makeText(DeveloperSettings.this, "Restaurant added successfully", Toast.LENGTH_SHORT).show();
             }
         });
+ **/
     }
 
     @Override

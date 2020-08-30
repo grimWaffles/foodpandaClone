@@ -32,7 +32,7 @@ public class Location_Access_Page extends AppCompatActivity implements View.OnCl
         Intent intent;
 
         if(view.getId()==R.id.use_current_loc || view.getId()==R.id.select_another){
-            intent=new Intent(this,View_Restaurant_Shops.class);
+            intent=new Intent(this,MainActivity.class);
             startActivity(intent);
             finish();
         }

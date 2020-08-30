@@ -3,35 +3,51 @@ package com.example.foodpandaclone.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "item_table")
 public class Item implements Parcelable{
 
-    private String itemID,name,description,restaurantID,itemType;
-    private int price,quantity;
+    @PrimaryKey
+    @ColumnInfo(name="id")
+    private int itemID;
+    @ColumnInfo(name = "resID")
+    private int restaurantID;
+    @ColumnInfo(name = "name")
+    private String name;
+    @ColumnInfo(name = "description")
+    private String description;
+    @ColumnInfo(name = "category")
+    private String category;
+    @ColumnInfo(name = "price")
+    private int price;
+    @ColumnInfo(name = "quantity")
+    private int quantity;
 
     //check manual for more later on
     //itemCategory matches the one in restaurant and store model classes
-    // TODO: 28-Jun-20
 
-    public Item(String name, String description, String itemType, int price, int quantity) {
+    public Item(String name, String description, String category, int price, int quantity) {
         this.name = name;
         this.description = description;
-        this.restaurantID = "0";
-        this.itemType = itemType;
+        this.restaurantID = 0;
+        this.category = category;
         this.price = price;
         this.quantity = quantity;
-        this.itemID="0";
+        this.itemID=0;
     }
 
     public Item(){}
 
     protected Item(Parcel in) {
-        itemID = in.readString();
+        itemID = in.readInt();
         name = in.readString();
         description = in.readString();
-        restaurantID = in.readString();
-        itemType = in.readString();
+        restaurantID = in.readInt();
+        category = in.readString();
         price = in.readInt();
         quantity = in.readInt();
     }
@@ -48,11 +64,11 @@ public class Item implements Parcelable{
         }
     };
 
-    public String getItemID() {
+    public int getItemID() {
         return itemID;
     }
 
-    public void setItemID(String itemID) {
+    public void setItemID(int itemID) {
         this.itemID = itemID;
     }
 
@@ -72,20 +88,20 @@ public class Item implements Parcelable{
         this.description = description;
     }
 
-    public String getRestaurantID() {
+    public int getRestaurantID() {
         return restaurantID;
     }
 
-    public void setRestaurantID(String restaurantID) {
+    public void setRestaurantID(int restaurantID) {
         this.restaurantID = restaurantID;
     }
 
-    public String getItemType() {
-        return itemType;
+    public String getCategory() {
+        return category;
     }
 
-    public void setItemType(String itemType) {
-        this.itemType = itemType;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public int getPrice() {
@@ -111,11 +127,11 @@ public class Item implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(itemID);
+        parcel.writeInt(itemID);
         parcel.writeString(name);
         parcel.writeString(description);
-        parcel.writeString(restaurantID);
-        parcel.writeString(itemType);
+        parcel.writeInt(restaurantID);
+        parcel.writeString(category);
         parcel.writeInt(price);
         parcel.writeInt(quantity);
     }
