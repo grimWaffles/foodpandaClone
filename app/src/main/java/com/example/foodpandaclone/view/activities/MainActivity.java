@@ -3,9 +3,13 @@ package com.example.foodpandaclone.view.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.viewModel.MainActivityViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import androidx.core.view.GravityCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,11 +20,13 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.foodpandaclone.R;
-import com.example.foodpandaclone.adapters.ViewPagerMainActivity;
+import com.example.foodpandaclone.adapter.ViewPagerMainActivity;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout drawerLayout;
+    DrawerLayout drawerLayout; private MainActivityViewModel mMAVM; private ViewPager sectionPager; private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         this.setTitle("Foodpanda Clone");
+
+        mMAVM=new ViewModelProvider(this).get(MainActivityViewModel.class);
+
+        sectionPager=findViewById(R.id.section_pager);
+        tabLayout=findViewById(R.id.tablayout_main);
 
         //Initialized toolbar:
         Toolbar toolbar=findViewById(R.id.toolbar);
@@ -48,13 +59,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         //Initialized ViewPager and the tabView:
-        ViewPagerMainActivity pagerAdapter=new ViewPagerMainActivity(getSupportFragmentManager());
 
-        ViewPager sectionPager=findViewById(R.id.section_pager);
-        sectionPager.setAdapter(pagerAdapter);
+        mMAVM.getTheData().observe(this, new Observer<List<Restaurant>>() {
+            @Override
+            public void onChanged(List<Restaurant> restaurants) {
 
-        TabLayout tabLayout=findViewById(R.id.tablayout_main);
-        tabLayout.setupWithViewPager(sectionPager);
+                ViewPagerMainActivity pagerAdapter=new ViewPagerMainActivity(getSupportFragmentManager(), restaurants);
+
+                sectionPager.setAdapter(pagerAdapter);
+                tabLayout.setupWithViewPager(sectionPager);
+            }
+        });
+
+        //todo
+        //get  user name and populate nav header
 
     }
 

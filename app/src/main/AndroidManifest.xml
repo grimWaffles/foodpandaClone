@@ -3,6 +3,8 @@
     package="com.example.foodpandaclone">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -22,9 +24,8 @@
             android:name=".view.activities.AppSettings"
             android:label="Settings"
             android:parentActivityName=".view.activities.MainActivity" />
-        <activity android:name=".view.activities.View_Restaurant_Shops" />
-        <activity android:name=".view.activities.Location_Access_Page" />
-        <activity android:name=".view.activities.Logo_Page">
+        <activity android:name=".view.activities.LocationAccess" />
+        <activity android:name=".view.activities.LogoPage">
 
         </activity>
         <activity android:name=".view.activities.MainActivity" android:label="" >

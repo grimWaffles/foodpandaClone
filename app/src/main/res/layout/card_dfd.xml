@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="270dp"
-    android:layout_height="215dp"
+    android:layout_height="225dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_marginTop="8dp"
@@ -16,7 +16,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="133dp">
+            android:layout_height="130dp">
 
             <ImageView
                 android:id="@+id/food_img"
@@ -24,16 +24,6 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/foodpanda_logo" />
-
-            <TextView
-                android:id="@+id/discount_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@android:color/white"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:text="Discount" />
 
             <TextView
                 android:id="@+id/delivery_pickup"
@@ -45,13 +35,21 @@
                 android:paddingRight="4dp"
                 android:text="Deliver status" />
 
+            <TextView
+                android:id="@+id/discount_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/white"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="Discount" />
+
         </FrameLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,62 +57,53 @@
                 android:id="@+id/shop_name"
                 android:text="Tehari Ghor"
                 android:textStyle="bold"
-                android:paddingLeft="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                android:layout_marginTop="5dp"
                 />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/shop_rating"
                 android:text="4.2"
-                android:layout_gravity="right"
-                android:layout_marginLeft="124dp"
-                android:paddingLeft="4dp"
+                app:layout_constraintStart_toEndOf="@id/shop_name"
+                app:layout_constraintEnd_toStartOf="@+id/numberOfReviews"
+                app:layout_constraintTop_toBottomOf="parent"
+                android:layout_marginTop="5dp"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/numberOfReviews"
                 android:text="(1K+)"
-                android:layout_gravity="right"
-                android:layout_marginLeft="4dp"
-                android:paddingLeft="4dp"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/price_level"
-                android:text="$$$"
-                android:layout_marginTop="8dp"
-                android:paddingStart="4dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/shop_rating"
+                app:layout_constraintEnd_toEndOf="parent"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/shop_categories"
-                android:text="Burgers, pasta,more.."
-                android:layout_marginTop="8dp"
-                android:paddingLeft="8dp"
+                android:id="@+id/address"
+                android:text="Dhanmondi"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/shop_name"
+                app:layout_constraintStart_toStartOf="parent"
                 />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/delivery_cost"
+                android:layout_marginTop="5dp"
+                android:text="Free Delivery"
+                app:layout_constraintTop_toBottomOf="@id/address"
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/delivery_cost"
-            android:text="Free Delivery"
-            android:layout_marginTop="8dp"
-            android:paddingLeft="4dp"
-            />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

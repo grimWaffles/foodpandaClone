@@ -11,14 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.foodpandaclone.R;
-import com.example.foodpandaclone.databases.FirebaseDatabaseHelper;
+import com.example.foodpandaclone.database.FirebaseDatabaseHelper;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.RestaurantFirebase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeveloperSettings extends AppCompatActivity implements View.OnClickListener{
+public class DeveloperSettings extends AppCompatActivity /**implements View.OnClickListener**/{
 
     //Restaurant - Section 1
     private EditText name,location,phoneNumber,priceLevel,numberOfReviews,discount,deliveryCost,rating;
@@ -42,7 +42,7 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_developer_settings);
 
         this.setTitle("Create  a Restaurant");
-
+/**
         toolbar=findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
@@ -76,7 +76,7 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
                 Toast.makeText(DeveloperSettings.this, "Restaurant added successfully", Toast.LENGTH_SHORT).show();
             }
         });
- **/
+
     }
 
     @Override
@@ -96,5 +96,8 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
             default:
                 Toast.makeText(this, "Nothing happened", Toast.LENGTH_SHORT).show();
         }
+ **/
     }
+
+
 }

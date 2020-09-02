@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.databases;
+package com.example.foodpandaclone.database;
 
 import android.content.Context;
 

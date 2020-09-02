@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodpandaclone.R;
-import com.example.foodpandaclone.adapters.ResItemAdapter;
+import com.example.foodpandaclone.adapter.RestaurantItemAdapter;
 import com.example.foodpandaclone.model.Item;
 
 import java.util.List;
@@ -33,9 +33,9 @@ public class Restaurant_Item_Fragment extends Fragment {
 
         category_name=rootView.findViewById(R.id.category_name);
         restaurant_items=rootView.findViewById(R.id.restaurant_items);
-        ResItemAdapter resItemAdapter=new ResItemAdapter(itemsR);
+        RestaurantItemAdapter resItemAdapter=new RestaurantItemAdapter(itemsR);
 
-        resItemAdapter.setListener(new ResItemAdapter.Listerner() {
+        resItemAdapter.setListener(new RestaurantItemAdapter.Listerner() {
             @Override
             public void onClick(int position) {
                 Toast.makeText(getActivity(), "Card function not implemented yet", Toast.LENGTH_SHORT).show();

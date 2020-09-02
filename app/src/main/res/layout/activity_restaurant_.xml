@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,7 +25,7 @@
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 android:background="@color/colorAccent">
 
@@ -39,11 +40,9 @@
                         android:id="@+id/res_name"
                         android:text="Shumi's Hot Cake"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@android:color/white"
                         android:textStyle="bold"
-                        android:textSize="26sp"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/res_activity_navbar"
+                        android:textSize="22sp"
                         android:padding="6dp"
                         />
 
@@ -52,14 +51,12 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/res_location"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@android:color/white"
                         android:textStyle="bold"
                         android:textSize="22sp"
                         android:text="-Banani"
-                        android:layout_marginTop="6dp"
-                        android:background="@drawable/res_activity_navbar"
+                        android:layout_marginTop="4dp"
                         android:padding="6dp"
-                        android:layout_marginBottom="8dp"
                         />
 
                     <TextView
@@ -67,14 +64,13 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/res_delivery"
                         android:layout_gravity="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@android:color/white"
                         android:textStyle="bold"
                         android:textSize="22sp"
                         android:text="Delivery time:10 mins"
                         android:layout_marginTop="4dp"
-                        android:background="@drawable/res_activity_navbar"
                         android:padding="6dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="8dp"
                         />
 
                 </LinearLayout>

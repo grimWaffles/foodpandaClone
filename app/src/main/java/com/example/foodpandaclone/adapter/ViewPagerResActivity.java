@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.adapters;
+package com.example.foodpandaclone.adapter;
 
 import android.util.Log;
 
@@ -17,10 +17,10 @@ public class ViewPagerResActivity extends FragmentPagerAdapter {
 
     List<Item> items; List<String> itemCategory;
 
-    public ViewPagerResActivity(FragmentManager fm, List<Item> resItems,List<String> itemCategory){
+    public ViewPagerResActivity(FragmentManager fm, List<Item> resItems){
         super(fm);
         items=resItems;
-        this.itemCategory=itemCategory;
+        populateItemCategories();
     }
 
     @Override
@@ -60,5 +60,21 @@ public class ViewPagerResActivity extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return  itemCategory.get(position);
+    }
+
+    private void populateItemCategories() {
+
+        for(int i=0;i<items.size();i++){
+
+            if(i==0){
+                itemCategory.add(items.get(i).getCategory());
+            }
+
+            else{
+                if(!items.get(i).getCategory().equals(items.get(i-1).getCategory())){
+                    itemCategory.add(items.get(i).getCategory());
+                }
+            }
+        }
     }
 }

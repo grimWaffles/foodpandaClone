@@ -34,7 +34,14 @@ public class User {
         this.phone = phone;
         this.email = email;
         this.password = password;
-        this.userID=  this.getUsername(email);
+
+        if(!email.equals("null")){
+            this.userID=  this.getUsername(email);
+        }
+        else{
+            this.userID="1";
+        }
+
         this.type=type;
         this.address="";
         this.latitude=0.000000;

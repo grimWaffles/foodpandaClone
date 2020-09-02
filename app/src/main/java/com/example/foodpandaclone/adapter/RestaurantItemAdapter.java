@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.adapters;
+package com.example.foodpandaclone.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.model.Item;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
-public class ResItemAdapter extends RecyclerView.Adapter<ResItemAdapter.ViewHolder> {
+public class RestaurantItemAdapter extends RecyclerView.Adapter<RestaurantItemAdapter.ViewHolder> {
 
     public Listerner listener;  private List<Item> itemsR;
 
@@ -24,25 +22,25 @@ public class ResItemAdapter extends RecyclerView.Adapter<ResItemAdapter.ViewHold
         void onClick(int position);
     }
 
-    public void setListener(ResItemAdapter.Listerner listener){
+    public void setListener(RestaurantItemAdapter.Listerner listener){
         this.listener= listener;
     }
 
-    public ResItemAdapter(List<Item> itemsR){
+    public RestaurantItemAdapter(List<Item> itemsR){
         this.itemsR=itemsR;
     }
 
     @NonNull
     @Override
-    public ResItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RestaurantItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         CardView cardView=(CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_rf,parent,false);
 
-        return new ResItemAdapter.ViewHolder(cardView);
+        return new RestaurantItemAdapter.ViewHolder(cardView);
     }
 
     @Override
-    public void onBindViewHolder(ResItemAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RestaurantItemAdapter.ViewHolder holder, final int position) {
 
         CardView  cardView=holder.cardView;
 

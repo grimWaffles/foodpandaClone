@@ -3,22 +3,28 @@ package com.example.foodpandaclone.view.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.foodpandaclone.R;
-import com.example.foodpandaclone.adapters.ViewPagerResActivity;
-import com.example.foodpandaclone.model.RestaurantFirebase;
+import com.example.foodpandaclone.adapter.ViewPagerResActivity;
+import com.example.foodpandaclone.model.Item;
+import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.viewModel.RestaurantActivityViewModel;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.List;
 
 public class Restaurant_Activity extends AppCompatActivity {
 
-    private String titleOfPage; private RestaurantFirebase resObj;
+    private String titleOfPage;
     private TextView res_name,res_location,res_delivery;
     private TabLayout  tabLayout; private ViewPager resItemView;
+    private RestaurantActivityViewModel  mRAVM;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,49 +37,35 @@ public class Restaurant_Activity extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        res_name=findViewById(R.id.res_name);  res_location=findViewById(R.id.res_location); res_delivery=findViewById(R.id.res_delivery);
+        res_name=findViewById(R.id.res_name);
+        res_location=findViewById(R.id.res_location);
+        res_delivery=findViewById(R.id.res_delivery);
         tabLayout=findViewById(R.id.tab_layout);
         resItemView=findViewById(R.id.category_pager);
 
-
-        if(savedInstanceState!=null){
-
-            Log.d("Fetching data resActivity ","from bundle");
-            resObj=(RestaurantFirebase) savedInstanceState.getParcelable("RestaurantSaved");
-        }
-        else{
-
-            Log.d("Fetching data resActivity ","from intent");
-            resObj= (RestaurantFirebase) getIntent().getExtras().get("restaurant");
-        }
-
-        Log.d("Reached restaurant activity","True");
-
-        res_name.setText(resObj.getName()); res_location.setText(resObj.getLocation());
-
-        Log.d("Restaurant name", resObj.getName());
-        //res_delivery not yet implemented
-
-        titleOfPage= resObj.getName();
-        this.setTitle(titleOfPage);
-        this.setTitleColor(R.color.colorPrimary);
-
-        Log.d("Size of 2resViewpager", Integer.toString(resObj.getCategoriesOffered().size()));
-        Log.d("Size of resViewpager", Integer.toString(resObj.getItems().size()));
+        //get data from the viewModel:
+        mRAVM=new ViewModelProvider(this).get(RestaurantActivityViewModel.class);
 
 
-        ViewPagerResActivity  adapter=new ViewPagerResActivity(getSupportFragmentManager(), resObj.getItems(), resObj.getCategoriesOffered());
+        //add a try catch
+        mRAVM.getSingleRestaurantData(getIntent().getExtras().getInt("restaurant")).observe(this, new Observer<Restaurant>() {
+            @Override
+            public void onChanged(Restaurant restaurant) {
 
-        resItemView.setAdapter(adapter);
-        tabLayout.setupWithViewPager(resItemView);
+                res_name.setText(restaurant.getResName()); res_location.setText(restaurant.getLocation()); res_delivery.setText("30 minutes");
+
+                mRAVM.getRestaurantItems(restaurant.getResID()).observe(Restaurant_Activity.this, new Observer<List<Item>>() {
+                    @Override
+                    public void onChanged(List<Item> items) {
+
+                        //set up viewpager
+                        ViewPagerResActivity adapter=new ViewPagerResActivity(getSupportFragmentManager(),items);
+                        resItemView.setAdapter(adapter);
+                        tabLayout.setupWithViewPager(resItemView);
+                    }
+                });
+            }
+        });
 
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable("RestaurantSaved",resObj);
-        super.onSaveInstanceState(outState);
-    }
-
-
 }

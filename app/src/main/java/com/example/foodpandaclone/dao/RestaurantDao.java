@@ -22,4 +22,7 @@ public interface RestaurantDao {
     @Query("DELETE FROM restaurant_table")
     void deleteAllRestaurantFromLocal();
 
+    @Query("SELECT * FROM restaurant_table WHERE id= :id")
+    LiveData<Restaurant> getSingleRestaurant(int id);
+
 }
