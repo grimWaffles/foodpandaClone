@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,6 +44,14 @@ public class LocationAccess extends AppCompatActivity implements View.OnClickLis
 
         mLAVM=new ViewModelProvider(this).get(LocationAccessViewModel.class);
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mLAVM.loadData();
+                Log.d("Firebase data:-","Data loading and inserting");
+            }
+        }).start();
+
         client= LocationServices.getFusedLocationProviderClient(this);
     }
 
@@ -50,12 +59,14 @@ public class LocationAccess extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
 
         if(view.getId()==R.id.use_current_loc){
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_DENIED){
+           /** if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_DENIED){
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},LOCATION_PERMISSION);
             }
             else{
                 doTheVM();
-            }
+            }**/
+
+           startActivity(new Intent(this,MainActivity.class));
         }
     }
 

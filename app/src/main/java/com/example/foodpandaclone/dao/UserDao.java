@@ -18,7 +18,7 @@ public interface UserDao {
     void insertUserToLocal(User user);
 
     @Query("SELECT * FROM user_table")
-    LiveData<List<User>> fetchUserFromLocal();
+    List<User> fetchUserFromLocal();
 
     @Update
     void updateUserLocal(User user);

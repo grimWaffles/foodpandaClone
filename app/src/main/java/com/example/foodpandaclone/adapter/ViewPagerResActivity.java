@@ -36,8 +36,8 @@ public class ViewPagerResActivity extends FragmentPagerAdapter {
 
         for(Item i:items){
 
-            if(i.getCategory().equals(category)){
-                Log.d("Item type",i.getCategory());
+            if(i.getItemType().equals(category)){
+                Log.d("Item type",i.getItemType());
                 itemsToSend.add(i);
                 Log.d("Item added","Yes");
             }
@@ -64,15 +64,17 @@ public class ViewPagerResActivity extends FragmentPagerAdapter {
 
     private void populateItemCategories() {
 
+        itemCategory=new ArrayList<>();
+
         for(int i=0;i<items.size();i++){
 
             if(i==0){
-                itemCategory.add(items.get(i).getCategory());
+                itemCategory.add(items.get(i).getItemType());
             }
 
             else{
-                if(!items.get(i).getCategory().equals(items.get(i-1).getCategory())){
-                    itemCategory.add(items.get(i).getCategory());
+                if(!items.get(i).getItemType().equals(items.get(i-1).getItemType())){
+                    itemCategory.add(items.get(i).getItemType());
                 }
             }
         }

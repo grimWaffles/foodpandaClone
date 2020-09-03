@@ -26,14 +26,14 @@
             android:parentActivityName=".view.activities.MainActivity" />
         <activity android:name=".view.activities.LocationAccess" />
         <activity android:name=".view.activities.LogoPage">
-
-        </activity>
-        <activity android:name=".view.activities.MainActivity" android:label="" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".view.activities.MainActivity" android:label="" >
+
         </activity>
     </application>
 

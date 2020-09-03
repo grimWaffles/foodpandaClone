@@ -16,17 +16,14 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     LiveData<List<Restaurant>> mRestaurantList; private Repository mRepo;
 
-    public MainActivityViewModel(@NonNull Application application) {
+    public MainActivityViewModel(Application application) {
         super(application);
 
         mRepo=new Repository(application);
     }
 
     public LiveData<List<Restaurant>> getTheData() {
-
-        mRestaurantList=mRepo.getRestaurantFromLocal();
-
-        return mRestaurantList;
+        return mRepo.getRestaurantFromLocal();
     }
 
     // TODO: 8/31/2020

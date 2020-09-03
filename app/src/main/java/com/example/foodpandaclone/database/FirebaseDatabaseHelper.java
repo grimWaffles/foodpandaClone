@@ -1,15 +1,12 @@
 package com.example.foodpandaclone.database;
 
 import android.app.Application;
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 
 import com.example.foodpandaclone.dao.ItemDao;
 import com.example.foodpandaclone.dao.RestaurantDao;
-import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.RestaurantFirebase;
@@ -36,12 +33,6 @@ public class FirebaseDatabaseHelper {
         mItemDao=db.itemDao();
     }
 
-    public void insertRestaurantData(RestaurantFirebase restaurant){
-
-        ref=FirebaseDatabase.getInstance().getReference().child("Restaurant").child(Integer.toString(restaurant.getRestaurantID()));
-        ref.setValue(restaurant);
-    }
-
     public void loadRestaurantDataFromFirebase(){
 
         ref=FirebaseDatabase.getInstance().getReference().child("Restaurant");
@@ -54,14 +45,18 @@ public class FirebaseDatabaseHelper {
 
                 for(DataSnapshot snap: snapshot.getChildren()){
 
-                    RestaurantFirebase restaurantFirebase= snap.getValue(RestaurantFirebase.class);
-                    restaurants.add(restaurantFirebase);
+                    RestaurantFirebase rf= snap.getValue(RestaurantFirebase.class);
+                    restaurants.add(rf);
 
                     Log.d("Size of list",Integer.toString(restaurants.size()));
-
-                    insertToLocalDB(restaurantFirebase);
                 }
                 Log.d("Size of list fetched",Integer.toString(restaurants.size()));
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        insertToLocalDB(restaurants);
+                    }
+                }).start();
             }
 
             @Override
@@ -70,15 +65,19 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    private void insertToLocalDB(RestaurantFirebase rf) {
+    private void insertToLocalDB(List<RestaurantFirebase> restaurantFirebaseList) {
 
-        Restaurant restaurant=new Restaurant(rf.getRestaurantID(),rf.getName(),rf.getPhoneNumber(),rf.getLatitude(),rf.getLongitude(),rf.getLocation(),rf.getDeliveryCost(),rf.getDiscount(),rf.getReviews(),rf.getRating());
+        for(RestaurantFirebase rf:restaurantFirebaseList){
 
-        //Insert to Room Database
-        mRestaurantDao.insertRestaurantToLocal(restaurant);
+            Restaurant restaurant=new Restaurant(rf.getRestaurantID(),rf.getName(),rf.getPhoneNumber(),rf.getLatitude(),
+                    rf.getLongitude(),rf.getLocation(),rf.getDeliveryCost(),rf.getDiscount(),rf.getNumberOfReviews(),rf.getRating());
 
-        for (Item item:rf.getItems()){
-            mItemDao.insertItemToLocal(item);
+            //Insert to Room Database
+            mRestaurantDao.insertRestaurantToLocal(restaurant);
+
+            for (Item item:rf.getItems()){
+                mItemDao.insertItemToLocal(item);
+            }
         }
 
     }

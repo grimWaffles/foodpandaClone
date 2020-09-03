@@ -5,11 +5,10 @@ import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "item_table")
-public class Item implements Parcelable{
+public class Item{
 
     @PrimaryKey
     @ColumnInfo(name="id")
@@ -20,8 +19,8 @@ public class Item implements Parcelable{
     private String name;
     @ColumnInfo(name = "description")
     private String description;
-    @ColumnInfo(name = "category")
-    private String category;
+    @ColumnInfo(name = "itemType")
+    private String itemType;
     @ColumnInfo(name = "price")
     private int price;
     @ColumnInfo(name = "quantity")
@@ -30,39 +29,17 @@ public class Item implements Parcelable{
     //check manual for more later on
     //itemCategory matches the one in restaurant and store model classes
 
-    public Item(String name, String description, String category, int price, int quantity) {
+    public Item(String name, String description, String itemType, int price, int quantity) {
         this.name = name;
         this.description = description;
         this.restaurantID = 0;
-        this.category = category;
+        this.itemType = itemType;
         this.price = price;
         this.quantity = quantity;
         this.itemID=0;
     }
 
     public Item(){}
-
-    protected Item(Parcel in) {
-        itemID = in.readInt();
-        name = in.readString();
-        description = in.readString();
-        restaurantID = in.readInt();
-        category = in.readString();
-        price = in.readInt();
-        quantity = in.readInt();
-    }
-
-    public static final Creator<Item> CREATOR = new Creator<Item>() {
-        @Override
-        public Item createFromParcel(Parcel in) {
-            return new Item(in);
-        }
-
-        @Override
-        public Item[] newArray(int size) {
-            return new Item[size];
-        }
-    };
 
     public int getItemID() {
         return itemID;
@@ -96,12 +73,12 @@ public class Item implements Parcelable{
         this.restaurantID = restaurantID;
     }
 
-    public String getCategory() {
-        return category;
+    public String getItemType() {
+        return itemType;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 
     public int getPrice() {
@@ -120,19 +97,4 @@ public class Item implements Parcelable{
         this.quantity = quantity;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(itemID);
-        parcel.writeString(name);
-        parcel.writeString(description);
-        parcel.writeInt(restaurantID);
-        parcel.writeString(category);
-        parcel.writeInt(price);
-        parcel.writeInt(quantity);
-    }
 }

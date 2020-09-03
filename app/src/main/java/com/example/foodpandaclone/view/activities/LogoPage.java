@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,19 +28,16 @@ public class LogoPage extends AppCompatActivity {
         tvName=findViewById(R.id.logo_name);
         pbarMain=findViewById(R.id.progress);
 
-        pbarMain.setVisibility(View.VISIBLE);
-
-        mLPVM=new ViewModelProvider(this).get(LogoPageViewModel.class);
-
-        try {
-
-            Thread.currentThread().wait(3000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         pbarMain.setVisibility(View.GONE);
+
+        mLPVM =new ViewModelProvider(this).get(LogoPageViewModel.class);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mLPVM.clearLocalStorage();
+            }
+        });
 
         Toast.makeText(this, "Update complete", Toast.LENGTH_SHORT).show();
 

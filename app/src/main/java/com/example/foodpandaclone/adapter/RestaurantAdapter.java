@@ -16,6 +16,8 @@ import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.RestaurantFirebase;
 import com.example.foodpandaclone.view.activities.Restaurant_Activity;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
@@ -52,23 +54,24 @@ private List<Restaurant> listOfRestaurants; private int mode;
         TextView shop_rating=cardView.findViewById(R.id.shop_rating);
         TextView numberOfReview=cardView.findViewById(R.id.numberOfReviews);
         TextView delivery_cost=cardView.findViewById(R.id.delivery_cost);
+        TextView address=cardView.findViewById(R.id.address);
 
         //setting the appropriate values:
 
         final Restaurant res= listOfRestaurants.get(i);
 
-        food_img.setImageResource(R.drawable.foodpanda_logo);
+        food_img.setImageResource(R.drawable.foodpanda_logo); Log.d("Size of restaurantList in adapter",Integer.toString(listOfRestaurants.size()));
 
         if(mode==0 && res.getDiscount()!=0){
-            discount.setText(res.getDiscount());
+            discount.setText(Integer.toString(res.getDiscount()) +" Tk");
         }
-        else if(mode==1){
-            discount.setText("");
+        else if(mode==1 && res.getDiscount()==0){
+            discount.setText("No discount");
         }
 
         if(res.getDeliveryCost()!=0){
-            deliveryStatus.setText(res.getDeliveryCost());
-            delivery_cost.setText(res.getDeliveryCost());
+            deliveryStatus.setText(Integer.toString(res.getDeliveryCost())+" Tk");
+            delivery_cost.setText(Integer.toString(res.getDeliveryCost())+" Tk");
         }
         else{
             deliveryStatus.setText("Free Delivery");
@@ -76,8 +79,9 @@ private List<Restaurant> listOfRestaurants; private int mode;
         }
 
         shop_name.setText(res.getResName());
-        numberOfReview.setText("("+ res.getReview()+")");
+        numberOfReview.setText("("+ Integer.toString(res.getReview())+")");
         shop_rating.setText(String.valueOf(res.getRating()));
+        address.setText(res.getLocation());
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override

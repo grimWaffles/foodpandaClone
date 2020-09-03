@@ -32,20 +32,18 @@ public class Repository {
 
     //Functions to get and receive data
     public LiveData<List<Restaurant>> getRestaurantFromLocal(){
-
-        fireDB.loadRestaurantDataFromFirebase();
         return mRestaurantDao.fetchRestaurantFromLocal();
     }
 
     public LiveData<List<Item>> getItemsFromLocal(int resID){ return mItemDao.fetchItemFromLocal(resID); }
 
-    public void insertToFirebase(RestaurantFirebase restaurantFirebase){ fireDB.insertRestaurantData(restaurantFirebase); }
+    //public void insertToFirebase(RestaurantFirebase restaurantFirebase){ fireDB.insertRestaurantData(restaurantFirebase); }
 
     public void getFirebaseData(){ fireDB.loadRestaurantDataFromFirebase(); }
 
     public void clearAllDataLocal(){ mRestaurantDao.deleteAllRestaurantFromLocal(); mItemDao.deleteAllItemFromLocal(); }
 
-    public LiveData<List<User>> getUserListFromLocal(){ return mUserDao.fetchUserFromLocal(); }
+    public List<User> getUserListFromLocal(){ return mUserDao.fetchUserFromLocal(); }
 
     public void insertUserToLocal(User user) {
         mUserDao.insertUserToLocal(user);
