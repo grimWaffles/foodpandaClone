@@ -8,9 +8,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="foodpandaClone"
-        android:roundIcon="@mipmap/foodpanda_logo"
+        android:icon="@mipmap/ic_launcher_panda"
+        android:label="FoodpandaClone"
+        android:roundIcon="@mipmap/ic_launcher_panda"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.activities.CartActivity"></activity>

@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.viewModel.LogoPageViewModel;
 
+import static java.lang.Thread.currentThread;
+
 public class LogoPage extends AppCompatActivity {
 
     private ImageView logo_img; private TextView tvName; private LogoPageViewModel mLPVM; private ProgressBar pbarMain; private boolean statusFire=false;
@@ -38,6 +40,13 @@ public class LogoPage extends AppCompatActivity {
                 mLPVM.clearLocalStorage();
             }
         });
+
+        try{
+            currentThread().wait(5000);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
 
         Toast.makeText(this, "Update complete", Toast.LENGTH_SHORT).show();
 
