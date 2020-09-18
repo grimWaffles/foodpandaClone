@@ -10,6 +10,7 @@ import com.example.foodpandaclone.dao.RestaurantDao;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.RestaurantFirebase;
+import com.example.foodpandaclone.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -80,5 +81,10 @@ public class FirebaseDatabaseHelper {
             }
         }
 
+    }
+
+    public void insertUserToFirebase(User user) {
+        ref=FirebaseDatabase.getInstance().getReference().child("User").child(user.getUserID());
+        ref.setValue(user);
     }
 }

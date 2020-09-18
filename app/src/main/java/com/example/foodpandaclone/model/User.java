@@ -12,14 +12,10 @@ public class User {
     @ColumnInfo(name = "id")
     @NonNull
     private String userID;
-    @ColumnInfo(name = "name")
-    private String name;
     @ColumnInfo(name = "phone")
     private String phone;
     @ColumnInfo(name = "email")
     private String email;
-    @ColumnInfo(name = "address")
-    private String address;
     @ColumnInfo(name = "password")
     private String password;
     @ColumnInfo(name = "type")
@@ -29,21 +25,20 @@ public class User {
     @ColumnInfo(name = "longitude")
     private double longitude;
 
-    public User(String name, String phone, String email, String password, String type) {
-        this.name = name;
-        this.phone = phone;
+    public User(String phone, String email, String password) {
+
         this.email = email;
+        this.phone = phone;
         this.password = password;
 
-        if(!email.equals("null")){
-            this.userID=  this.getUsername(email);
-        }
-        else{
+        if(email.equals("1")){
             this.userID="1";
         }
+        else{
+            this.userID=this.getUsername(email);
+        }
 
-        this.type=type;
-        this.address="";
+        this.type="User";
         this.latitude=0.000000;
         this.longitude=0.000000;
     }
@@ -70,14 +65,6 @@ public class User {
         this.userID = userID;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -92,14 +79,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getPassword() {

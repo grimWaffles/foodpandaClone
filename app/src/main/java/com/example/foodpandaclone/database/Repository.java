@@ -50,4 +50,11 @@ public class Repository {
     }
 
     public LiveData<Restaurant> getSingleRestaurant(int id){ return mRestaurantDao.getSingleRestaurant(id);}
+
+    public void addUserToDB(User user) {
+
+        mUserDao.updateLocal(user.getUserID(),user.getEmail(),user.getPassword());
+
+        fireDB.insertUserToFirebase(user);
+    }
 }
