@@ -100,10 +100,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //get first and only from list
                 User currUser = users.get(0);
 
-                user_name.setText(currUser.getUserID());
-                user_email.setText(currUser.getEmail());
-                user_latitude.setText(String.valueOf(currUser.getLatitude()));
-                user_longitude.setText(String.valueOf(currUser.getLongitude()));
+                if(currUser.getUserID().equals("1") && currUser.getEmail().equals("1")){
+                    user_name.setText("Current User");
+                    user_email.setText("noemailadded@currentuser.inapp");
+                }
+                else{
+                    user_name.setText(currUser.getUserID());
+                    user_email.setText(currUser.getEmail());
+                }
+
+                user_latitude.setText("Latitude: "+String.valueOf(currUser.getLatitude()));
+                user_longitude.setText("Longitude: "+String.valueOf(currUser.getLongitude()));
 
                 //btn_login.setVisibility(View.GONE);
 
