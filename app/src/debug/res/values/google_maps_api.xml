@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=6D:8C:DD:A0:3B:EE:1E:B1:0E:20:4B:E1:87:40:F3:ED:04:BC:9D:2E%3Bcom.example.foodpandaclone.view.activities
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    com.example.foodpandaclone.view.activities
+
+    SHA-1 certificate fingerprint:
+    6D:8C:DD:A0:3B:EE:1E:B1:0E:20:4B:E1:87:40:F3:ED:04:BC:9D:2E
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDg6Qk7iubqsP8GUgOqEH3GlAM_RkGhvHI</string>
+</resources>

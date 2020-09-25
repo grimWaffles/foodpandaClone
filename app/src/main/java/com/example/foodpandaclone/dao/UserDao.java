@@ -18,11 +18,17 @@ public interface UserDao {
     void insertUserToLocal(User user);
 
     @Query("SELECT * FROM user_table")
-    List<User> fetchUserFromLocal();
+    LiveData<List<User>> fetchUserFromLocal();
+
+    @Query("SELECT * FROM user_table")
+    List<User> getCurrentUserFromLocal();
 
     @Query("UPDATE user_table SET id=:id, email=:email,password=:password WHERE id=1")
     void updateLocal(String id, String email,String password);
 
-    @Query("UPDATE user_table SET latitude=:latitude,longitude=:longitude  WHERE id=1")
+    @Query("UPDATE user_table SET latitude=:latitude,longitude=:longitude")
     void updateLocalUserLocation(double latitude,double longitude);
+
+    @Query("DELETE  FROM user_table")
+    void deleteLocalUser();
 }

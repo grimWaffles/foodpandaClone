@@ -8,6 +8,7 @@
     <string name="delivery_tab">Delivery</string>
     <string name="pickup_tab">Pickup</string>
     <string name="store_tab">Stores</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

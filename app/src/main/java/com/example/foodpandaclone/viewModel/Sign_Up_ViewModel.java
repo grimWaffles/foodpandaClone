@@ -23,5 +23,6 @@ public class Sign_Up_ViewModel extends AndroidViewModel {
     public void addUserToDB(User user) {
 
         mRepo.addUserToDB(user);
+
     }
 }

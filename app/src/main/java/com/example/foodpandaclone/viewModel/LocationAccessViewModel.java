@@ -31,21 +31,7 @@ public class LocationAccessViewModel extends AndroidViewModel {
     public void updateLocalUser(Location location){
 
         try{
-            List<User> mUserList= mRepo.getUserListFromLocal();
-
-            if(mUserList==null){
-                User user=new User("Current user","null","null","null","User");
-                user.setLatitude(location.getLatitude());
-                user.setLongitude(location.getLongitude());
-
-                mRepo.insertUserToLocal(user);
-            }
-            else{
-                User user=mUserList.get(0);
-                user.setLatitude(location.getLatitude()); user.setLongitude(location.getLongitude());
-
-                mRepo.insertUserToLocal(user);
-            }
+           mRepo.updateLocalUserLocation(location);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -55,5 +41,21 @@ public class LocationAccessViewModel extends AndroidViewModel {
     public void loadData() {
 
         mRepo.getFirebaseData();
+    }
+
+    public void insertBlankUserToLocal(){
+
+        User user=new User("1","1","1");
+
+        mRepo.insertUserToLocal(user);
+    }
+    public boolean noCurrentUserExists(){
+
+        if(mRepo.getLocalUser().size()==0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

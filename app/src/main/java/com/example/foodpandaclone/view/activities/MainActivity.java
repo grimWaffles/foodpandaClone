@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.viewModel.MainActivityViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +20,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodpandaclone.R;
@@ -24,9 +30,12 @@ import com.example.foodpandaclone.adapter.ViewPagerMainActivity;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
     DrawerLayout drawerLayout; private MainActivityViewModel mMAVM; private ViewPager sectionPager; private TabLayout tabLayout;
+    Button btn_login; View navView;
+    TextView user_email,user_name,user_latitude,user_longitude;
+    final int LOGIN_ACTIVITY=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView=findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //navHeader Items
+        navView=navigationView.getHeaderView(0);
+
+        btn_login=(Button) navView.findViewById(R.id.login_main);
+        btn_login.setOnClickListener(this);
+
+        user_email=(TextView) navView.findViewById(R.id.useremail_main); user_name=(TextView)navView.findViewById(R.id.username_main);
+        user_latitude=(TextView) navView.findViewById(R.id.userlatitude);
+        user_longitude=(TextView) navView.findViewById(R.id.userlongitude);
+
         //Initialized ViewPager and the tabView:
 
         mMAVM.getTheData().observe(this, new Observer<List<Restaurant>>() {
@@ -74,6 +93,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //todo
         //get  user name and populate nav header
 
+        mMAVM.getCurrentUser().observe(MainActivity.this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+
+                //get first and only from list
+                User currUser = users.get(0);
+
+                user_name.setText(currUser.getUserID());
+                user_email.setText(currUser.getEmail());
+                user_latitude.setText(String.valueOf(currUser.getLatitude()));
+                user_longitude.setText(String.valueOf(currUser.getLongitude()));
+
+                //btn_login.setVisibility(View.GONE);
+
+                //fetch this user's orders from firebase in new thread
+                //todo
+            }
+        });
     }
 
     //toolbar methods
@@ -95,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
-
 
     //NavDrawer back button toggle
     @Override
@@ -153,4 +189,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId()==btn_login.getId()){
+            startActivityForResult(new Intent(this,Login.class),LOGIN_ACTIVITY);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==LOGIN_ACTIVITY){
+            if(resultCode==RESULT_OK){
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

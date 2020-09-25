@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.foodpandaclone.database.Repository;
 import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.model.User;
 
 import java.util.List;
 
@@ -26,6 +27,5 @@ public class MainActivityViewModel extends AndroidViewModel {
         return mRepo.getRestaurantFromLocal();
     }
 
-    // TODO: 8/31/2020
-    //Update the ViewPager adapter
+    public LiveData<List<User>> getCurrentUser(){ return mRepo.getUserListFromLocal();}
 }

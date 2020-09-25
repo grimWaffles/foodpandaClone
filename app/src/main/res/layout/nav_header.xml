@@ -6,13 +6,53 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/email_tv"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
+            android:id="@+id/username_main"
+            android:layout_marginStart="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:text="Current User"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/useremail_main"
+            android:layout_margin="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:text="noemail@foodpandaclone.com"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/userlatitude"
+            android:layout_margin="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:text="0.000000"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/userlongitude"
+            android:layout_margin="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:text="0.000000"
+            />
+
+        <Button
+            android:id="@+id/login_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
             android:text="Login/ Signup"
             android:layout_marginLeft="4dp"
             android:textSize="12sp"
