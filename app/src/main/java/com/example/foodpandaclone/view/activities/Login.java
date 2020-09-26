@@ -39,7 +39,7 @@ public class Login extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        this.setTitle("Log In");
+        this.setTitle("Log In Here");
 
         btn_gotosignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,8 +56,6 @@ public class Login extends AppCompatActivity {
                if(!user_email.getText().toString().isEmpty() && !user_password.getText().toString().isEmpty()){
                    setResult(RESULT_OK,new Intent());
                    finish();
-                   /// TODO: 26-Sep-20
-                   
                }
 
                else{
