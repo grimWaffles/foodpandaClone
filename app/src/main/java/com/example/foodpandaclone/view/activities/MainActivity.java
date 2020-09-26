@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 if(currUser.getUserID().equals("1") && currUser.getEmail().equals("1")){
                     user_name.setText("Current User");
-                    user_email.setText("noemailadded@currentuser.inapp");
+                    user_email.setText("noemailadded@currentuser.app");
                 }
                 else{
                     user_name.setText(currUser.getUserID());
