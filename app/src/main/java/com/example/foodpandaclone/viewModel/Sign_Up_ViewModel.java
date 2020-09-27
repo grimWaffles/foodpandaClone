@@ -20,9 +20,9 @@ public class Sign_Up_ViewModel extends AndroidViewModel {
     }
 
 
-    public void addUserToDB(User user) {
+    public void addUserToFirebase(User user) {
 
-        mRepo.addUserToDB(user);
+        mRepo.insertCurrentUserToFirebase(user);
 
     }
 }

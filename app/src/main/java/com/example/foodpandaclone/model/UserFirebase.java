@@ -1,53 +1,18 @@
 package com.example.foodpandaclone.model;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+public class UserFirebase {
 
-@Entity(tableName = "user_table")
-public class User {
-
-    @PrimaryKey
-    @ColumnInfo(name = "id")
-    @NonNull
-    private int userID;
-    @ColumnInfo(name = "phone")
-    private int phone;
-    @ColumnInfo(name = "email")
+    private String userID;
+    private String phone;
     private String email;
-    @ColumnInfo(name = "password")
     private String password;
-    @ColumnInfo(name = "type")
     private String type;
-    @ColumnInfo(name = "latitude")
     private double latitude;
-    @ColumnInfo(name = "longitude")
     private double longitude;
 
-    public User(String email,int phone, String password) {
-
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-
-        if(email.equals("1")){
-            this.userID=1;
-        }
-
-        else{
-            this.userID=phone;
-        }
-
-        this.type="User";
-        this.latitude=0.000000;
-        this.longitude=0.000000;
-    }
-
-    public User(){
+    public UserFirebase(){
 
     }
-
 
     public String getUsername(String email){
         int i=email.indexOf('@');
@@ -55,20 +20,19 @@ public class User {
         return email.substring(0,i);
     }
 
-
-    public int getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -95,6 +59,7 @@ public class User {
     public void setType(String type) {
         this.type = type;
     }
+
     public double getLatitude() {
         return latitude;
     }

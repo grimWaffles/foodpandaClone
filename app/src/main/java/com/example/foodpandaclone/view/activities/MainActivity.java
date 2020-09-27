@@ -100,13 +100,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //get first and only from list
                 User currUser = users.get(0);
 
-                if(currUser.getUserID().equals("1") && currUser.getEmail().equals("1")){
+                if(currUser.getUserID()==1 && currUser.getEmail().equals("1")){
                     user_name.setText("Current User");
                     user_email.setText("noemailadded@currentuser.app");
                 }
                 else{
-                    user_name.setText(currUser.getUserID());
+                    user_name.setText(currUser.getUsername(currUser.getEmail()));
                     user_email.setText(currUser.getEmail());
+                    btn_login.setVisibility(View.GONE);
                 }
 
                 user_latitude.setText("Latitude: "+String.valueOf(currUser.getLatitude()));
@@ -114,8 +115,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 //btn_login.setVisibility(View.GONE);
 
-                //fetch this user's orders from firebase in new thread
-                //todo
             }
         });
     }

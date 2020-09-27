@@ -45,7 +45,7 @@ public class LocationAccessViewModel extends AndroidViewModel {
 
     public void insertBlankUserToLocal(){
 
-        User user=new User("1","1","1");
+        User user=new User("1",1,"1");
 
         mRepo.insertUserToLocal(user);
     }

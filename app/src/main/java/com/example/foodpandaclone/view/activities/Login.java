@@ -4,31 +4,40 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.foodpandaclone.R;
+import com.example.foodpandaclone.model.User;
+import com.example.foodpandaclone.viewModel.LoginViewModel;
+
+import java.util.List;
 
 public class Login extends AppCompatActivity {
 
-    EditText user_email,user_password;
+    EditText user_phone,user_password;
 
-    Button btn_login,btn_gotosignup;
+    Button btn_login,btn_gotosignup; ProgressBar pbmain;
 
     Toolbar toolbar;
     final int SIGN_UP_ACTIVITY=2;
+
+    LoginViewModel loginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        user_email=findViewById(R.id.user_email);
+        user_phone =findViewById(R.id.user_email);
         user_password=findViewById(R.id.user_password);
         btn_login =findViewById(R.id.btn_login);
         btn_gotosignup=findViewById(R.id.btn_gotosignup);
@@ -40,6 +49,14 @@ public class Login extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         this.setTitle("Log In Here");
+
+        pbmain=findViewById(R.id.pbmain);
+        pbmain.setVisibility(View.GONE);
+
+        user_phone.setText("01735152770");
+        user_password.setText("suckadick");
+
+        loginViewModel=new ViewModelProvider(this).get(LoginViewModel.class);
 
         btn_gotosignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,13 +70,29 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-               if(!user_email.getText().toString().isEmpty() && !user_password.getText().toString().isEmpty()){
-                   setResult(RESULT_OK,new Intent());
-                   finish();
+               if(!user_phone.getText().toString().isEmpty() && !user_password.getText().toString().isEmpty()){
+
+                   loginViewModel.loginUser(user_phone.getText().toString(),user_password.getText().toString()).observe(Login.this, new Observer<List<User>>() {
+                       @Override
+                       public void onChanged(List<User> users) {
+
+                           if(users.get(0).getUserID()==1){
+                               pbmain.setVisibility(View.VISIBLE);
+                           }
+                           else{
+                               pbmain.setVisibility(View.GONE);
+                               Toast.makeText(Login.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+                               setResult(RESULT_OK,new Intent());
+                               finish();
+                           }
+
+                       }
+                   });
+
                }
 
                else{
-                   Toast.makeText(Login.this, "Fields are empty!", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(Login.this, "Login failed bruh", Toast.LENGTH_SHORT).show();
                }
             }
         });
@@ -73,7 +106,7 @@ public class Login extends AppCompatActivity {
         if(resultCode==SIGN_UP_ACTIVITY){
             if(resultCode==RESULT_OK){
                 Toast.makeText(this, "Sign up  successful", Toast.LENGTH_SHORT).show();
-                user_email.setText(data.getStringExtra("email"));
+                user_phone.setText(data.getStringExtra("email"));
                 user_password.setText(data.getStringExtra("password"));
             }
             else{

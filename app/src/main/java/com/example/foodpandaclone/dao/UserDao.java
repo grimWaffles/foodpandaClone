@@ -23,8 +23,8 @@ public interface UserDao {
     @Query("SELECT * FROM user_table")
     List<User> getCurrentUserFromLocal();
 
-    @Query("UPDATE user_table SET id=:id, email=:email,password=:password WHERE id=1")
-    void updateLocal(String id, String email,String password);
+    @Query("UPDATE user_table SET id=:id, email=:email,password=:password,phone=:phone,type=:type WHERE id=1")
+    void updateLocalUserData(int id, String email, String password, int phone, String type);
 
     @Query("UPDATE user_table SET latitude=:latitude,longitude=:longitude")
     void updateLocalUserLocation(double latitude,double longitude);

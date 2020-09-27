@@ -10,7 +10,6 @@ import com.example.foodpandaclone.dao.RestaurantDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Restaurant;
-import com.example.foodpandaclone.model.RestaurantFirebase;
 import com.example.foodpandaclone.model.User;
 
 import java.util.List;
@@ -42,7 +41,7 @@ public class Repository {
 
     public void getFirebaseData(){ fireDB.loadRestaurantDataFromFirebase(); }
 
-    public void clearAllDataLocal(){ mRestaurantDao.deleteAllRestaurantFromLocal(); mItemDao.deleteAllItemFromLocal(); mUserDao.deleteLocalUser(); }
+    public void clearAllDataLocal(){ mRestaurantDao.deleteAllRestaurantFromLocal(); mItemDao.deleteAllItemFromLocal(); }
 
     public LiveData<List<User>> getUserListFromLocal(){ return mUserDao.fetchUserFromLocal(); }
 
@@ -52,13 +51,8 @@ public class Repository {
 
     public LiveData<Restaurant> getSingleRestaurant(int id){ return mRestaurantDao.getSingleRestaurant(id);}
 
-    public void addUserToDB(User user) {
-
-        mUserDao.updateLocal(user.getUserID(),user.getEmail(),user.getPassword());
-
-        List<User> curUser=mUserDao.getCurrentUserFromLocal();
-
-        fireDB.insertUserToFirebase(curUser.get(0));
+    public void updateLocalUser(User user) {
+        mUserDao.updateLocalUserData(user.getUserID(),user.getEmail(),user.getPassword(),user.getPhone(),user.getType());
     }
 
     public void updateLocalUserLocation(Location location) {
@@ -66,4 +60,16 @@ public class Repository {
     }
 
     public List<User> getLocalUser() { return mUserDao.getCurrentUserFromLocal();}
+
+    public LiveData<List<User>> getUserListFromFirebase(String phone, String password) {
+
+        fireDB.getUserDataFromFirebase(phone,password);
+
+        return getUserListFromLocal();
+    }
+
+    public void insertCurrentUserToFirebase(User user){
+
+        fireDB.insertUserToFirebase(user);
+    }
 }
