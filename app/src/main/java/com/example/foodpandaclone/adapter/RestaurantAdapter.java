@@ -60,7 +60,7 @@ private List<Restaurant> listOfRestaurants; private int mode;
 
         final Restaurant res= listOfRestaurants.get(i);
 
-        food_img.setImageResource(R.drawable.foodpanda_logo); Log.d("Size of restaurantList in adapter",Integer.toString(listOfRestaurants.size()));
+         Log.d("Size of restaurantList in adapter",Integer.toString(listOfRestaurants.size()));
 
         if(mode==0 && res.getDiscount()!=0){
             discount.setText(Integer.toString(res.getDiscount()) +" Tk");
@@ -82,6 +82,13 @@ private List<Restaurant> listOfRestaurants; private int mode;
         numberOfReview.setText("("+ Integer.toString(res.getReview())+")");
         shop_rating.setText(String.valueOf(res.getRating()));
         address.setText(res.getLocation());
+
+        if(res.getResName().equals("Shumi's Hot Cake")){
+            food_img.setImageResource(R.drawable.hotcakepic);
+        }
+        else {
+            food_img.setImageResource(R.drawable.biryanipic);
+        }
 
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override

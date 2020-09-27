@@ -6,6 +6,8 @@ import android.location.Location;
 import androidx.lifecycle.LiveData;
 
 import com.example.foodpandaclone.dao.ItemDao;
+import com.example.foodpandaclone.dao.OrderDao;
+import com.example.foodpandaclone.dao.OrderItemDao;
 import com.example.foodpandaclone.dao.RestaurantDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
@@ -17,7 +19,7 @@ import java.util.List;
 public class Repository {
 
     private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private LocalDatabaseHelper db; private UserDao mUserDao;
-    private FirebaseDatabaseHelper fireDB;
+    private FirebaseDatabaseHelper fireDB; private OrderDao mOrderDao; private OrderItemDao mOrderItemDao;
 
     public Repository(Application application){
 
@@ -26,6 +28,8 @@ public class Repository {
         mRestaurantDao=db.restaurantDao();
         mItemDao=db.itemDao();
         mUserDao=db.userDao();
+        mOrderItemDao=db.orderItemDao();
+        mOrderDao=db.orderDao();
 
         fireDB=new FirebaseDatabaseHelper(application);
     }
