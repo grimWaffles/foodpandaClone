@@ -48,6 +48,7 @@ public class RestaurantItemAdapter extends RecyclerView.Adapter<RestaurantItemAd
         TextView item_name=cardView.findViewById(R.id.item_name);
         TextView item_price=cardView.findViewById(R.id.item_price);
         TextView item_description=cardView.findViewById(R.id.item_description);
+        TextView item_quantity=cardView.findViewById(R.id.item_quanitity);
 
         //set values
 
@@ -58,6 +59,8 @@ public class RestaurantItemAdapter extends RecyclerView.Adapter<RestaurantItemAd
         item_description.setText(singleitem.getDescription());
 
         item_price.setText(Integer.toString(singleitem.getPrice()));
+
+        item_quantity.setText(Integer.toString(singleitem.getQuantity()));
 
         //onClick functionality
         cardView.setOnClickListener(new View.OnClickListener() {

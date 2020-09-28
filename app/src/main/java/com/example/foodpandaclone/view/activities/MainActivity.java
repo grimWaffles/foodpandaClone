@@ -113,8 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 user_latitude.setText("Latitude: "+String.valueOf(currUser.getLatitude()));
                 user_longitude.setText("Longitude: "+String.valueOf(currUser.getLongitude()));
 
-                //btn_login.setVisibility(View.GONE);
-
             }
         });
     }
@@ -130,9 +128,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected( MenuItem item) {
 
         switch(item.getItemId()){
+
             case R.id.my_cart:
-                Toast.makeText(this, "Functionality not added yet", Toast.LENGTH_SHORT).show();
-                return super.onOptionsItemSelected(item);
+               startActivity(new Intent(MainActivity.this,MyCart.class));
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

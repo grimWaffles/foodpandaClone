@@ -38,7 +38,7 @@ public class Delivery_Fragment extends Fragment {
         final View rootView= inflater.inflate(R.layout.fragment_delivery_,container,false);
 
         //initializing the recycler views
-        panda_favorites=rootView.findViewById(R.id.panda_favorites);
+        //panda_favorites=rootView.findViewById(R.id.panda_favorites);
 
         treat_hobe=rootView.findViewById(R.id.treat_hobe);
         all_restaurants=rootView.findViewById(R.id.all_restaurants);
@@ -59,12 +59,12 @@ public class Delivery_Fragment extends Fragment {
         //onClick functionality and layout managers
         treat_hobe.setLayoutManager(linearLayoutManager);  all_restaurants.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        panda_favorites.setOnClickListener(new View.OnClickListener() {
+       /** panda_favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(),"Card functions not implemented yet",Toast.LENGTH_LONG).show();
             }
-        });
+        });**/
 
         return rootView;
     }

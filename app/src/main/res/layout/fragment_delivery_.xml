@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -28,14 +28,14 @@
             <include
                 layout="@layout/card_fd"
                 android:id="@+id/panda_favorites"
-                />
+                />-->
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:text="Treat Hobe!"
-
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 />
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:text="All Restaurants"
-
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 />

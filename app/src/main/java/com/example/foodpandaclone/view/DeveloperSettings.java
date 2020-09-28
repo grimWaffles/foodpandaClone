@@ -81,7 +81,7 @@ public class DeveloperSettings extends AppCompatActivity implements View.OnClick
             case R.id.add_item:
 
                 item=new Item(itemName.getText().toString(),description.getText().toString(),itemType.getText().toString(),
-                        Integer.parseInt(price.getText().toString()),Integer.parseInt(quantity.getText().toString()));
+                        Integer.parseInt(price.getText().toString()));
 
                 itemList.add(item); categories.add(itemType.getText().toString());
 

@@ -12,14 +12,33 @@
         android:orientation="vertical"
         >
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/item_name"
-            android:text="Kacchi Bhai"
-            android:layout_marginTop="5dp"
-            android:textColor="@android:color/black"
-            />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_name"
+                android:text="Kacchi Bhai"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                />
+
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_quanitity"
+                android:text="5"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginLeft="200dp"/>
+
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"

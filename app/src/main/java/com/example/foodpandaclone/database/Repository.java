@@ -11,6 +11,7 @@ import com.example.foodpandaclone.dao.OrderItemDao;
 import com.example.foodpandaclone.dao.RestaurantDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
+import com.example.foodpandaclone.model.OrderItem;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.User;
 
@@ -34,14 +35,9 @@ public class Repository {
         fireDB=new FirebaseDatabaseHelper(application);
     }
 
-    //Functions to get and receive data
-    public LiveData<List<Restaurant>> getRestaurantFromLocal(){
-        return mRestaurantDao.fetchRestaurantFromLocal();
-    }
+    public LiveData<List<Restaurant>> getRestaurantFromLocal(){ return mRestaurantDao.fetchRestaurantFromLocal(); }
 
     public LiveData<List<Item>> getItemsFromLocal(int resID){ return mItemDao.fetchItemFromLocal(resID); }
-
-    //public void insertToFirebase(RestaurantFirebase restaurantFirebase){ fireDB.insertRestaurantData(restaurantFirebase); }
 
     public void getFirebaseData(){ fireDB.loadRestaurantDataFromFirebase(); }
 
@@ -49,31 +45,38 @@ public class Repository {
 
     public LiveData<List<User>> getUserListFromLocal(){ return mUserDao.fetchUserFromLocal(); }
 
-    public void insertUserToLocal(User user) {
-        mUserDao.insertUserToLocal(user);
-    }
+    public void insertUserToLocal(User user) { mUserDao.insertUserToLocal(user); }
 
     public LiveData<Restaurant> getSingleRestaurant(int id){ return mRestaurantDao.getSingleRestaurant(id);}
 
-    public void updateLocalUser(User user) {
-        mUserDao.updateLocalUserData(user.getUserID(),user.getEmail(),user.getPassword(),user.getPhone(),user.getType());
-    }
+    public void updateLocalUser(User user) { mUserDao.updateLocalUserData(user.getUserID(),user.getEmail(),user.getPassword(),user.getPhone(),user.getType()); }
 
-    public void updateLocalUserLocation(Location location) {
-        mUserDao.updateLocalUserLocation(location.getLatitude(),location.getLongitude());
-    }
+    public void updateLocalUserLocation(Location location) { mUserDao.updateLocalUserLocation(location.getLatitude(),location.getLongitude()); }
 
     public List<User> getLocalUser() { return mUserDao.getCurrentUserFromLocal();}
 
-    public LiveData<List<User>> getUserListFromFirebase(String phone, String password) {
-
-        fireDB.getUserDataFromFirebase(phone,password);
-
+    public LiveData<List<User>> getUserListFromFirebase(String phone, String password) { fireDB.getUserDataFromFirebase(phone,password);
         return getUserListFromLocal();
     }
 
-    public void insertCurrentUserToFirebase(User user){
+    public void insertCurrentUserToFirebase(User user){ fireDB.insertUserToFirebase(user); }
 
-        fireDB.insertUserToFirebase(user);
+    public void increaseItemQuantity(int itemID, int restaurantID) {
+
+        mItemDao.increaseItemQuantity(itemID,restaurantID);
     }
+    public void decreaseItemQuantity(int itemID, int restaurantID) {
+
+        mItemDao.decreaseItemQuantity(itemID,restaurantID);
+    }
+
+    public LiveData<List<Item>> getOrderItemsFromLocal() {
+
+        return mItemDao.getCartItemsFromLocal();
+    }
+/**
+    public LiveData<List<OrderItem>> getOrderItemsFromLocal() {
+        // TODO: 27-Sep-20
+
+    }**/
 }

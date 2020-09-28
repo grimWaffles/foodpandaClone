@@ -29,13 +29,13 @@ public class Item{
     //check manual for more later on
     //itemCategory matches the one in restaurant and store model classes
 
-    public Item(String name, String description, String itemType, int price, int quantity) {
+    public Item(String name, String description, String itemType, int price) {
         this.name = name;
         this.description = description;
         this.restaurantID = 0;
         this.itemType = itemType;
         this.price = price;
-        this.quantity = quantity;
+        this.quantity = 0;
         this.itemID=0;
     }
 
