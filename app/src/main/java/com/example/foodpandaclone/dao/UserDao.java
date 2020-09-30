@@ -31,4 +31,7 @@ public interface UserDao {
 
     @Query("DELETE  FROM user_table")
     void deleteLocalUser();
+
+    @Query("UPDATE user_table SET id=1, email=1,password=1,phone=1,type='user'")
+    void logoutCurrent();
 }

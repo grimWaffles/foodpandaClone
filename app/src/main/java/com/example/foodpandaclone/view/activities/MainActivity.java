@@ -33,7 +33,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
     DrawerLayout drawerLayout; private MainActivityViewModel mMAVM; private ViewPager sectionPager; private TabLayout tabLayout;
-    Button btn_login; View navView;
+    Button btn_login,btn_logout; View navView;
     TextView user_email,user_name,user_latitude,user_longitude;
     final int LOGIN_ACTIVITY=1;
 
@@ -73,6 +73,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btn_login=(Button) navView.findViewById(R.id.login_main);
         btn_login.setOnClickListener(this);
 
+
+        btn_logout=(Button) navView.findViewById(R.id.logout_main);
+        btn_logout.setOnClickListener(this);
+        btn_logout.setVisibility(View.GONE);
+
         user_email=(TextView) navView.findViewById(R.id.useremail_main); user_name=(TextView)navView.findViewById(R.id.username_main);
         user_latitude=(TextView) navView.findViewById(R.id.userlatitude);
         user_longitude=(TextView) navView.findViewById(R.id.userlongitude);
@@ -108,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user_name.setText(currUser.getUsername(currUser.getEmail()));
                     user_email.setText(currUser.getEmail());
                     btn_login.setVisibility(View.GONE);
+                    btn_logout.setVisibility(View.VISIBLE);
                 }
 
                 user_latitude.setText("Latitude: "+String.valueOf(currUser.getLatitude()));
@@ -158,36 +164,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent;
 
         switch(menuItem.getItemId()){
-            case R.id.my_orders:
-                intent=new Intent(this, AppSettings.class);
+            /**case R.id.my_orders:
+              intent=new Intent(this, ActiveOrder.class);
                 intent.putExtra("message","Clicked my_orders");
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return  true;
+                return  true;**/
 
-            case R.id.help:
-                intent=new Intent(this,AppSettings.class);
-                intent.putExtra("message","Clicked help");
-                startActivity(intent);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return  true;
-
-            case R.id.settings:
-                intent=new Intent(this,AppSettings.class);
-                intent.putExtra("message","Clicked settings");
-                startActivity(intent);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return  true;
-
-            case R.id.terms_and_conditions:
-                intent=new Intent(this,AppSettings.class);
-                intent.putExtra("message","Clicked T&C");
-                startActivity(intent);
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return  true;
-
-            case R.id.dev_options:
-                intent=new Intent(this, DeveloperSettings.class);
+            case R.id.mapsOrder:
+                intent=new Intent(this, ActiveOrder.class);
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return  true;
@@ -199,7 +184,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View v) {
 
         if(v.getId()==btn_login.getId()){
-            startActivityForResult(new Intent(this,Login.class),LOGIN_ACTIVITY);
+            startActivityForResult(new Intent(this,Login.class),LOGIN_ACTIVITY);return;
+
+        }
+        if(v.getId()==btn_logout.getId()){
+            mMAVM.logoutCurrentUser();
+            Toast.makeText(this, "Logging out", Toast.LENGTH_LONG).show();
+            btn_logout.setVisibility(View.GONE);
+            btn_login.setVisibility(View.VISIBLE);
         }
     }
 

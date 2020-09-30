@@ -7,24 +7,26 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.foodpandaclone.database.Repository;
+import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.User;
 
 import java.util.List;
 
-public class LoginViewModel  extends AndroidViewModel {
+public class ActiveOrderViewModel extends AndroidViewModel {
 
-    Repository mRepo;User user;
+    private Repository mRepo;
 
-    public LoginViewModel(@NonNull Application application) {
+    public ActiveOrderViewModel(@NonNull Application application) {
         super(application);
-
         mRepo=new Repository(application);
-        user=new User();
     }
 
+    public LiveData<List<User>> getCurrentUser() {
 
-    public LiveData<List<User>> loginUser(int phone, String password){
+        return mRepo.getUserListFromLocal();
+    }
 
-        return mRepo.getUserListFromFirebase(phone,password);
+    public LiveData<List<Order>> getCurrentOrders() {
+        return mRepo.getOrderlist();
     }
 }

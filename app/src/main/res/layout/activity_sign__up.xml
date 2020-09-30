@@ -44,15 +44,29 @@
         app:layout_constraintTop_toBottomOf="@id/user_email"
         app:layout_constraintStart_toStartOf="parent"
         />
-    <EditText
-        android:layout_width="match_parent"
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/user_phone"
+        android:id="@+id/place_holder"
+        android:text="+880"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
         android:layout_margin="10dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_phone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/user_phone"
+        app:layout_constraintTop_toBottomOf="@id/tv_phone"
         />
+
+    <EditText
+        android:id="@+id/user_phone"
+        android:layout_width="325dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/place_holder"
+        app:layout_constraintTop_toBottomOf="@id/tv_phone" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -69,6 +83,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/user_password"
         android:layout_margin="10dp"
+        android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@id/tv_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

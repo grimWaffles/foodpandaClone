@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface OrderDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOrderToLocal(Order order);
 
     @Query("SELECT * FROM order_table")

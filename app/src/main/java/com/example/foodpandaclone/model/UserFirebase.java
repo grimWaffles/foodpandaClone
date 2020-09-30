@@ -2,8 +2,8 @@ package com.example.foodpandaclone.model;
 
 public class UserFirebase {
 
-    private String userID;
-    private String phone;
+    private int userID;
+    private int phone;
     private String email;
     private String password;
     private String type;
@@ -20,19 +20,19 @@ public class UserFirebase {
         return email.substring(0,i);
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
 
-    public String getPhone() {
+    public int getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(int phone) {
         this.phone = phone;
     }
 

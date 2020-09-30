@@ -10,13 +10,23 @@ public class OrderFirebase {
     String senderID;
     List<Item> orderItems;
     Date date;
+    String status;
 
-    public OrderFirebase(String orderID, String userID, String senderID, List<Item> orderItems, Date date) {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public OrderFirebase(String orderID, String userID, String senderID, List<Item> orderItems, Date date, String status) {
         this.orderID = orderID;
         this.userID = userID;
         this.senderID = senderID;
         this.orderItems = orderItems;
         this.date = date;
+        this.status=status;
     }
     public OrderFirebase(){
 

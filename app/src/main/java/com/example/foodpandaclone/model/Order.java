@@ -17,14 +17,25 @@ public class Order {
     private int userID;
     @ColumnInfo(name="senderid")
     private int senderID;
+    @ColumnInfo(name = "status")
+    private String status;
     @ColumnInfo(name = "date")
     private String date;
 
-    public Order(int orderID, int userID, int senderID, String date) {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Order(int orderID, int userID, int senderID, String date, String status) {
         this.orderID = orderID;
         this.userID = userID;
         this.senderID = senderID;
         this.date = date;
+        this.status="pending";
     }
     public Order(){
 

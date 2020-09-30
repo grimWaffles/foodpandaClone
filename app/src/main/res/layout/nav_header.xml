@@ -48,18 +48,37 @@
             android:text="0.000000"
             />
 
-        <Button
-            android:id="@+id/login_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|bottom"
-            android:text="Login/ Signup"
-            android:layout_marginLeft="4dp"
-            android:textSize="12sp"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@color/colorAccent"
-            style="?android:attr/borderlessButtonStyle"
-            />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal">
+
+           <Button
+               android:id="@+id/login_main"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="start|bottom"
+               android:text="Login/ Signup"
+               android:layout_marginLeft="4dp"
+               android:textSize="12sp"
+               android:textColor="@android:color/white"
+               android:backgroundTint="@color/colorAccent"
+               style="?android:attr/borderlessButtonStyle"
+               />
+
+           <Button
+               android:id="@+id/logout_main"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Logout"
+               android:layout_marginLeft="70dp"
+               android:textSize="12sp"
+               android:textColor="@android:color/white"
+               android:backgroundTint="@color/colorAccent"
+               style="?android:attr/borderlessButtonStyle"
+               />
+
+       </LinearLayout>
 
     </LinearLayout>
 

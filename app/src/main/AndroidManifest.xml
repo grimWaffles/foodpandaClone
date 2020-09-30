@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.foodpandaclone">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -17,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_panda"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activities.MyCart" android:parentActivityName=".view.activities.MainActivity"></activity>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -31,6 +32,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".view.activities.ActiveOrder"
+            android:label="@string/title_activity_active_order" android:parentActivityName=".view.activities.MainActivity"></activity>
+        <activity
+            android:name=".view.activities.MyCart"
+            android:parentActivityName=".view.activities.MainActivity" />
+        <activity
             android:name=".view.activities.Sign_Up"
             android:parentActivityName=".view.activities.Login" />
         <activity
@@ -40,10 +47,6 @@
             android:name=".view.activities.Restaurant_Activity"
             android:parentActivityName=".view.activities.MainActivity" />
         <activity android:name=".view.activities.DeveloperSettings" />
-        <activity
-            android:name=".view.activities.AppSettings"
-            android:label="Settings"
-            android:parentActivityName=".view.activities.MainActivity" />
         <activity android:name=".view.activities.LocationAccess" />
         <activity android:name=".view.activities.LogoPage">
             <intent-filter>

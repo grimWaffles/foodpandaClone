@@ -9,8 +9,8 @@ import androidx.lifecycle.LiveData;
 import com.example.foodpandaclone.database.Repository;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Order;
-import com.example.foodpandaclone.model.OrderItem;
 import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.model.User;
 
 import java.util.List;
 
@@ -36,5 +36,13 @@ public class MyCartViewModel extends AndroidViewModel {
 
     public LiveData<List<Restaurant>> getRestaurantData() {
         return mRepo.getRestaurantFromLocal();
+    }
+
+    public LiveData<List<User>> getCurrentUser() {
+        return mRepo.getUserListFromLocal();
+    }
+
+    public void insertOrderToLocal(Order currentOrder) {
+        mRepo.insertOrderToLocal(currentOrder);
     }
 }

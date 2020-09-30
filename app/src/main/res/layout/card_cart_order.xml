@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:layout_gravity="bottom">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Searching for sender..."
+                android:id="@+id/message"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sender: "
+                android:id="@+id/sender_name"
+                android:textStyle="bold"
+                android:layout_margin="15dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:textStyle="bold"
+                android:id="@+id/sender_phone"
+                android:layout_margin="15dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OrderID: "
+                android:textStyle="bold"
+                android:id="@+id/order_id"
+                android:layout_margin="15dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Cost: "
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:id="@+id/total_cost"
+                />
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.cardview.widget.CardView>

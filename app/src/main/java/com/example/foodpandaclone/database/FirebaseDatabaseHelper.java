@@ -10,6 +10,7 @@ import com.example.foodpandaclone.dao.ItemDao;
 import com.example.foodpandaclone.dao.RestaurantDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
+import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.RestaurantFirebase;
 import com.example.foodpandaclone.model.User;
@@ -30,7 +31,7 @@ public class FirebaseDatabaseHelper {
 
     private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private LocalDatabaseHelper db; private UserDao mUserDao;
 
-    private UserFirebase newUser;
+
 
     public FirebaseDatabaseHelper(Application application){
 
@@ -95,7 +96,7 @@ public class FirebaseDatabaseHelper {
         ref.setValue(user);
     }
 
-    public void getUserDataFromFirebase(String phone, final String password) {
+    public void getUserDataFromFirebase(final int phone, final String password) {
 
         ref=FirebaseDatabase.getInstance().getReference().child("User");
 
@@ -106,14 +107,16 @@ public class FirebaseDatabaseHelper {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    newUser=dataSnapshot.getValue(UserFirebase.class);
 
-                    if(newUser.getPassword().equals(password)){
+                    final UserFirebase newUser=dataSnapshot.getValue(UserFirebase.class);
+
+                    if(newUser.getPassword().equals(password) && newUser.getUserID()==phone){
 
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                mUserDao.updateLocalUserData(Integer.parseInt(newUser.getUserID()), newUser.getEmail(), newUser.getPassword(),Integer.parseInt(newUser.getPhone()), newUser.getType());
+                                mUserDao.updateLocalUserData(newUser.getUserID(), newUser.getEmail(), newUser.getPassword(),
+                                        newUser.getPhone(), newUser.getType());
                             }
                         }) .start();
                     }
@@ -125,5 +128,10 @@ public class FirebaseDatabaseHelper {
 
             }
         });
+    }
+
+    public void insertOrderToFirebase(Order currentOrder) {
+        ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(currentOrder.getOrderID()));
+        ref.setValue(currentOrder);
     }
 }

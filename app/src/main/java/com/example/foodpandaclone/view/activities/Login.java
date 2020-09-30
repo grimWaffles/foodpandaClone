@@ -53,8 +53,7 @@ public class Login extends AppCompatActivity {
         pbmain=findViewById(R.id.pbmain);
         pbmain.setVisibility(View.GONE);
 
-        user_phone.setText("01735152770");
-        user_password.setText("suckadick");
+        user_phone.setText("1735152470"); user_password.setText("waffles");
 
         loginViewModel=new ViewModelProvider(this).get(LoginViewModel.class);
 
@@ -72,7 +71,7 @@ public class Login extends AppCompatActivity {
 
                if(!user_phone.getText().toString().isEmpty() && !user_password.getText().toString().isEmpty()){
 
-                   loginViewModel.loginUser(user_phone.getText().toString(),user_password.getText().toString()).observe(Login.this, new Observer<List<User>>() {
+                   loginViewModel.loginUser(Integer.parseInt(user_phone.getText().toString()),user_password.getText().toString()).observe(Login.this, new Observer<List<User>>() {
                        @Override
                        public void onChanged(List<User> users) {
 

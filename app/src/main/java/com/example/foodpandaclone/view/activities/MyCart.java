@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,9 +19,12 @@ import android.widget.Toast;
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapter.MyCartItemsAdapter;
 import com.example.foodpandaclone.model.Item;
+import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.viewModel.MyCartViewModel;
 
+import java.util.Date;
 import java.util.List;
 
 public class MyCart extends AppCompatActivity {
@@ -36,7 +40,7 @@ public class MyCart extends AppCompatActivity {
     Toolbar toolbar;
 
     private MyCartItemsAdapter adapter; private MyCartViewModel mcVM; private LinearLayoutManager llm;
-    private List<Restaurant> res; private Restaurant restaurant;
+    private List<Restaurant> res; private Restaurant restaurant;private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,8 @@ public class MyCart extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         this.setTitle("My Cart");
+
+        user=new User();
 
         rv_main=findViewById(R.id.rv_cart);
         card_cart_total=findViewById(R.id.card_cart_total);
@@ -69,6 +75,13 @@ public class MyCart extends AppCompatActivity {
             @Override
             public void onChanged(List<Restaurant> restaurants) {
                 res=restaurants;
+            }
+        });
+
+        mcVM.getCurrentUser().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+                MyCart.this.user=users.get(0);
             }
         });
 
@@ -107,7 +120,27 @@ public class MyCart extends AppCompatActivity {
         orderNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MyCart.this, "Functions not available yet", Toast.LENGTH_SHORT).show();
+
+               if(user.getUserID()==1){
+                   Toast.makeText(MyCart.this, "You need to login first!", Toast.LENGTH_SHORT).show();
+               }
+               else{
+
+                   String id=Integer.toString(1)+Integer.toString(user.getUserID());
+
+                   final Order currentOrder=new Order(Integer.parseInt(id),user.getUserID(),0,Integer.toString(new Date().getDate()),"pending");
+
+                   new Thread(new Runnable() {
+                       @Override
+                       public void run() {
+                           mcVM.insertOrderToLocal(currentOrder);
+                       }
+                   }).start();
+
+                   Toast.makeText(MyCart.this, "This may take a while XD", Toast.LENGTH_SHORT).show();
+                   startActivity(new Intent(MyCart.this,ActiveOrder.class));
+                   finish();
+               }
             }
         });
 
