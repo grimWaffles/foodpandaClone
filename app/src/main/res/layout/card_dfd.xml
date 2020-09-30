@@ -34,7 +34,9 @@
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
                 android:text="Deliver status"
-                android:textColor="@android:color/black"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
                 />
 
             <TextView
@@ -45,8 +47,10 @@
                 android:background="@android:color/white"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
-                android:text="Discount"
-                android:textColor="@android:color/black"/>
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                />
 
         </FrameLayout>
 
@@ -72,12 +76,15 @@
                 android:id="@+id/shop_rating"
                 android:text="4.2"
                 android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/numberOfReviews"
                 android:text="(1K+)"
+
+                android:textColor="@android:color/black"
                 android:layout_marginTop="5dp"
                 />
 
@@ -88,6 +95,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/address"
             android:text="Dhanmondi"
+            android:textColor="@android:color/black"
             android:layout_marginTop="5dp"
             />
 
@@ -96,6 +104,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/delivery_cost"
             android:layout_marginTop="5dp"
+            android:textColor="@android:color/black"
             android:text="Free Delivery"
             />
     </LinearLayout>

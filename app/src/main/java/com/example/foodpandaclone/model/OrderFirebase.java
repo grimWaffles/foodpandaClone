@@ -9,7 +9,7 @@ public class OrderFirebase {
     String userID;
     String senderID;
     List<Item> orderItems;
-    Date date;
+
     String status;
 
     public String getStatus() {
@@ -20,12 +20,11 @@ public class OrderFirebase {
         this.status = status;
     }
 
-    public OrderFirebase(String orderID, String userID, String senderID, List<Item> orderItems, Date date, String status) {
+    public OrderFirebase(String orderID, String userID, String senderID, List<Item> orderItems, String status) {
         this.orderID = orderID;
         this.userID = userID;
         this.senderID = senderID;
         this.orderItems = orderItems;
-        this.date = date;
         this.status=status;
     }
     public OrderFirebase(){
@@ -63,12 +62,5 @@ public class OrderFirebase {
     public void setOrderItems(List<Item> orderItems) {
         this.orderItems = orderItems;
     }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
+    
 }

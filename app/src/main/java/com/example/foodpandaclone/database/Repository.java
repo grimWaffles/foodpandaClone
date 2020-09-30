@@ -33,19 +33,11 @@ public class Repository {
         fireDB=new FirebaseDatabaseHelper(application);
     }
 
-    public LiveData<List<Restaurant>> getRestaurantFromLocal(){ return mRestaurantDao.fetchRestaurantFromLocal(); }
-
-    public LiveData<List<Item>> getItemsFromLocal(int resID){ return mItemDao.fetchItemFromLocal(resID); }
-
-    public void getFirebaseData(){ fireDB.loadRestaurantDataFromFirebase(); }
-
-    public void clearAllDataLocal(){ mRestaurantDao.deleteAllRestaurantFromLocal(); mItemDao.deleteAllItemFromLocal(); mUserDao.deleteLocalUser(); mOrderDao.deleteAllOrderFromLocal();}
-
+    //userFunctions
     public LiveData<List<User>> getUserListFromLocal(){ return mUserDao.fetchUserFromLocal(); }
 
     public void insertUserToLocal(User user) { mUserDao.insertUserToLocal(user); }
 
-    public LiveData<Restaurant> getSingleRestaurant(int id){ return mRestaurantDao.getSingleRestaurant(id);}
 
     public void updateLocalUser(User user) { mUserDao.updateLocalUserData(user.getUserID(),user.getEmail(),user.getPassword(),user.getPhone(),user.getType()); }
 
@@ -64,6 +56,21 @@ public class Repository {
         fireDB.insertUserToFirebase(user);
     }
 
+    public void logoutCurrentUser() {
+        mUserDao.logoutCurrent();
+    }
+
+    //restaurantFunctions
+    public LiveData<List<Restaurant>> getRestaurantFromLocal(){ return mRestaurantDao.fetchRestaurantFromLocal(); }
+
+    public LiveData<List<Item>> getItemsFromLocal(int resID){ return mItemDao.fetchItemFromLocal(resID); }
+
+    public void getFirebaseData(){ fireDB.loadRestaurantDataFromFirebase(); }
+
+    public LiveData<Restaurant> getSingleRestaurant(int id){ return mRestaurantDao.getSingleRestaurant(id);}
+
+
+    //OrderFunctions
     public void increaseItemQuantity(int itemID, int restaurantID) {
 
         mItemDao.increaseItemQuantity(itemID,restaurantID);
@@ -78,10 +85,6 @@ public class Repository {
         return mItemDao.getCartItemsFromLocal();
     }
 
-    public void logoutCurrentUser() {
-        mUserDao.logoutCurrent();
-    }
-
     public void deleteOrders() {
         mOrderDao.deleteAllOrderFromLocal();
     }
@@ -92,6 +95,15 @@ public class Repository {
 
     public void insertOrderToLocal(Order currentOrder) {
         mOrderDao.insertOrderToLocal(currentOrder);
+        fireDB.insertOrderToFirebase(currentOrder);
+    }
+
+    //Global Functions
+    //Deletes cache on startup
+    public void clearAllDataLocal(){ mRestaurantDao.deleteAllRestaurantFromLocal(); mItemDao.deleteAllItemFromLocal(); mUserDao.deleteLocalUser(); mOrderDao.deleteAllOrderFromLocal();}
+
+
+    public void insertOrderToFirebase(Order currentOrder) {
         fireDB.insertOrderToFirebase(currentOrder);
     }
 }

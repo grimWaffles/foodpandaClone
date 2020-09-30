@@ -21,7 +21,4 @@ public interface OrderDao {
 
     @Query("DELETE FROM order_table")
     void deleteAllOrderFromLocal();
-
-    @Query("SELECT * FROM order_table WHERE userid=:id")
-    LiveData<List<Order>> getUserOrderFromLocal(int id);
 }

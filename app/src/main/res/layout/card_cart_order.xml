@@ -12,17 +12,35 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Searching for sender..."
-                android:id="@+id/message"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:layout_margin="15dp"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                />
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status:"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Searching for sender..."
+                    android:id="@+id/message"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    />
+
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,16 +51,45 @@
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 />
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phone Number"
-                android:textStyle="bold"
-                android:id="@+id/sender_phone"
-                android:layout_margin="15dp"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone Number"
+                    android:textStyle="bold"
+                    android:layout_margin="15dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No active sender"
+                    android:textStyle="bold"
+                    android:id="@+id/sender_phone"
+                    android:layout_margin="15dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/call_sender"
+                    android:background="@color/colorAccent"
+                    android:textColor="@android:color/white"
+                    android:text="Call"
+                    android:paddingRight="4dp"
+                    android:layout_gravity="center"
+                    android:drawableRight="@drawable/ic_baseline_call_24"
+                    />
+
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

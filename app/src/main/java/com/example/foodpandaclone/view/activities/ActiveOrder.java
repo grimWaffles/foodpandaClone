@@ -9,8 +9,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.model.Order;
@@ -29,7 +33,7 @@ import java.util.List;
 public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap; private ActiveOrderViewModel aoVM; private Toolbar toolbar;
-    private TextView message,sender_name,sender_phone,orderID,total_cost;
+    private TextView message,sender_name,sender_phone,orderID,total_cost;private Button call_sender;
     private CardView cardView; private Order order;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +58,27 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
         sender_phone=cardView.findViewById(R.id.sender_phone);
         orderID=cardView.findViewById(R.id.order_id);
         total_cost=cardView.findViewById(R.id.total_cost);
+        call_sender=cardView.findViewById(R.id.call_sender);
 
         aoVM=new ViewModelProvider(this).get(ActiveOrderViewModel.class);
+
+        call_sender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String phone = sender_phone.getText().toString();
+
+                if(!phone.equals("")){
+
+                    Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
+                            "tel", phone, null));
+                    startActivity(phoneIntent);
+                }
+                else{
+                    Toast.makeText(ActiveOrder.this, "No available sender found yet", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 

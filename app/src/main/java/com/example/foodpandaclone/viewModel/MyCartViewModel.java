@@ -45,4 +45,8 @@ public class MyCartViewModel extends AndroidViewModel {
     public void insertOrderToLocal(Order currentOrder) {
         mRepo.insertOrderToLocal(currentOrder);
     }
+
+    public void uploadOrderToFirebase(Order currentOrder) {
+        mRepo.insertOrderToFirebase(currentOrder);
+    }
 }

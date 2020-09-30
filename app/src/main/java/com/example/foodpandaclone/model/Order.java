@@ -30,11 +30,11 @@ public class Order {
         this.status = status;
     }
 
-    public Order(int orderID, int userID, int senderID, String date, String status) {
+    public Order(int orderID, int userID, int senderID, String status) {
         this.orderID = orderID;
         this.userID = userID;
         this.senderID = senderID;
-        this.date = date;
+
         this.status="pending";
     }
     public Order(){

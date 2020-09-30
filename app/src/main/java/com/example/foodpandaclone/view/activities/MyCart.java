@@ -126,18 +126,20 @@ public class MyCart extends AppCompatActivity {
                }
                else{
 
-                   String id=Integer.toString(1)+Integer.toString(user.getUserID());
+                   String id=Integer.toString(user.getUserID())+Integer.toString(1);
 
-                   final Order currentOrder=new Order(Integer.parseInt(id),user.getUserID(),0,Integer.toString(new Date().getDate()),"pending");
+                   final Order currentOrder=new Order(Integer.parseInt(id),user.getUserID(),0,"pending");
+
+                   Toast.makeText(MyCart.this, "This may take a while XD", Toast.LENGTH_SHORT).show();
 
                    new Thread(new Runnable() {
                        @Override
                        public void run() {
                            mcVM.insertOrderToLocal(currentOrder);
+                           mcVM.uploadOrderToFirebase(currentOrder);
                        }
                    }).start();
 
-                   Toast.makeText(MyCart.this, "This may take a while XD", Toast.LENGTH_SHORT).show();
                    startActivity(new Intent(MyCart.this,ActiveOrder.class));
                    finish();
                }
