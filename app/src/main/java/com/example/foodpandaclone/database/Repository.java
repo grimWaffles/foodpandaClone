@@ -39,7 +39,7 @@ public class Repository {
 
     public void getFirebaseData(){ fireDB.loadRestaurantDataFromFirebase(); }
 
-    public void clearAllDataLocal(){ mRestaurantDao.deleteAllRestaurantFromLocal(); mItemDao.deleteAllItemFromLocal(); mUserDao.deleteLocalUser();}
+    public void clearAllDataLocal(){ mRestaurantDao.deleteAllRestaurantFromLocal(); mItemDao.deleteAllItemFromLocal(); mUserDao.deleteLocalUser(); mOrderDao.deleteAllOrderFromLocal();}
 
     public LiveData<List<User>> getUserListFromLocal(){ return mUserDao.fetchUserFromLocal(); }
 
@@ -57,7 +57,12 @@ public class Repository {
         return getUserListFromLocal();
     }
 
-    public void insertCurrentUserToFirebase(User user){ fireDB.insertUserToFirebase(user); }
+    public void insertCurrentUserToFirebase(User user){
+
+        User tempUser=getLocalUser().get(0);
+        user.setLatitude(tempUser.getLatitude()); user.setLongitude(tempUser.getLongitude());
+        fireDB.insertUserToFirebase(user);
+    }
 
     public void increaseItemQuantity(int itemID, int restaurantID) {
 
