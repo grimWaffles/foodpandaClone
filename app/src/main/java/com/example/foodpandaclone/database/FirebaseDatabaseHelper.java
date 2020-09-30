@@ -112,9 +112,15 @@ public class FirebaseDatabaseHelper {
 
                     if(newUser.getPassword().equals(password) && newUser.getUserID()==phone){
 
-                        User tempUser=mUserDao.getCurrentUserFromLocal().get(0);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                User tempUser=mUserDao.getCurrentUserFromLocal().get(0);
 
-                        updateUserLocationInFirebase(newUser.getUserID(),tempUser.getLatitude(),tempUser.getLongitude());
+                                updateUserLocationInFirebase(newUser.getUserID(),tempUser.getLatitude(),tempUser.getLongitude());
+                                Log.d("Updated user location","Yes! updated");
+                            }
+                        }).start();
 
                         new Thread(new Runnable() {
                             @Override

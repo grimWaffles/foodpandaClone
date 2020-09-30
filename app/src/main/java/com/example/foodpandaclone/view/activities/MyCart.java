@@ -54,7 +54,7 @@ public class MyCart extends AppCompatActivity {
 
         this.setTitle("My Cart");
 
-        user=new User();
+        user=new User(); restaurant=new Restaurant();
 
         rv_main=findViewById(R.id.rv_cart);
         card_cart_total=findViewById(R.id.card_cart_total);
@@ -64,6 +64,7 @@ public class MyCart extends AppCompatActivity {
         total=card_cart_total.findViewById(R.id.tv_ta);
 
         orderNow=findViewById(R.id.order_btn);
+
 
         mcVM=new ViewModelProvider(this).get(MyCartViewModel.class);
 
