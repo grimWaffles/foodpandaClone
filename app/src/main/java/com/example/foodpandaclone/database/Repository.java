@@ -13,6 +13,7 @@ import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.OrderFirebase;
 import com.example.foodpandaclone.model.Restaurant;
+import com.example.foodpandaclone.model.Rider;
 import com.example.foodpandaclone.model.User;
 
 import java.util.List;
@@ -105,5 +106,9 @@ public class Repository {
 
     public void insertOrderToFirebase(OrderFirebase currentOrder) {
         fireDB.insertOrderToFirebase(currentOrder);
+    }
+
+    public void addRiderToFirebase(Rider newUser) {
+        fireDB.insertRiderToFireBase(newUser);
     }
 }

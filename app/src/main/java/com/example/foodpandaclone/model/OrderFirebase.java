@@ -10,22 +10,8 @@ public class OrderFirebase {
     int senderID;
     List<Item> orderItems;
     String status;
+    int total_cost;
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public OrderFirebase(int orderID, int userID, int senderID, List<Item> orderItems, String status) {
-        this.orderID = orderID;
-        this.userID = userID;
-        this.senderID = senderID;
-        this.orderItems = orderItems;
-        this.status=status;
-    }
     public OrderFirebase(){
 
     }
@@ -35,6 +21,32 @@ public class OrderFirebase {
         this.senderID=order.getSenderID();
         this.orderItems=items;
         this.status=order.getStatus();
+        this.total_cost=order.getTotal_cost();
+    }
+
+    public OrderFirebase(int orderID, int userID, int senderID, List<Item> orderItems, String status, int total_cost) {
+        this.orderID = orderID;
+        this.userID = userID;
+        this.senderID = senderID;
+        this.orderItems = orderItems;
+        this.status=status;
+        this.total_cost=total_cost;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getTotal_cost() {
+        return total_cost;
+    }
+
+    public void setTotal_cost(int total_cost) {
+        this.total_cost = total_cost;
     }
 
     public int getOrderID() {

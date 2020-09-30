@@ -69,7 +69,6 @@ public class MyCart extends AppCompatActivity {
 
         orderNow=findViewById(R.id.order_btn);
 
-
         mcVM=new ViewModelProvider(this).get(MyCartViewModel.class);
 
         adapter=new MyCartItemsAdapter();
@@ -133,7 +132,7 @@ public class MyCart extends AppCompatActivity {
                else{
                    progressBar.setVisibility(View.VISIBLE);
 
-                   final Order currentOrder=new Order(202010,user.getUserID(),0,"pending");
+                   final Order currentOrder=new Order(202010,user.getUserID(),0,"pending",Integer.parseInt(total.getText().toString()));
 
                    Toast.makeText(MyCart.this, "This may take a while XD", Toast.LENGTH_SHORT).show();
 
@@ -160,13 +159,11 @@ public class MyCart extends AppCompatActivity {
                }
             }
         });
-
-
     }
 
     private void inputPricingInTheCards(List<Item> items) {
 
-        int s_cost=0;int t_discount=0; int t_cost=0;
+        int s_cost=0;int t_discount=0; int t_cost=0; int t_delivery=0;
 
         for(Item i :items){
 
@@ -176,6 +173,9 @@ public class MyCart extends AppCompatActivity {
                 if(i.getRestaurantID()==r.getResID()){
                     restaurant=r;
                 }
+                if(t_delivery==0 && restaurant.getDeliveryCost()!=0){
+                    t_delivery=restaurant.getDeliveryCost();
+                }
             }
             if(i.getPrice()>restaurant.getDiscount()){
                 t_discount+=restaurant.getDiscount();
@@ -183,7 +183,7 @@ public class MyCart extends AppCompatActivity {
 
         }
 
-        t_cost=s_cost-t_discount;
+        t_cost=s_cost-t_discount+t_delivery;
 
         //set values to cards
         subtotal.setText(Integer.toString(s_cost)); discount.setText(Integer.toString(t_discount)); total.setText(Integer.toString(t_cost));

@@ -5,13 +5,13 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "user_table")
-public class User {
+@Entity(tableName = "rider_table")
+public class Rider {
 
     @PrimaryKey
     @ColumnInfo(name = "id")
     @NonNull
-    private int userID;
+    private int riderID;
     @ColumnInfo(name = "phone")
     private int phone;
     @ColumnInfo(name = "email")
@@ -24,35 +24,35 @@ public class User {
     private double latitude;
     @ColumnInfo(name = "longitude")
     private double longitude;
+    @ColumnInfo(name = "status")
+    private String status;
 
-    public User(String email,int phone, String password) {
+    public Rider(String email, int phone, String password) {
 
         this.email = email;
         this.phone = phone;
         this.password = password;
 
-        if(email.equals("1")){
-            this.userID=1;
+        if (email.equals("1")) {
+            this.riderID = 1;
+        } else {
+            this.riderID = phone;
         }
 
-        else{
-            this.userID=phone;
-        }
-
-        this.type="User";
-        this.latitude=0.000000;
-        this.longitude=0.000000;
+        this.type = "Rider";
+        this.latitude = 0.000000;
+        this.longitude = 0.000000;
+        this.status="Available";
     }
 
-    public User(){
+    public Rider() {
 
     }
 
+    public String getUsername(String email) {
+        int i = email.indexOf('@');
 
-    public String getUsername(String email){
-        int i=email.indexOf('@');
-
-        return email.substring(0,i);
+        return email.substring(0, i);
     }
 
     public boolean checkIfRider(String email){
@@ -64,13 +64,12 @@ public class User {
         return false;
     }
 
-
-    public int getUserID() {
-        return userID;
+    public int getRiderID() {
+        return riderID;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setRiderID(int riderID) {
+        this.riderID = riderID;
     }
 
     public int getPhone() {
@@ -104,6 +103,7 @@ public class User {
     public void setType(String type) {
         this.type = type;
     }
+
     public double getLatitude() {
         return latitude;
     }
@@ -118,5 +118,13 @@ public class User {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

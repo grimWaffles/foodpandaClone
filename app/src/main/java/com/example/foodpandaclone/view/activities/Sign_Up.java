@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.foodpandaclone.R;
+import com.example.foodpandaclone.model.Rider;
 import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.viewModel.Sign_Up_ViewModel;
 
@@ -50,21 +51,41 @@ public class Sign_Up extends AppCompatActivity {
 
                 if(!user_email.getText().toString().isEmpty() && !user_password.getText().toString().isEmpty() &&!user_phone.getText().toString().isEmpty()){
 
-                    Intent intent=new Intent();
-                    intent.putExtra("email",user_email.getText().toString());
-                    intent.putExtra("password",user_password.getText().toString());
+                    if(checkIfRider(user_email.getText().toString())){
 
-                    setResult(RESULT_OK,intent);
+                        Intent intent=new Intent();
+                        intent.putExtra("email",user_email.getText().toString());
+                        intent.putExtra("password",user_password.getText().toString());
 
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            User newUser=new User(user_email.getText().toString(),Integer.parseInt(user_phone.getText().toString()),user_password.getText().toString());
-                            svm.addUserToFirebase(newUser);
-                        }
-                    }).start();
+                        setResult(RESULT_OK,intent);
 
-                    finish();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                User newUser=new User(user_email.getText().toString(),Integer.parseInt(user_phone.getText().toString()),user_password.getText().toString());
+                                svm.addUserToFirebase(newUser);
+                            }
+                        }).start();
+
+                        finish();
+                    }
+                    else{
+                        Intent intent=new Intent();
+                        intent.putExtra("email",user_email.getText().toString());
+                        intent.putExtra("password",user_password.getText().toString());
+
+                        setResult(RESULT_OK,intent);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Rider newUser=new Rider(user_email.getText().toString(),Integer.parseInt(user_phone.getText().toString()),user_password.getText().toString());
+                                svm.addRiderToFirebase(newUser);
+                            }
+                        }).start();
+
+                        finish();
+                    }
 
                 }
                 else{
@@ -73,5 +94,14 @@ public class Sign_Up extends AppCompatActivity {
 
             }
         });
+    }
+
+    public boolean checkIfRider(String email){
+        int i=email.indexOf('@');
+
+        if(email.substring(i+1,email.length()-1).equals("foodpanda.com")){
+            return true;
+        }
+        return false;
     }
 }

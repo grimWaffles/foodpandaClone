@@ -19,6 +19,16 @@ public class Order {
     private int senderID;
     @ColumnInfo(name = "status")
     private String status;
+    @ColumnInfo(name = "total_cost")
+    private int total_cost;
+
+    public int getTotal_cost() {
+        return total_cost;
+    }
+
+    public void setTotal_cost(int total_cost) {
+        this.total_cost = total_cost;
+    }
 
     public String getStatus() {
         return status;
@@ -28,11 +38,12 @@ public class Order {
         this.status = status;
     }
 
-    public Order(int orderID, int userID, int senderID, String status) {
+    public Order(int orderID, int userID, int senderID, String status,int total_cost) {
         this.orderID = orderID;
         this.userID = userID;
         this.senderID = senderID;
         this.status="pending";
+        this.total_cost=total_cost;
     }
     public Order(){
 

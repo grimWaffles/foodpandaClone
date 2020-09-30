@@ -33,7 +33,7 @@ import java.util.List;
 public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap; private ActiveOrderViewModel aoVM; private Toolbar toolbar;
-    private TextView message,sender_name,sender_phone,orderID,total_cost;private Button call_sender;
+    private TextView message,sender_name,sender_phone,orderID,total_cost;private Button call_sender,cancel_order;
     private CardView cardView; private Order order;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +59,7 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
         orderID=cardView.findViewById(R.id.order_id);
         total_cost=cardView.findViewById(R.id.total_cost);
         call_sender=cardView.findViewById(R.id.call_sender);
+        cancel_order=cardView.findViewById(R.id.cancel_order);
 
         aoVM=new ViewModelProvider(this).get(ActiveOrderViewModel.class);
 
@@ -112,11 +113,21 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
                     message.setText("You do not have current orders");
                 }
                 else{
+
                     sender_name.setText(sender_name.getText().toString()+" "+"Searching");
                     sender_phone.setText(sender_phone.getText().toString()+" "+"Searching");
+
                     orderID.setText(Integer.toString(orders.get(0).getOrderID()));
+
+                    findARider();
                 }
             }
         });
+    }
+
+    public void findARider() {
+
+
+
     }
 }

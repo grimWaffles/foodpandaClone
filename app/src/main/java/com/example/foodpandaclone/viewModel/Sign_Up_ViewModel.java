@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.example.foodpandaclone.database.Repository;
+import com.example.foodpandaclone.model.Rider;
 import com.example.foodpandaclone.model.User;
 
 public class Sign_Up_ViewModel extends AndroidViewModel {
@@ -24,5 +25,9 @@ public class Sign_Up_ViewModel extends AndroidViewModel {
 
         mRepo.insertCurrentUserToFirebase(user);
 
+    }
+
+    public void addRiderToFirebase(Rider newUser) {
+        mRepo.addRiderToFirebase(newUser);
     }
 }

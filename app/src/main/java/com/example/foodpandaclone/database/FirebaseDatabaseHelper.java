@@ -14,6 +14,7 @@ import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.OrderFirebase;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.RestaurantFirebase;
+import com.example.foodpandaclone.model.Rider;
 import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.model.UserFirebase;
 import com.google.firebase.database.DataSnapshot;
@@ -152,5 +153,10 @@ public class FirebaseDatabaseHelper {
     public void insertOrderToFirebase(OrderFirebase currentOrder) {
         ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(currentOrder.getOrderID()));
         ref.setValue(currentOrder);
+    }
+
+    public void insertRiderToFireBase(Rider newUser) {
+        ref=FirebaseDatabase.getInstance().getReference().child("Rider").child(Integer.toString(newUser.getRiderID()));
+        ref.setValue(newUser);
     }
 }
