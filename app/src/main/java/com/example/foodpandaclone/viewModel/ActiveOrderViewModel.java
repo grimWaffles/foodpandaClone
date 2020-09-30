@@ -29,4 +29,8 @@ public class ActiveOrderViewModel extends AndroidViewModel {
     public LiveData<List<Order>> getCurrentOrders() {
         return mRepo.getOrderlist();
     }
+
+    public void getAvailableRiders() {
+        mRepo.getAvailableRiders();
+    }
 }

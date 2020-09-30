@@ -111,4 +111,8 @@ public class Repository {
     public void addRiderToFirebase(Rider newUser) {
         fireDB.insertRiderToFireBase(newUser);
     }
+
+    public void getAvailableRiders() {
+        fireDB.getAvailableRiders();
+    }
 }

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 import com.example.foodpandaclone.dao.ItemDao;
+import com.example.foodpandaclone.dao.OrderDao;
 import com.example.foodpandaclone.dao.RestaurantDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
@@ -32,6 +33,7 @@ public class FirebaseDatabaseHelper {
     private DatabaseReference ref; private List<RestaurantFirebase> restaurants=new ArrayList<>();
 
     private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private LocalDatabaseHelper db; private UserDao mUserDao;
+    private OrderDao mOrderDao;
 
 
 
@@ -41,6 +43,7 @@ public class FirebaseDatabaseHelper {
         mRestaurantDao=db.restaurantDao();
         mItemDao=db.itemDao();
         mUserDao=db.userDao();
+        mOrderDao=db.orderDao();
 
     }
 
@@ -158,5 +161,51 @@ public class FirebaseDatabaseHelper {
     public void insertRiderToFireBase(Rider newUser) {
         ref=FirebaseDatabase.getInstance().getReference().child("Rider").child(Integer.toString(newUser.getRiderID()));
         ref.setValue(newUser);
+    }
+
+    public void getAvailableRiders() {
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Rider");
+
+        Log.d("Rider list"," Navigated");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+
+                    final Rider newUser=dataSnapshot.getValue(Rider.class);
+
+                    if(newUser.getStatus().equals("Available")){
+
+                        Log.d("Rider found:" ,"Yes");
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mUserDao.updateLocalUserData(newUser.getRiderID(), newUser.getEmail(), newUser.getPassword(),
+                                        newUser.getPhone(), newUser.getType());
+
+                               Log.d("Updating user list","Yes");
+                            }
+                        }) .start();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mOrderDao.updateOrderRider(newUser.getRiderID());
+                                Log.d("Updating order list","Yes");
+                            }
+                        }) .start();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

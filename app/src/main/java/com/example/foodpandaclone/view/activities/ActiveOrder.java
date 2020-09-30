@@ -13,11 +13,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.model.Order;
+import com.example.foodpandaclone.model.Rider;
 import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.viewModel.ActiveOrderViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,7 +36,7 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
 
     private GoogleMap mMap; private ActiveOrderViewModel aoVM; private Toolbar toolbar;
     private TextView message,sender_name,sender_phone,orderID,total_cost;private Button call_sender,cancel_order;
-    private CardView cardView; private Order order;
+    private CardView cardView; private Order order; private User rider; private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,8 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
         setSupportActionBar(toolbar);
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        progressBar=findViewById(R.id.progress);
+        progressBar.setVisibility(View.GONE);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -91,16 +95,26 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onChanged(List<User> users) {
 
-                LatLng currentLocation = new LatLng(users.get(0).getLatitude(), users.get(0).getLongitude());
-                mMap.addMarker(new MarkerOptions().position(currentLocation).title("You"));
+               if(users.size()==1){
+                   LatLng currentLocation = new LatLng(users.get(0).getLatitude(), users.get(0).getLongitude());
+                   mMap.addMarker(new MarkerOptions().position(currentLocation).title("You"));
 
-                CameraPosition cameraPosition=new CameraPosition.Builder().target(currentLocation)
-                        .zoom(15)
-                        .bearing(0)
-                        .tilt(30)
-                        .build();
+                   CameraPosition cameraPosition=new CameraPosition.Builder().target(currentLocation)
+                           .zoom(15)
+                           .bearing(0)
+                           .tilt(30)
+                           .build();
 
-                mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                   mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+               }
+
+               if(users.size()==2){
+
+                   rider=users.get(1);
+
+                   LatLng currentLocation = new LatLng(users.get(1).getLatitude(), users.get(1).getLongitude());
+                   mMap.addMarker(new MarkerOptions().position(currentLocation).title(rider.getUsername(rider.getEmail())));
+               }
 
             }
         });
@@ -118,16 +132,28 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
                     sender_phone.setText(sender_phone.getText().toString()+" "+"Searching");
 
                     orderID.setText(Integer.toString(orders.get(0).getOrderID()));
+                    total_cost.setText(Integer.toString(orders.get(0).getTotal_cost()) +"Tk");
 
-                    findARider();
+                   if(rider==null){
+                       findARider();
+                   }
+                   else{
+                       updateUIValues();
+                   }
                 }
             }
         });
     }
 
+    private void updateUIValues() {
+
+        sender_name.setText(rider.getUsername(rider.getEmail()));
+        sender_phone.setText(Integer.toString(rider.getPhone()));
+        message.setText("Rider found!");
+
+    }
+
     public void findARider() {
-
-
-
+        aoVM.getAvailableRiders();
     }
 }

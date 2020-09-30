@@ -21,4 +21,7 @@ public interface OrderDao {
 
     @Query("DELETE FROM order_table")
     void deleteAllOrderFromLocal();
+
+    @Query("UPDATE order_table SET senderid=:id WHERE senderid=0")
+    void updateOrderRider(int id);
 }
