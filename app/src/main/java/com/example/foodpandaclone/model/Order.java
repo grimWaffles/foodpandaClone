@@ -19,8 +19,6 @@ public class Order {
     private int senderID;
     @ColumnInfo(name = "status")
     private String status;
-    @ColumnInfo(name = "date")
-    private String date;
 
     public String getStatus() {
         return status;
@@ -34,7 +32,6 @@ public class Order {
         this.orderID = orderID;
         this.userID = userID;
         this.senderID = senderID;
-
         this.status="pending";
     }
     public Order(){
@@ -65,11 +62,4 @@ public class Order {
         this.senderID = senderID;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
 }

@@ -11,6 +11,7 @@ import com.example.foodpandaclone.dao.RestaurantDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Order;
+import com.example.foodpandaclone.model.OrderFirebase;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.User;
 
@@ -95,7 +96,6 @@ public class Repository {
 
     public void insertOrderToLocal(Order currentOrder) {
         mOrderDao.insertOrderToLocal(currentOrder);
-        fireDB.insertOrderToFirebase(currentOrder);
     }
 
     //Global Functions
@@ -103,7 +103,7 @@ public class Repository {
     public void clearAllDataLocal(){ mRestaurantDao.deleteAllRestaurantFromLocal(); mItemDao.deleteAllItemFromLocal(); mUserDao.deleteLocalUser(); mOrderDao.deleteAllOrderFromLocal();}
 
 
-    public void insertOrderToFirebase(Order currentOrder) {
+    public void insertOrderToFirebase(OrderFirebase currentOrder) {
         fireDB.insertOrderToFirebase(currentOrder);
     }
 }

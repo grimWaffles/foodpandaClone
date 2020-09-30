@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapter.MyCartItemsAdapter;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Order;
+import com.example.foodpandaclone.model.OrderFirebase;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.viewModel.MyCartViewModel;
@@ -37,10 +39,10 @@ public class MyCart extends AppCompatActivity {
 
     Button orderNow;
 
-    Toolbar toolbar;
+    Toolbar toolbar; private ProgressBar progressBar;
 
     private MyCartItemsAdapter adapter; private MyCartViewModel mcVM; private LinearLayoutManager llm;
-    private List<Restaurant> res; private Restaurant restaurant;private User user;
+    private List<Restaurant> res; private Restaurant restaurant;private User user; private List<Item> orderItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,8 @@ public class MyCart extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         this.setTitle("My Cart");
+
+        progressBar=findViewById(R.id.pb_cart); progressBar.setVisibility(View.GONE);
 
         user=new User(); restaurant=new Restaurant();
 
@@ -90,7 +94,7 @@ public class MyCart extends AppCompatActivity {
             @Override
             public void onChanged(final List<Item> items) {
 
-                adapter.setCartItems(items);
+                adapter.setCartItems(items); orderItems=items;
 
                 rv_main.setAdapter(adapter);
                 rv_main.setLayoutManager(llm);
@@ -126,23 +130,32 @@ public class MyCart extends AppCompatActivity {
                    Toast.makeText(MyCart.this, "You need to login first!", Toast.LENGTH_SHORT).show();
                }
                else{
+                   progressBar.setVisibility(View.VISIBLE);
 
-                   String id=Integer.toString(user.getUserID())+Integer.toString(1);
-
-                   final Order currentOrder=new Order(Integer.parseInt(id),user.getUserID(),0,"pending");
+                   final Order currentOrder=new Order(202010,user.getUserID(),0,"pending");
 
                    Toast.makeText(MyCart.this, "This may take a while XD", Toast.LENGTH_SHORT).show();
+
+
 
                    new Thread(new Runnable() {
                        @Override
                        public void run() {
+
                            mcVM.insertOrderToLocal(currentOrder);
-                           mcVM.uploadOrderToFirebase(currentOrder);
+
+                           OrderFirebase orderFirebase=new OrderFirebase(currentOrder,orderItems);
+
+                           mcVM.uploadOrderToFirebase(orderFirebase);
+
                        }
                    }).start();
 
+                   progressBar.setVisibility(View.GONE);
+
                    startActivity(new Intent(MyCart.this,ActiveOrder.class));
                    finish();
+
                }
             }
         });

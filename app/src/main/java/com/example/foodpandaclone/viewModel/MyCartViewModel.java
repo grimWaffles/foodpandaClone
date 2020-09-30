@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.foodpandaclone.database.Repository;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Order;
+import com.example.foodpandaclone.model.OrderFirebase;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.User;
 
@@ -46,7 +47,7 @@ public class MyCartViewModel extends AndroidViewModel {
         mRepo.insertOrderToLocal(currentOrder);
     }
 
-    public void uploadOrderToFirebase(Order currentOrder) {
+    public void uploadOrderToFirebase(OrderFirebase currentOrder) {
         mRepo.insertOrderToFirebase(currentOrder);
     }
 }

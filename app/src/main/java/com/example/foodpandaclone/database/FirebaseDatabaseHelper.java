@@ -11,6 +11,7 @@ import com.example.foodpandaclone.dao.RestaurantDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Order;
+import com.example.foodpandaclone.model.OrderFirebase;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.RestaurantFirebase;
 import com.example.foodpandaclone.model.User;
@@ -148,7 +149,7 @@ public class FirebaseDatabaseHelper {
 
     }
 
-    public void insertOrderToFirebase(Order currentOrder) {
+    public void insertOrderToFirebase(OrderFirebase currentOrder) {
         ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(currentOrder.getOrderID()));
         ref.setValue(currentOrder);
     }

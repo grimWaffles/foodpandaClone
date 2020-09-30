@@ -5,11 +5,10 @@ import java.util.List;
 
 public class OrderFirebase {
 
-    String orderID;
-    String userID;
-    String senderID;
+    int orderID;
+    int userID;
+    int senderID;
     List<Item> orderItems;
-
     String status;
 
     public String getStatus() {
@@ -20,7 +19,7 @@ public class OrderFirebase {
         this.status = status;
     }
 
-    public OrderFirebase(String orderID, String userID, String senderID, List<Item> orderItems, String status) {
+    public OrderFirebase(int orderID, int userID, int senderID, List<Item> orderItems, String status) {
         this.orderID = orderID;
         this.userID = userID;
         this.senderID = senderID;
@@ -30,28 +29,35 @@ public class OrderFirebase {
     public OrderFirebase(){
 
     }
+    public OrderFirebase(Order order,List<Item> items){
+        this.orderID=order.getOrderID();
+        this.userID=order.getUserID();
+        this.senderID=order.getSenderID();
+        this.orderItems=items;
+        this.status=order.getStatus();
+    }
 
-    public String getOrderID() {
+    public int getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(String orderID) {
+    public void setOrderID(int orderID) {
         this.orderID = orderID;
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
 
-    public String getSenderID() {
+    public int getSenderID() {
         return senderID;
     }
 
-    public void setSenderID(String senderID) {
+    public void setSenderID(int senderID) {
         this.senderID = senderID;
     }
 
