@@ -80,47 +80,48 @@ public class MyCart extends AppCompatActivity {
             @Override
             public void onChanged(List<Restaurant> restaurants) {
                 res=restaurants;
+
+                if(res!=null){
+                    mcVM.getCurrentUser().observe(MyCart.this, new Observer<List<User>>() {
+                        @Override
+                        public void onChanged(List<User> users) {
+                            MyCart.this.user=users.get(0);
+                        }
+                    });
+
+                    mcVM.getOrderItemsFromLocal().observe(MyCart.this, new Observer<List<Item>>() {
+                        @Override
+                        public void onChanged(final List<Item> items) {
+
+                            adapter.setCartItems(items); orderItems=items;
+
+                            rv_main.setAdapter(adapter);
+                            rv_main.setLayoutManager(llm);
+
+                            adapter.setListener(new MyCartItemsAdapter.Listener() {
+                                @Override
+                                public void onClick(int position) {
+
+                                    Toast.makeText(MyCart.this, "Item Quantity reduced by 1 unit", Toast.LENGTH_SHORT).show();
+
+                                    final Item item=items.get(position);
+
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mcVM.decreaseItemFromOrder(item.getItemID(),item.getRestaurantID());
+                                        }
+                                    }).start();
+                                }
+                            });
+
+                            inputPricingInTheCards(items);
+
+                        }
+                    });
+                }
             }
         });
-
-        mcVM.getCurrentUser().observe(this, new Observer<List<User>>() {
-            @Override
-            public void onChanged(List<User> users) {
-                MyCart.this.user=users.get(0);
-            }
-        });
-
-        mcVM.getOrderItemsFromLocal().observe(this, new Observer<List<Item>>() {
-            @Override
-            public void onChanged(final List<Item> items) {
-
-                adapter.setCartItems(items); orderItems=items;
-
-                rv_main.setAdapter(adapter);
-                rv_main.setLayoutManager(llm);
-
-                adapter.setListener(new MyCartItemsAdapter.Listener() {
-                    @Override
-                    public void onClick(int position) {
-
-                        Toast.makeText(MyCart.this, "Item Quantity reduced by 1 unit", Toast.LENGTH_SHORT).show();
-
-                        final Item item=items.get(position);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mcVM.decreaseItemFromOrder(item.getItemID(),item.getRestaurantID());
-                            }
-                        }).start();
-                    }
-                });
-
-                inputPricingInTheCards(items);
-
-            }
-        });
-
 
         orderNow.setOnClickListener(new View.OnClickListener() {
             @Override
