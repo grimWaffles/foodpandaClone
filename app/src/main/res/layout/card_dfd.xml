@@ -66,6 +66,7 @@
                 android:text="Tehari Ghor"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
                 />
@@ -97,6 +98,7 @@
             android:text="Dhanmondi"
             android:textColor="@android:color/black"
             android:layout_marginTop="5dp"
+            android:layout_marginStart="8dp"
             />
 
         <TextView
@@ -104,8 +106,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/delivery_cost"
             android:layout_marginTop="5dp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorAccent"
             android:text="Free Delivery"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
             />
     </LinearLayout>
 

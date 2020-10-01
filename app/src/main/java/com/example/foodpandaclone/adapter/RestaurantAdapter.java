@@ -63,14 +63,14 @@ private List<Restaurant> listOfRestaurants; private int mode;
          Log.d("Size of restaurantList in adapter",Integer.toString(listOfRestaurants.size()));
 
         if(mode==0 && res.getDiscount()!=0){
-            discount.setText(Integer.toString(res.getDiscount()) +" Tk");
+            discount.setText("Discount: "+Integer.toString(res.getDiscount()) +" Tk");
         }
         else if(mode==1 && res.getDiscount()==0){
             discount.setText("No discount");
         }
 
         if(res.getDeliveryCost()!=0){
-            deliveryStatus.setText(Integer.toString(res.getDeliveryCost())+" Tk");
+            deliveryStatus.setText("Delivery Cost: "+Integer.toString(res.getDeliveryCost())+" Tk");
             delivery_cost.setText(Integer.toString(res.getDeliveryCost())+" Tk");
         }
         else{

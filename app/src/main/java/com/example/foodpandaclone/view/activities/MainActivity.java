@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 User currUser = users.get(0);
 
                 if(currUser.getUserID()==1 && currUser.getEmail().equals("1")){
-                    user_name.setText("Current User");
-                    user_email.setText("noemailadded@currentuser.app");
+                    user_name.setText("User not logged in");
+                    user_email.setText("");
                 }
                 else{
                     user_name.setText(currUser.getUsername(currUser.getEmail()));

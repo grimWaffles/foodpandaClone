@@ -21,8 +21,7 @@ import java.util.List;
 
 public class Restaurant_Activity extends AppCompatActivity {
 
-    private String titleOfPage;
-    private TextView res_name,res_location,res_delivery;
+    private TextView res_location,res_delivery;
     private TabLayout  tabLayout; private ViewPager resItemView;
     private RestaurantActivityViewModel  mRAVM;
 
@@ -37,7 +36,6 @@ public class Restaurant_Activity extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        res_name=findViewById(R.id.res_name);
         res_location=findViewById(R.id.res_location);
         res_delivery=findViewById(R.id.res_delivery);
         tabLayout=findViewById(R.id.tab_layout);
@@ -52,7 +50,10 @@ public class Restaurant_Activity extends AppCompatActivity {
             @Override
             public void onChanged(Restaurant restaurant) {
 
-                res_name.setText(restaurant.getResName()); res_location.setText(restaurant.getLocation()); res_delivery.setText("30 minutes");
+                res_location.setText("Location: "+restaurant.getLocation());
+                res_delivery.setText("ETA: "+"30 minutes");
+
+                Restaurant_Activity.this.setTitle(restaurant.getResName());
 
                 mRAVM.getRestaurantItems(restaurant.getResID()).observe(Restaurant_Activity.this, new Observer<List<Item>>() {
                     @Override

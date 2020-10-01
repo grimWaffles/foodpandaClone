@@ -48,12 +48,10 @@ public class Login extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        this.setTitle("Log In Here");
+        this.setTitle("Login");
 
         pbmain=findViewById(R.id.pbmain);
         pbmain.setVisibility(View.GONE);
-
-        user_phone.setText("1735152470"); user_password.setText("waffles");
 
         loginViewModel=new ViewModelProvider(this).get(LoginViewModel.class);
 

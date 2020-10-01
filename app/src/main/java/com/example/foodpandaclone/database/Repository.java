@@ -115,4 +115,16 @@ public class Repository {
     public void getAvailableRiders() {
         fireDB.getAvailableRiders();
     }
+
+    public void cancelOrder(final String s) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mUserDao.deleteLocalRider();
+                mOrderDao.deleteAllOrderFromLocal();
+                fireDB.deleteOrderFromFirebase(s);
+            }
+        }).start();
+    }
 }

@@ -43,9 +43,6 @@ public class MyCartItemsAdapter extends RecyclerView.Adapter<MyCartItemsAdapter.
 
         CardView  cardView=holder.cardView;
 
-        ImageButton minus=cardView.findViewById(R.id.minus_btn);
-        ImageButton plus=cardView.findViewById(R.id.plus_btn);
-
         TextView quantity=cardView.findViewById(R.id.i_quantity);
 
         TextView itemName=cardView.findViewById(R.id.item_name);

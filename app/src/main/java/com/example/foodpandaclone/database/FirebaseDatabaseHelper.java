@@ -210,4 +210,9 @@ public class FirebaseDatabaseHelper {
             }
         });
     }
+
+    public void deleteOrderFromFirebase(String s) {
+        ref=FirebaseDatabase.getInstance().getReference().child("Order").child(s);
+        ref.setValue(null);
+    }
 }

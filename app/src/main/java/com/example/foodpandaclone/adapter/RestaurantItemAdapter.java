@@ -58,7 +58,7 @@ public class RestaurantItemAdapter extends RecyclerView.Adapter<RestaurantItemAd
 
         item_description.setText(singleitem.getDescription());
 
-        item_price.setText(Integer.toString(singleitem.getPrice()));
+        item_price.setText(Integer.toString(singleitem.getPrice())+"Tk");
 
         item_quantity.setText(Integer.toString(singleitem.getQuantity()));
 

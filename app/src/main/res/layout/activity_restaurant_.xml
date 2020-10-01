@@ -37,18 +37,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/res_name"
-                        android:text="Shumi's Hot Cake"
-                        android:layout_gravity="center"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold"
-                        android:textSize="22sp"
-                        android:padding="6dp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/res_location"
                         android:layout_gravity="center"
                         android:textColor="@android:color/white"

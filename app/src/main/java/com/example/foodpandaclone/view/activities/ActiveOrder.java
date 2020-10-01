@@ -73,16 +73,34 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
 
-                String phone = sender_phone.getText().toString();
+                String phone =sender_phone.getText().toString();
 
                 if(!phone.equals("")){
 
                     Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
-                            "tel", phone, null));
+                            "tel", "0"+phone, null));
                     startActivity(phoneIntent);
                 }
                 else{
                     Toast.makeText(ActiveOrder.this, "No available sender found yet", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        cancel_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!orderID.getText().toString().equals("")){
+                    sender_name.setText("");
+                    sender_phone.setText("");
+                    orderID.setText("");
+                    total_cost.setText("0Tk");
+
+                    mMap.clear();
+                    aoVM.cancelOrder(orderID.getText().toString());
+                }
+                else{
+                    Toast.makeText(ActiveOrder.this, "You didn't order anything!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -151,8 +169,14 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
 
         if(orders.size()==0){
             message.setText("You do not have current orders");
+            call_sender.setVisibility(View.GONE);
+            cancel_order.setVisibility(View.GONE);
         }
         else{
+
+            call_sender.setVisibility(View.VISIBLE);
+            cancel_order.setVisibility(View.VISIBLE);
+
             orderID.setText(Integer.toString(orders.get(0).getOrderID()));
             total_cost.setText(Integer.toString(orders.get(0).getTotal_cost()) +"Tk");
 
@@ -173,7 +197,6 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
             sender_phone.setText(Integer.toString(rider.getPhone()));
             message.setText("Rider found!");
         }
-
     }
 
     //public void findARider() { aoVM.getAvailableRiders(); }

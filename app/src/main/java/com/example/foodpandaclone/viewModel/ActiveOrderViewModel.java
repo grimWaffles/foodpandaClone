@@ -33,4 +33,8 @@ public class ActiveOrderViewModel extends AndroidViewModel {
     public void getAvailableRiders() {
         mRepo.getAvailableRiders();
     }
+
+    public void cancelOrder(String s) {
+        mRepo.cancelOrder(s);
+    }
 }
