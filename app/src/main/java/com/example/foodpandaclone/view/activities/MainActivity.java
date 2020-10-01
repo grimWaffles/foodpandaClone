@@ -1,6 +1,8 @@
 package com.example.foodpandaclone.view.activities;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import com.example.foodpandaclone.model.Restaurant;
@@ -80,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         user_email=(TextView) navView.findViewById(R.id.useremail_main); user_name=(TextView)navView.findViewById(R.id.username_main);
         user_latitude=(TextView) navView.findViewById(R.id.userlatitude);
-        user_longitude=(TextView) navView.findViewById(R.id.userlongitude);
 
         //Initialized ViewPager and the tabView:
 
@@ -116,11 +117,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     btn_logout.setVisibility(View.VISIBLE);
                 }
 
-                user_latitude.setText("Latitude: "+String.valueOf(currUser.getLatitude()));
-                user_longitude.setText("Longitude: "+String.valueOf(currUser.getLongitude()));
+                user_latitude.setText(getAddressFromLocation(currUser.getLatitude(),currUser.getLongitude()));
+                //user_longitude.setText("Longitude: "+String.valueOf(currUser.getLongitude()));
 
             }
         });
+    }
+
+    private String getAddressFromLocation(double latitude, double longitude) {
+
+        Geocoder geocoder=new Geocoder(this);
+
+        try{
+            List<Address> addressList=geocoder.getFromLocation(latitude,longitude,1);
+            return addressList.get(0).getAddressLine(0);
+        }
+        catch(Exception e){
+            return "Address not found";
+        }
     }
 
     //toolbar methods
