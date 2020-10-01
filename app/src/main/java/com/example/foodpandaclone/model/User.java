@@ -44,6 +44,26 @@ public class User {
         this.longitude=0.000000;
     }
 
+    public User(int id,String email,int phone, String password,String type,double latitude,double longitude) {
+
+        this.userID=id;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+
+        if(email.equals("1")){
+            this.userID=1;
+        }
+
+        else{
+            this.userID=phone;
+        }
+
+        this.type=type;
+        this.latitude=latitude;
+        this.longitude=longitude;
+    }
+
     public User(){
 
     }

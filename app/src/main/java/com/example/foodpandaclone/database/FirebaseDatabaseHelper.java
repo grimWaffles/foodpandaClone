@@ -181,11 +181,13 @@ public class FirebaseDatabaseHelper {
 
                         Log.d("Rider found:" ,"Yes");
 
+                        final User user=new User(newUser.getRiderID(), newUser.getEmail(),
+                                newUser.getPhone(),newUser.getPassword(), newUser.getType(),newUser.getLatitude(),newUser.getLongitude());
+
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                mUserDao.updateLocalUserData(newUser.getRiderID(), newUser.getEmail(), newUser.getPassword(),
-                                        newUser.getPhone(), newUser.getType());
+                                mUserDao.insertUserToLocal(user);
 
                                Log.d("Updating user list","Yes");
                             }

@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Searching for sender..."
+                android:text="Searching..."
                 android:id="@+id/message"
                 android:textStyle="bold"
                 android:layout_gravity="center"
@@ -58,7 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sender Name "
+                android:text="Searching..."
                 android:id="@+id/sender_name"
                 android:textStyle="bold"
                 android:layout_marginTop="15dp"
@@ -71,7 +71,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Phone Number:"
+                android:text="Phone:"
                 android:textStyle="bold"
                 android:id="@+id/phone_number"
                 android:layout_marginTop="20dp"
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginTop="20dp"
-                android:text="No active sender"
+                android:text="Searching..."
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"

@@ -118,6 +118,7 @@ public class LocationAccess extends AppCompatActivity implements View.OnClickLis
     public void findUserLocation() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
             client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(final Location location) {

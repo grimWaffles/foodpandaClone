@@ -151,6 +151,8 @@ public class MyCart extends AppCompatActivity {
                        }
                    }).start();
 
+                   mcVM.findRider();
+
                    progressBar.setVisibility(View.GONE);
 
                    startActivity(new Intent(MyCart.this,ActiveOrder.class));

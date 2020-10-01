@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -37,6 +38,7 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mMap; private ActiveOrderViewModel aoVM; private Toolbar toolbar;
     private TextView message,sender_name,sender_phone,orderID,total_cost;private Button call_sender,cancel_order;
     private CardView cardView; private Order order; private User rider; private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,66 +96,85 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
         aoVM.getCurrentUser().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
-
-               if(users.size()==1){
-                   LatLng currentLocation = new LatLng(users.get(0).getLatitude(), users.get(0).getLongitude());
-                   mMap.addMarker(new MarkerOptions().position(currentLocation).title("You"));
-
-                   CameraPosition cameraPosition=new CameraPosition.Builder().target(currentLocation)
-                           .zoom(15)
-                           .bearing(0)
-                           .tilt(30)
-                           .build();
-
-                   mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-               }
-
-               if(users.size()==2){
-
-                   rider=users.get(1);
-
-                   LatLng currentLocation = new LatLng(users.get(1).getLatitude(), users.get(1).getLongitude());
-                   mMap.addMarker(new MarkerOptions().position(currentLocation).title(rider.getUsername(rider.getEmail())));
-               }
-
+                markUserRiderOnMap(users);
+                Log.d("Acessed ggetCurrentUser()","Yes");
+                Log.d("Size of user list:",Integer.toString(users.size()));
             }
         });
 
         aoVM.getCurrentOrders().observe(this, new Observer<List<Order>>() {
             @Override
             public void onChanged(List<Order> orders) {
-                
-                if(orders.size()==0){
-                    message.setText("You do not have current orders");
-                }
-                else{
-
-                    sender_name.setText(sender_name.getText().toString()+" "+"Searching");
-                    sender_phone.setText(sender_phone.getText().toString()+" "+"Searching");
-
-                    orderID.setText(Integer.toString(orders.get(0).getOrderID()));
-                    total_cost.setText(Integer.toString(orders.get(0).getTotal_cost()) +"Tk");
-
-                   if(rider==null){
-                       findARider();
-                   }
-                   else{
-                       updateUIValues();
-                   }
-                }
+                processOrder(orders);
+                Log.d("Acessed getCurrentOrders()","Yes");
             }
         });
-    }
-
-    private void updateUIValues() {
-
-        sender_name.setText(rider.getUsername(rider.getEmail()));
-        sender_phone.setText(Integer.toString(rider.getPhone()));
-        message.setText("Rider found!");
 
     }
 
-    public void findARider() {
-        aoVM.getAvailableRiders();
+    public void markUserRiderOnMap(List<User> users) {
+
+        if(users.size()==1){
+            LatLng currentLocation = new LatLng(users.get(0).getLatitude(), users.get(0).getLongitude());
+            mMap.addMarker(new MarkerOptions().position(currentLocation).title("You"));
+
+            CameraPosition cameraPosition=new CameraPosition.Builder().target(currentLocation)
+                    .zoom(15)
+                    .bearing(0)
+                    .tilt(30)
+                    .build();
+
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        }
+
+        if(users.size()==2){
+
+            LatLng currentLocation = new LatLng(users.get(1).getLatitude(), users.get(1).getLongitude());
+            mMap.addMarker(new MarkerOptions().position(currentLocation).title("You"));
+
+            CameraPosition cameraPosition=new CameraPosition.Builder().target(currentLocation)
+                    .zoom(15)
+                    .bearing(0)
+                    .tilt(30)
+                    .build();
+
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+            rider=users.get(0);
+
+            LatLng riderLocation = new LatLng(users.get(0).getLatitude(), users.get(0).getLongitude());
+            mMap.addMarker(new MarkerOptions().position(riderLocation).title(rider.getUsername(rider.getEmail())));
+        }
     }
+
+    private void processOrder(List<Order> orders) {
+
+        if(orders.size()==0){
+            message.setText("You do not have current orders");
+        }
+        else{
+            orderID.setText(Integer.toString(orders.get(0).getOrderID()));
+            total_cost.setText(Integer.toString(orders.get(0).getTotal_cost()) +"Tk");
+
+            if(rider==null){
+                //findARider();
+                updateUIValues();
+            }
+            else{
+                updateUIValues();
+            }
+        }
+    }
+
+    public void updateUIValues() {
+
+        if(rider!=null){
+            sender_name.setText(rider.getUsername(rider.getEmail()));
+            sender_phone.setText(Integer.toString(rider.getPhone()));
+            message.setText("Rider found!");
+        }
+
+    }
+
+    //public void findARider() { aoVM.getAvailableRiders(); }
 }

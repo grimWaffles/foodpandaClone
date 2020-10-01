@@ -50,4 +50,8 @@ public class MyCartViewModel extends AndroidViewModel {
     public void uploadOrderToFirebase(OrderFirebase currentOrder) {
         mRepo.insertOrderToFirebase(currentOrder);
     }
+
+    public void findRider() {
+        mRepo.getAvailableRiders();
+    }
 }

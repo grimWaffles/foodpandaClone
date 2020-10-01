@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface UserDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertUserToLocal(User user);
 
     @Query("SELECT * FROM user_table")
