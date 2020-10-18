@@ -1,17 +1,17 @@
 package com.example.foodpandaclone.database;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 
 import com.example.foodpandaclone.dao.ItemDao;
 import com.example.foodpandaclone.dao.OrderDao;
 import com.example.foodpandaclone.dao.RestaurantDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
-import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.OrderFirebase;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.RestaurantFirebase;
@@ -35,7 +35,7 @@ public class FirebaseDatabaseHelper {
     private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private LocalDatabaseHelper db; private UserDao mUserDao;
     private OrderDao mOrderDao;
 
-
+    private boolean accountFound=false;
 
     public FirebaseDatabaseHelper(Application application){
 
@@ -44,7 +44,6 @@ public class FirebaseDatabaseHelper {
         mItemDao=db.itemDao();
         mUserDao=db.userDao();
         mOrderDao=db.orderDao();
-
     }
 
     public void loadRestaurantDataFromFirebase(){
@@ -131,10 +130,22 @@ public class FirebaseDatabaseHelper {
                             @Override
                             public void run() {
                                 mUserDao.updateLocalUserData(newUser.getUserID(), newUser.getEmail(), newUser.getPassword(),
-                                        newUser.getPhone(), newUser.getType());
+                                        newUser.getPhone(), newUser.getType(),"Logged in");
                             }
                         }) .start();
+
+                        accountFound=true;
                     }
+                }
+                if(!accountFound){
+                    Log.d("Account found: ","Yes!");
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mUserDao.updateLoginStatus("Account not found");
+                        }
+                    }).start();
                 }
             }
 

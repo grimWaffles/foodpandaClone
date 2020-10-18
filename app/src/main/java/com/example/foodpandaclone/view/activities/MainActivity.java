@@ -179,8 +179,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch(menuItem.getItemId()){
             /**case R.id.my_orders:
-              intent=new Intent(this, ActiveOrder.class);
-                intent.putExtra("message","Clicked my_orders");
+                intent=new Intent(this, ActiveOrder.class);
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return  true;**/

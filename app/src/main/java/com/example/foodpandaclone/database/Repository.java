@@ -1,6 +1,7 @@
 package com.example.foodpandaclone.database;
 
 import android.app.Application;
+import android.content.Context;
 import android.location.Location;
 
 import androidx.lifecycle.LiveData;
@@ -40,14 +41,14 @@ public class Repository {
 
     public void insertUserToLocal(User user) { mUserDao.insertUserToLocal(user); }
 
-
-    public void updateLocalUser(User user) { mUserDao.updateLocalUserData(user.getUserID(),user.getEmail(),user.getPassword(),user.getPhone(),user.getType()); }
+    //public void updateLocalUser(User user) { mUserDao.updateLocalUserData(user.getUserID(),user.getEmail(),user.getPassword(),user.getPhone(),user.getType()); }
 
     public void updateLocalUserLocation(Location location) { mUserDao.updateLocalUserLocation(location.getLatitude(),location.getLongitude()); }
 
     public List<User> getLocalUser() { return mUserDao.getCurrentUserFromLocal();}
 
-    public LiveData<List<User>> getUserListFromFirebase(int phone, String password) { fireDB.getUserDataFromFirebase(phone,password);
+    public LiveData<List<User>> getUserListFromFirebase(int phone, String password) {
+        fireDB.getUserDataFromFirebase(phone,password);
         return getUserListFromLocal();
     }
 

@@ -30,7 +30,7 @@ public class Login extends AppCompatActivity {
     Toolbar toolbar;
     final int SIGN_UP_ACTIVITY=2;
 
-    LoginViewModel loginViewModel;
+    LoginViewModel loginViewModel; public boolean accountFound=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +73,13 @@ public class Login extends AppCompatActivity {
                        @Override
                        public void onChanged(List<User> users) {
 
-                           if(users.get(0).getUserID()==1){
+                           if(users.get(0).getUserID()==1 && users.get(0).getLogin_status().equals("Not logged in")){
                                pbmain.setVisibility(View.VISIBLE);
+                           }
+                           else if(users.get(0).getUserID()==1 && users.get(0).getLogin_status().equals("Account not found")){
+                               pbmain.setVisibility(View.GONE);
+
+                               Toast.makeText(Login.this, "User account does not exist", Toast.LENGTH_SHORT).show();
                            }
                            else{
                                pbmain.setVisibility(View.GONE);
@@ -85,11 +90,10 @@ public class Login extends AppCompatActivity {
 
                        }
                    });
-
                }
 
                else{
-                   Toast.makeText(Login.this, "Login failed bruh", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(Login.this, "Fields are empty", Toast.LENGTH_SHORT).show();
                }
             }
         });
@@ -111,4 +115,5 @@ public class Login extends AppCompatActivity {
             }
         }
     }
+
 }

@@ -24,8 +24,18 @@ public class User {
     private double latitude;
     @ColumnInfo(name = "longitude")
     private double longitude;
+    @ColumnInfo(name="login_status")
+    private String login_status;
 
-    public User(String email,int phone, String password) {
+    public String getLogin_status() {
+        return login_status;
+    }
+
+    public void setLogin_status(String login_status) {
+        this.login_status = login_status;
+    }
+
+    public User(String email, int phone, String password) {
 
         this.email = email;
         this.phone = phone;
@@ -42,6 +52,7 @@ public class User {
         this.type="User";
         this.latitude=0.000000;
         this.longitude=0.000000;
+        this.login_status="Not logged in";
     }
 
     public User(int id,String email,int phone, String password,String type,double latitude,double longitude) {

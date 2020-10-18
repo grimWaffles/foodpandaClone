@@ -123,9 +123,7 @@ public class LocationAccess extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onSuccess(final Location location) {
 
-                    Log.d("Location  fetched:", "Location found");
-                    String message="Latitude: "+ String.valueOf(location.getLatitude())+" Longitude: "+String.valueOf(location.getLongitude());
-                    Log.d("Coordinates: ",message);
+                    Log.d("Location  fetched:", "Yes");
                     new Thread(new Runnable() {
                         @Override
                         public void run() {

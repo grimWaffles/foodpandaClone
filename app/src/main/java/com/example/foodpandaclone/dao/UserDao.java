@@ -23,8 +23,8 @@ public interface UserDao {
     @Query("SELECT * FROM user_table")
     List<User> getCurrentUserFromLocal();
 
-    @Query("UPDATE user_table SET id=:id, email=:email,password=:password,phone=:phone,type=:type WHERE id=1")
-    void updateLocalUserData(int id, String email, String password, int phone, String type);
+    @Query("UPDATE user_table SET id=:id, email=:email,password=:password,phone=:phone,type=:type,login_status=:login_status WHERE id=1")
+    void updateLocalUserData(int id, String email, String password, int phone, String type,String login_status);
 
     @Query("UPDATE user_table SET latitude=:latitude,longitude=:longitude")
     void updateLocalUserLocation(double latitude,double longitude);
@@ -32,9 +32,12 @@ public interface UserDao {
     @Query("DELETE  FROM user_table")
     void deleteLocalUser();
 
-    @Query("UPDATE user_table SET id=1, email=1,password=1,phone=1,type='user'")
+    @Query("UPDATE user_table SET id=1, email=1,password=1,phone=1,type='user',login_status='Not logged in'")
     void logoutCurrent();
 
     @Query("DELETE  FROM user_table WHERE type='Rider'")
     void deleteLocalRider();
+
+    @Query("UPDATE user_table SET login_status=:status WHERE id=1")
+    void updateLoginStatus(String status);
 }
