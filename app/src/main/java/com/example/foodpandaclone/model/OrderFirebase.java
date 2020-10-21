@@ -13,7 +13,7 @@ public class OrderFirebase {
     int total_cost;
 
     public OrderFirebase(){
-
+        this.orderID=1001;
     }
     public OrderFirebase(Order order,List<Item> items){
         this.orderID=order.getOrderID();

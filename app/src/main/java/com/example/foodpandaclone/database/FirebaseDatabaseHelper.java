@@ -1,9 +1,7 @@
 package com.example.foodpandaclone.database;
 
 import android.app.Application;
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -27,15 +25,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-//this version only gets and receives restaurant objects for now
 public class FirebaseDatabaseHelper {
 
-    private DatabaseReference ref; private List<RestaurantFirebase> restaurants=new ArrayList<>();
+    private DatabaseReference ref; private List<RestaurantFirebase> restaurants=new ArrayList<>(); private List<OrderFirebase> firebaseOrders=new ArrayList<>();
 
     private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private LocalDatabaseHelper db; private UserDao mUserDao;
     private OrderDao mOrderDao;
 
-    private boolean accountFound=false;
+    private boolean accountFound=false; private boolean ordersReceivedForUpdates =false; private boolean orderCancelled=false;
 
     public FirebaseDatabaseHelper(Application application){
 
@@ -45,6 +42,9 @@ public class FirebaseDatabaseHelper {
         mUserDao=db.userDao();
         mOrderDao=db.orderDao();
     }
+
+
+    /**Restaurant Functions**/
 
     public void loadRestaurantDataFromFirebase(){
 
@@ -94,6 +94,8 @@ public class FirebaseDatabaseHelper {
         }
 
     }
+
+    /**User Functions**/
 
     public void insertUserToFirebase(User user) {
         ref=FirebaseDatabase.getInstance().getReference().child("User").child(Integer.toString(user.getUserID()));
@@ -164,10 +166,114 @@ public class FirebaseDatabaseHelper {
 
     }
 
-    public void insertOrderToFirebase(OrderFirebase currentOrder) {
-        ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(currentOrder.getOrderID()));
-        ref.setValue(currentOrder);
+    /**Order Functions**/
+
+    public void getAllOrdersFromFirebase(){
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Order");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot ds:snapshot.getChildren()){
+
+                    OrderFirebase of=ds.getValue(OrderFirebase.class);
+                    firebaseOrders.add(of);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
+
+    public void insertOrderToFirebase(final OrderFirebase currentOrder) {
+
+        /**ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(currentOrder.getOrderID()));
+        ref.setValue(currentOrder);**/
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Order");
+
+        ref.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(firebaseOrders.isEmpty()){
+                    for(DataSnapshot ds:snapshot.getChildren()){
+
+                        OrderFirebase of=ds.getValue(OrderFirebase.class);
+                        firebaseOrders.add(of);
+                    }
+                    ordersReceivedForUpdates =true;
+                    updateOrderIDFromFirebase(currentOrder);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void updateOrderIDFromFirebase(OrderFirebase currentOrder){
+
+        if(firebaseOrders.size()!=0 && ordersReceivedForUpdates){
+            currentOrder.setOrderID(firebaseOrders.get(firebaseOrders.size()-1).getOrderID()+1);
+
+            ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(currentOrder.getOrderID()));
+            ref.setValue(currentOrder);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mOrderDao.updateLocalOrderID(firebaseOrders.get(firebaseOrders.size()-1).getOrderID()+1);
+                }
+            }).start();
+        }
+        else{
+            ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(currentOrder.getOrderID()));
+            ref.setValue(currentOrder);
+        }
+    }
+
+    public void cancelOrderFirebase(String orderID) {
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Order").child(orderID);
+        orderCancelled=false;
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                OrderFirebase of=new OrderFirebase();
+
+                for(DataSnapshot snap:snapshot.getChildren()){
+                    of=snap.getValue(OrderFirebase.class);
+                }
+
+               if(!of.getStatus().equals("cancelled")){
+
+                   of.setStatus("cancelled");
+
+                   DatabaseReference  ref2=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(of.getOrderID()));
+                   ref2.setValue(of);
+
+               }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    /**Rider Functions**/
 
     public void insertRiderToFireBase(Rider newUser) {
         ref=FirebaseDatabase.getInstance().getReference().child("Rider").child(Integer.toString(newUser.getRiderID()));
@@ -222,8 +328,5 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public void deleteOrderFromFirebase(String s) {
-        ref=FirebaseDatabase.getInstance().getReference().child("Order").child(s);
-        ref.setValue(null);
-    }
+
 }

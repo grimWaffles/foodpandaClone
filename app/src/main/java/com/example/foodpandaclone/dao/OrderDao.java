@@ -24,4 +24,7 @@ public interface OrderDao {
 
     @Query("UPDATE order_table SET senderid=:id WHERE senderid=0")
     void updateOrderRider(int id);
+
+    @Query("UPDATE order_table SET id=:i WHERE status='pending'")
+    void updateLocalOrderID(int i);
 }

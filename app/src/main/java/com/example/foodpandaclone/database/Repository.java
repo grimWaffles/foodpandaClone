@@ -1,7 +1,6 @@
 package com.example.foodpandaclone.database;
 
 import android.app.Application;
-import android.content.Context;
 import android.location.Location;
 
 import androidx.lifecycle.LiveData;
@@ -36,7 +35,7 @@ public class Repository {
         fireDB=new FirebaseDatabaseHelper(application);
     }
 
-    //userFunctions
+    /**User Functions**/
     public LiveData<List<User>> getUserListFromLocal(){ return mUserDao.fetchUserFromLocal(); }
 
     public void insertUserToLocal(User user) { mUserDao.insertUserToLocal(user); }
@@ -63,7 +62,7 @@ public class Repository {
         mUserDao.logoutCurrent();
     }
 
-    //restaurantFunctions
+    /**Restaurant Functions**/
     public LiveData<List<Restaurant>> getRestaurantFromLocal(){ return mRestaurantDao.fetchRestaurantFromLocal(); }
 
     public LiveData<List<Item>> getItemsFromLocal(int resID){ return mItemDao.fetchItemFromLocal(resID); }
@@ -73,7 +72,7 @@ public class Repository {
     public LiveData<Restaurant> getSingleRestaurant(int id){ return mRestaurantDao.getSingleRestaurant(id);}
 
 
-    //OrderFunctions
+    /**Order Functions**/
     public void increaseItemQuantity(int itemID, int restaurantID) {
 
         mItemDao.increaseItemQuantity(itemID,restaurantID);
@@ -100,21 +99,8 @@ public class Repository {
         mOrderDao.insertOrderToLocal(currentOrder);
     }
 
-    //Global Functions
-    //Deletes cache on startup
-    public void clearAllDataLocal(){ mRestaurantDao.deleteAllRestaurantFromLocal(); mItemDao.deleteAllItemFromLocal(); mUserDao.deleteLocalUser(); mOrderDao.deleteAllOrderFromLocal();}
-
-
     public void insertOrderToFirebase(OrderFirebase currentOrder) {
         fireDB.insertOrderToFirebase(currentOrder);
-    }
-
-    public void addRiderToFirebase(Rider newUser) {
-        fireDB.insertRiderToFireBase(newUser);
-    }
-
-    public void getAvailableRiders() {
-        fireDB.getAvailableRiders();
     }
 
     public void cancelOrder(final String s) {
@@ -124,8 +110,25 @@ public class Repository {
             public void run() {
                 mUserDao.deleteLocalRider();
                 mOrderDao.deleteAllOrderFromLocal();
-                fireDB.deleteOrderFromFirebase(s);
+                fireDB.cancelOrderFirebase(s);
             }
         }).start();
     }
+
+
+    /**Rider functions**/
+
+    public void addRiderToFirebase(Rider newUser) {
+        fireDB.insertRiderToFireBase(newUser);
+    }
+
+    public void getAvailableRiders() {
+        fireDB.getAvailableRiders();
+    }
+
+    /**Global Functions**/
+    public void clearAllDataLocal(){ mRestaurantDao.deleteAllRestaurantFromLocal(); mItemDao.deleteAllItemFromLocal(); mUserDao.deleteLocalUser(); mOrderDao.deleteAllOrderFromLocal();}
+
+
+
 }

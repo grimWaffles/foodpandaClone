@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout; private MainActivityViewModel mMAVM; private ViewPager sectionPager; private TabLayout tabLayout;
     Button btn_login,btn_logout; View navView;
     TextView user_email,user_name,user_latitude,user_longitude;
-    final int LOGIN_ACTIVITY=1;
+    final int LOGIN_ACTIVITY=1; ProgressBar pbmain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         sectionPager=findViewById(R.id.section_pager);
         tabLayout=findViewById(R.id.tablayout_main);
+
+        pbmain=findViewById(R.id.pbmain);
+
+        //seting visibility of progressbar and viewpager
+        pbmain.setVisibility(View.VISIBLE);
+        sectionPager.setVisibility(View.GONE);
 
         //Initialized toolbar:
         Toolbar toolbar=findViewById(R.id.toolbar);
@@ -93,17 +100,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 sectionPager.setAdapter(pagerAdapter);
                 tabLayout.setupWithViewPager(sectionPager);
+
+                sectionPager.setVisibility(View.VISIBLE);
+                pbmain.setVisibility(View.GONE);
             }
         });
-
-        //todo
-        //get  user name and populate nav header
 
         mMAVM.getCurrentUser().observe(MainActivity.this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
 
-                //get first and only from list
+                if(users.size()==1){
+                    //get first and only from list
                 User currUser = users.get(0);
 
                 if(currUser.getUserID()==1 && currUser.getEmail().equals("1")){
@@ -119,7 +127,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 user_latitude.setText(getAddressFromLocation(currUser.getLatitude(),currUser.getLongitude()));
                 //user_longitude.setText("Longitude: "+String.valueOf(currUser.getLongitude()));
+                }
+                else{
+                    //get first and only from list
+                    User currUser = users.get(1);
 
+                    if(currUser.getUserID()==1 && currUser.getEmail().equals("1")){
+                        user_name.setText("User not logged in");
+                        user_email.setText("");
+                    }
+                    else{
+                        user_name.setText(currUser.getUsername(currUser.getEmail()));
+                        user_email.setText(currUser.getEmail());
+                        btn_login.setVisibility(View.GONE);
+                        btn_logout.setVisibility(View.VISIBLE);
+                    }
+
+                    user_latitude.setText(getAddressFromLocation(currUser.getLatitude(),currUser.getLongitude()));
+                    //user_longitude.setText("Longitude: "+String.valueOf(currUser.getLongitude()));
+                }
             }
         });
     }

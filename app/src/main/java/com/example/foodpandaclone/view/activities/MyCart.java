@@ -128,36 +128,43 @@ public class MyCart extends AppCompatActivity {
 
                if(user.getUserID()==1){
                    Toast.makeText(MyCart.this, "You need to login first!", Toast.LENGTH_SHORT).show();
+                   //shows this prompt and takes you to login screen
+                   startActivity(new Intent(MyCart.this,Login.class));
                }
+
                else{
-                   progressBar.setVisibility(View.VISIBLE);
 
-                   final Order currentOrder=new Order(202010,user.getUserID(),0,"pending",Integer.parseInt(total.getText().toString()));
+                   if(orderItems.size()==0){
+                       Toast.makeText(MyCart.this, "Cart is empty!", Toast.LENGTH_SHORT).show();
+                   }
+                   else{
+                       progressBar.setVisibility(View.VISIBLE);
 
-                   Toast.makeText(MyCart.this, "This may take a while XD", Toast.LENGTH_SHORT).show();
+                       final Order currentOrder=new Order(202010,user.getUserID(),0,"pending",Integer.parseInt(total.getText().toString()));
 
+                       Toast.makeText(MyCart.this, "This may take a while XD", Toast.LENGTH_SHORT).show();
 
+                       new Thread(new Runnable() {
+                           @Override
+                           public void run() {
 
-                   new Thread(new Runnable() {
-                       @Override
-                       public void run() {
+                               mcVM.insertOrderToLocal(currentOrder);
 
-                           mcVM.insertOrderToLocal(currentOrder);
+                               OrderFirebase orderFirebase=new OrderFirebase(currentOrder,orderItems);
 
-                           OrderFirebase orderFirebase=new OrderFirebase(currentOrder,orderItems);
+                               mcVM.uploadOrderToFirebase(orderFirebase);
 
-                           mcVM.uploadOrderToFirebase(orderFirebase);
+                           }
+                       }).start();
 
-                       }
-                   }).start();
+                       mcVM.findRider();
 
-                   mcVM.findRider();
+                       progressBar.setVisibility(View.GONE);
 
-                   progressBar.setVisibility(View.GONE);
+                       startActivity(new Intent(MyCart.this,ActiveOrder.class));
+                       finish();
 
-                   startActivity(new Intent(MyCart.this,ActiveOrder.class));
-                   finish();
-
+                   }
                }
             }
         });
