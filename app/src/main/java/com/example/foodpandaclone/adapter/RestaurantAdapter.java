@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.model.Restaurant;
-import com.example.foodpandaclone.model.RestaurantFirebase;
 import com.example.foodpandaclone.view.activities.Restaurant_Activity;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -35,7 +32,7 @@ private List<Restaurant> listOfRestaurants; private int mode;
     @Override
     public RestaurantAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
 
-        CardView cardView=(CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_dfd,parent,false);
+        CardView cardView=(CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_discounted_restaurants,parent,false);
 
         return new RestaurantAdapter.ViewHolder(cardView);
     }

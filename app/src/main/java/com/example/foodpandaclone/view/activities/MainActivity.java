@@ -31,13 +31,15 @@ import android.widget.Toast;
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapter.ViewPagerMainActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
-    DrawerLayout drawerLayout; private MainActivityViewModel mMAVM; private ViewPager sectionPager; private TabLayout tabLayout;
+    DrawerLayout drawerLayout; private MainActivityViewModel mMAVM; private ViewPager sectionPager; private TabLayout tabLayout;  NavigationView navigationView;
     Button btn_login,btn_logout; View navView;
-    TextView user_email,user_name,user_latitude,user_longitude;
+    TextView user_email,user_name,user_latitude;
     final int LOGIN_ACTIVITY=1; ProgressBar pbmain;
 
     @Override
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.setTitle("Foodpanda Clone");
+        this.setTitle("Bhook Lagi?");
 
         mMAVM=new ViewModelProvider(this).get(MainActivityViewModel.class);
 
@@ -73,7 +75,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout.addDrawerListener(toggle);
 
-        NavigationView navigationView=findViewById(R.id.nav_view);
+        navigationView=findViewById(R.id.nav_view);
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.nav_menu);
         navigationView.setNavigationItemSelectedListener(this);
 
         //navHeader Items
@@ -146,6 +150,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user_latitude.setText(getAddressFromLocation(currUser.getLatitude(),currUser.getLongitude()));
                     //user_longitude.setText("Longitude: "+String.valueOf(currUser.getLongitude()));
                 }
+
+                //if user is an admin
+                if(users.get(0).getType().equals("Admin")){
+                    navigationView.getMenu().clear();
+                    navigationView.inflateMenu(R.menu.nav_menu_dev);
+                }
             }
         });
     }
@@ -204,17 +214,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent;
 
         switch(menuItem.getItemId()){
-            /**case R.id.my_orders:
-                intent=new Intent(this, ActiveOrder.class);
+            case R.id.my_orders:
+                intent=new Intent(this, MyOrder.class);
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return  true;**/
+                return  true;
 
             case R.id.mapsOrder:
                 intent=new Intent(this, ActiveOrder.class);
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return  true;
+
+            case R.id.developerSettings:
+                startActivity(new Intent(MainActivity.this,DevMode.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
         }
         return true;
     }

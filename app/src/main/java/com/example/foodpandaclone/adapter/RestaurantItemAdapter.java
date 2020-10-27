@@ -34,7 +34,7 @@ public class RestaurantItemAdapter extends RecyclerView.Adapter<RestaurantItemAd
     @Override
     public RestaurantItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        CardView cardView=(CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_rf,parent,false);
+        CardView cardView=(CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_restaurant_item,parent,false);
 
         return new RestaurantItemAdapter.ViewHolder(cardView);
     }

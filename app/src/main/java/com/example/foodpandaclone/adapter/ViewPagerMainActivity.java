@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.foodpandaclone.model.Restaurant;
-import com.example.foodpandaclone.view.fragments.Delivery_Fragment;
+import com.example.foodpandaclone.view.fragments.MainRestaurant_Fragment;
 import com.example.foodpandaclone.view.fragments.Shop_Fragment;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class ViewPagerMainActivity extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         switch(i){
             case 0:
-                return new Delivery_Fragment(restaurants);
+                return new MainRestaurant_Fragment(restaurants);
             case 1:
                 return new Shop_Fragment();
         }

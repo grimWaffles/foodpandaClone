@@ -16,12 +16,11 @@ public class RestaurantFirebase {
     private double rating;
     private double latitude;
     private double longitude;
-    private List<String> categoriesOffered=new ArrayList<>();
     private List<Item> items=new ArrayList<>();
 
     public RestaurantFirebase(){}
 
-    public RestaurantFirebase(int restaurantID, String name, String location, String phoneNumber, int priceLevel, int numberOfReviews, int discount, int deliveryCost, double rating, double latitude, double longitude, List<String> categoriesOffered, List<Item> items) {
+    public RestaurantFirebase(int restaurantID, String name, String location, String phoneNumber, int priceLevel, int numberOfReviews, int discount, int deliveryCost, double rating, double latitude, double longitude, List<Item> items) {
         this.restaurantID = restaurantID;
         this.name = name;
         this.location = location;
@@ -33,7 +32,6 @@ public class RestaurantFirebase {
         this.rating = rating;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.categoriesOffered = categoriesOffered;
         this.items = items;
     }
 
@@ -123,14 +121,6 @@ public class RestaurantFirebase {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
-    }
-
-    public List<String> getCategoriesOffered() {
-        return categoriesOffered;
-    }
-
-    public void setCategoriesOffered(List<String> categoriesOffered) {
-        this.categoriesOffered = categoriesOffered;
     }
 
     public List<Item> getItems() {

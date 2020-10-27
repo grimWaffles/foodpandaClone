@@ -26,6 +26,8 @@ import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.viewModel.MyCartViewModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class MyCart extends AppCompatActivity {
 
     Button orderNow;
 
-    Toolbar toolbar; private ProgressBar progressBar;
+    Toolbar toolbar; private ProgressBar progressBar; private int t_discount;
 
     private MyCartItemsAdapter adapter; private MyCartViewModel mcVM; private LinearLayoutManager llm;
     private List<Restaurant> res; private Restaurant restaurant;private User user; private List<Item> orderItems;
@@ -58,7 +60,7 @@ public class MyCart extends AppCompatActivity {
 
         progressBar=findViewById(R.id.pb_cart); progressBar.setVisibility(View.GONE);
 
-        user=new User(); restaurant=new Restaurant();
+        user=new User(); restaurant=new Restaurant(); t_discount=0;
 
         rv_main=findViewById(R.id.rv_cart);
         card_cart_total=findViewById(R.id.card_cart_total);
@@ -77,7 +79,7 @@ public class MyCart extends AppCompatActivity {
 
         mcVM.getRestaurantData().observe(this, new Observer<List<Restaurant>>() {
             @Override
-            public void onChanged(List<Restaurant> restaurants) {
+            public void onChanged(final List<Restaurant> restaurants) {
                 res=restaurants;
 
                 if(res!=null){
@@ -85,6 +87,7 @@ public class MyCart extends AppCompatActivity {
                         @Override
                         public void onChanged(List<User> users) {
                             MyCart.this.user=users.get(0);
+                            findTotalDiscount(res);
                         }
                     });
 
@@ -140,7 +143,7 @@ public class MyCart extends AppCompatActivity {
                    else{
                        progressBar.setVisibility(View.VISIBLE);
 
-                       final Order currentOrder=new Order(202010,user.getUserID(),0,"pending",Integer.parseInt(total.getText().toString()));
+                       final Order currentOrder=new Order(202010,user.getUserID(),0,"pending",Integer.parseInt(total.getText().toString()),t_discount,getCurrentDate());
 
                        Toast.makeText(MyCart.this, "This may take a while XD", Toast.LENGTH_SHORT).show();
 
@@ -170,9 +173,22 @@ public class MyCart extends AppCompatActivity {
         });
     }
 
+    private void findTotalDiscount(List<Restaurant> restaurantList) {
+
+        int discount=0; int count=0;
+
+        for(Restaurant r:restaurantList){
+            discount+=r.getDiscount();
+            count++;
+        }
+
+        t_discount=discount/count;
+
+    }
+
     private void inputPricingInTheCards(List<Item> items) {
 
-        int s_cost=0;int t_discount=0; int t_cost=0; int t_delivery=0;
+        int s_cost=0; int t_cost=0; int t_delivery=0;
 
         for(Item i :items){
 
@@ -186,10 +202,6 @@ public class MyCart extends AppCompatActivity {
                     t_delivery=restaurant.getDeliveryCost();
                 }
             }
-            if(i.getPrice()>restaurant.getDiscount()){
-                t_discount+=restaurant.getDiscount();
-            }
-
         }
 
         t_cost=s_cost-t_discount+t_delivery;
@@ -197,5 +209,12 @@ public class MyCart extends AppCompatActivity {
         //set values to cards
         subtotal.setText(Integer.toString(s_cost)); discount.setText(Integer.toString(t_discount)); total.setText(Integer.toString(t_cost));
 
+    }
+
+    private String getCurrentDate(){
+
+        Calendar calendar= Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        return simpleDateFormat.format(calendar.getTime());
     }
 }

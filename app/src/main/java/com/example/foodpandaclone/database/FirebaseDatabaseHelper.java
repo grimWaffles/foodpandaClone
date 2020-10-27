@@ -10,7 +10,9 @@ import com.example.foodpandaclone.dao.OrderDao;
 import com.example.foodpandaclone.dao.RestaurantDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
+import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.OrderFirebase;
+import com.example.foodpandaclone.model.OrderItem;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.RestaurantFirebase;
 import com.example.foodpandaclone.model.Rider;
@@ -181,6 +183,45 @@ public class FirebaseDatabaseHelper {
                     OrderFirebase of=ds.getValue(OrderFirebase.class);
                     firebaseOrders.add(of);
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void getAllOrdersFromFirebase(final int userID){
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Order");
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot ds:snapshot.getChildren()){
+
+                    OrderFirebase of=ds.getValue(OrderFirebase.class);
+
+                    if(of.getUserID()==userID){
+                        firebaseOrders.add(of);
+                    }
+
+                }
+
+                if(firebaseOrders.size()!=0 ){
+
+                    for(OrderFirebase orderFirebase:firebaseOrders){
+
+                        Order order=orderFirebase.getOrderObject();
+                        List<OrderItem> orderItems=orderFirebase.getOrderItems();
+
+
+                    }
+
+                }
+
             }
 
             @Override

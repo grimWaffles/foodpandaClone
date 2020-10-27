@@ -26,6 +26,8 @@ public class Rider {
     private double longitude;
     @ColumnInfo(name = "status")
     private String status;
+    @ColumnInfo(name="login_status")
+    private String login_status;
 
     public Rider(String email, int phone, String password) {
 
@@ -43,6 +45,7 @@ public class Rider {
         this.latitude = 0.000000;
         this.longitude = 0.000000;
         this.status="Available";
+        this.login_status="Not logged in";
     }
 
     public Rider() {

@@ -8,29 +8,43 @@ public class OrderFirebase {
     int orderID;
     int userID;
     int senderID;
-    List<Item> orderItems;
+    List<OrderItem> orderItems;
     String status;
     int total_cost;
+    int discount;
+    String date;
 
     public OrderFirebase(){
         this.orderID=1001;
     }
-    public OrderFirebase(Order order,List<Item> items){
+
+    public OrderFirebase(Order order,List<OrderItem> items){
         this.orderID=order.getOrderID();
         this.userID=order.getUserID();
         this.senderID=order.getSenderID();
         this.orderItems=items;
         this.status=order.getStatus();
         this.total_cost=order.getTotal_cost();
+        this.date=order.getDate();
     }
 
-    public OrderFirebase(int orderID, int userID, int senderID, List<Item> orderItems, String status, int total_cost) {
+    public OrderFirebase(int orderID, int userID, int senderID, List<OrderItem> orderItems, String status, int total_cost,int discount,String date) {
         this.orderID = orderID;
         this.userID = userID;
         this.senderID = senderID;
         this.orderItems = orderItems;
         this.status=status;
         this.total_cost=total_cost;
+        this.discount=discount;
+        this.date=date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getStatus() {
@@ -73,12 +87,27 @@ public class OrderFirebase {
         this.senderID = senderID;
     }
 
-    public List<Item> getOrderItems() {
+    public List<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(List<Item> orderItems) {
+    public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
-    
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public Order getOrderObject(){
+
+        Order order=new Order(this.getOrderID(),this.userID,this.senderID,this.status,this.total_cost,this.discount,this.date);
+
+        return  order;
+    }
+
 }

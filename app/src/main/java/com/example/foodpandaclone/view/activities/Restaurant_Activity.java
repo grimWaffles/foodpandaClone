@@ -2,6 +2,9 @@ package com.example.foodpandaclone.view.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -44,16 +47,15 @@ public class Restaurant_Activity extends AppCompatActivity {
         //get data from the viewModel:
         mRAVM=new ViewModelProvider(this).get(RestaurantActivityViewModel.class);
 
-
-        //add a try catch
         mRAVM.getSingleRestaurantData(getIntent().getExtras().getInt("restaurant")).observe(this, new Observer<Restaurant>() {
             @Override
             public void onChanged(Restaurant restaurant) {
 
-                res_location.setText("Location: "+restaurant.getLocation());
                 res_delivery.setText("ETA: "+"30 minutes");
 
                 Restaurant_Activity.this.setTitle(restaurant.getResName());
+
+                res_location.setText(getAddressFromLocation(restaurant.getLatitude(),restaurant.getLongitude()));
 
                 mRAVM.getRestaurantItems(restaurant.getResID()).observe(Restaurant_Activity.this, new Observer<List<Item>>() {
                     @Override
@@ -68,5 +70,18 @@ public class Restaurant_Activity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private String getAddressFromLocation(double latitude, double longitude) {
+
+        Geocoder geocoder=new Geocoder(this);
+
+        try{
+            List<Address> addressList=geocoder.getFromLocation(latitude,longitude,1);
+            return addressList.get(0).getAddressLine(0);
+        }
+        catch(Exception e){
+            return "Address not found";
+        }
     }
 }

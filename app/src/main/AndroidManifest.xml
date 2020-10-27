@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.foodpandaclone">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -18,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_panda"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".view.activities.MyOrder" android:screenOrientation="sensorPortrait"></activity>
+        <activity android:name=".view.activities.DevMode" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -33,22 +33,26 @@
 
         <activity
             android:name=".view.activities.ActiveOrder"
-            android:label="@string/title_activity_active_order" android:parentActivityName=".view.activities.MainActivity"></activity>
+            android:label="@string/title_activity_active_order"
+            android:parentActivityName=".view.activities.MainActivity"
+            android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".view.activities.MyCart"
-            android:parentActivityName=".view.activities.MainActivity" />
+            android:parentActivityName=".view.activities.MainActivity"
+            android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".view.activities.Sign_Up"
-            android:parentActivityName=".view.activities.Login" />
+            android:parentActivityName=".view.activities.Login"
+            android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".view.activities.Login"
-            android:parentActivityName=".view.activities.MainActivity" />
+            android:parentActivityName=".view.activities.MainActivity"
+            android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".view.activities.Restaurant_Activity"
-            android:parentActivityName=".view.activities.MainActivity" />
-        <activity android:name=".view.activities.DeveloperSettings" />
-        <activity android:name=".view.activities.LocationAccess" />
-        <activity android:name=".view.activities.LogoPage">
+            android:parentActivityName=".view.activities.MainActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".view.activities.LocationAccess" android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".view.activities.LogoPage" android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,7 +61,8 @@
         </activity>
         <activity
             android:name=".view.activities.MainActivity"
-            android:label="" />
+            android:label=""
+            android:screenOrientation="sensorPortrait"/>
     </application>
 
 </manifest>

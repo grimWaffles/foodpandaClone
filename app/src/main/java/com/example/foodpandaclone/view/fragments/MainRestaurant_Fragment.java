@@ -18,7 +18,7 @@ import com.example.foodpandaclone.model.Restaurant;
 
 import java.util.List;
 
-public class Delivery_Fragment extends Fragment {
+public class MainRestaurant_Fragment extends Fragment {
 
     private RecyclerView treat_hobe,all_restaurants;
     private CardView panda_favorites;
@@ -27,7 +27,7 @@ public class Delivery_Fragment extends Fragment {
 
     private RestaurantAdapter dra;  private RestaurantAdapter ara;
 
-    public Delivery_Fragment(List<Restaurant> restaurants) {
+    public MainRestaurant_Fragment(List<Restaurant> restaurants) {
         // Required empty public constructor
         this.restaurantList=restaurants;
     }

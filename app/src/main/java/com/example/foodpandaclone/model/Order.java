@@ -21,6 +21,10 @@ public class Order {
     private String status;
     @ColumnInfo(name = "total_cost")
     private int total_cost;
+    @ColumnInfo(name="discount")
+    private int discount;
+    @ColumnInfo(name="date")
+    private String date;
 
     public int getTotal_cost() {
         return total_cost;
@@ -38,15 +42,25 @@ public class Order {
         this.status = status;
     }
 
-    public Order(int orderID, int userID, int senderID, String status,int total_cost) {
+    public Order(int orderID, int userID, int senderID, String status, int total_cost, int discount,String date) {
         this.orderID = orderID;
         this.userID = userID;
         this.senderID = senderID;
         this.status="pending";
         this.total_cost=total_cost;
+        this.discount=discount;
+        this.date=date;
     }
     public Order(){
 
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getOrderID() {
@@ -71,6 +85,14 @@ public class Order {
 
     public void setSenderID(int senderID) {
         this.senderID = senderID;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
 }

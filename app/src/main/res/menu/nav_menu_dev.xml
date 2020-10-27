@@ -11,5 +11,10 @@
             android:icon="@drawable/help"
             android:title="Active Order"
             />
+        <item
+            android:id="@+id/developerSettings"
+            android:icon="@drawable/ic_baseline_developer_board_24"
+            android:title="Developer Settings"
+            />
     </group>
 </menu>
