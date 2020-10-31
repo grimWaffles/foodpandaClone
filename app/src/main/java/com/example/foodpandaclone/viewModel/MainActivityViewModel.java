@@ -39,4 +39,9 @@ public class MainActivityViewModel extends AndroidViewModel {
             }
         }).start();
     }
+
+    public void loadData() {
+
+        mRepo.getFirebaseData();
+    }
 }

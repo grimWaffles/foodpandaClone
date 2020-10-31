@@ -58,6 +58,14 @@ public class Rider {
         return email.substring(0, i);
     }
 
+    public String getLogin_status() {
+        return login_status;
+    }
+
+    public void setLogin_status(String login_status) {
+        this.login_status = login_status;
+    }
+
     public boolean checkIfRider(String email){
         int i=email.indexOf('@');
 

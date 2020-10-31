@@ -1,5 +1,6 @@
 package com.example.foodpandaclone.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +9,7 @@ public class OrderFirebase {
     int orderID;
     int userID;
     int senderID;
-    List<OrderItem> orderItems;
+    List<OrderItem> orderItems=new ArrayList<>();
     String status;
     int total_cost;
     int discount;
@@ -69,6 +70,13 @@ public class OrderFirebase {
 
     public void setOrderID(int orderID) {
         this.orderID = orderID;
+
+        if(orderItems!=null){
+            for(OrderItem i: this.orderItems){
+                i.setOrderID(this.getOrderID());
+            }
+        }
+
     }
 
     public int getUserID() {

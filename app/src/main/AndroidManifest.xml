@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_panda"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activities.MyOrder" android:screenOrientation="sensorPortrait"></activity>
+        <activity android:name=".view.activities.MyOrder" android:parentActivityName=".view.activities.MainActivity" android:screenOrientation="sensorPortrait"></activity>
         <activity android:name=".view.activities.DevMode" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -50,8 +50,11 @@
             android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".view.activities.Restaurant_Activity"
-            android:parentActivityName=".view.activities.MainActivity" android:screenOrientation="sensorPortrait" />
+            android:parentActivityName=".view.activities.MainActivity"
+            android:screenOrientation="sensorPortrait" />
+
         <activity android:name=".view.activities.LocationAccess" android:screenOrientation="sensorPortrait"/>
+
         <activity android:name=".view.activities.LogoPage" android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,6 +62,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".view.activities.MainActivity"
             android:label=""

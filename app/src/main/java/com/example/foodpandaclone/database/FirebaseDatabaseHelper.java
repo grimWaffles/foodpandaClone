@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.example.foodpandaclone.dao.ItemDao;
 import com.example.foodpandaclone.dao.OrderDao;
+import com.example.foodpandaclone.dao.OrderItemDao;
 import com.example.foodpandaclone.dao.RestaurantDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
@@ -31,7 +32,7 @@ public class FirebaseDatabaseHelper {
 
     private DatabaseReference ref; private List<RestaurantFirebase> restaurants=new ArrayList<>(); private List<OrderFirebase> firebaseOrders=new ArrayList<>();
 
-    private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private LocalDatabaseHelper db; private UserDao mUserDao;
+    private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private LocalDatabaseHelper db; private UserDao mUserDao; private OrderItemDao mOrderItemDao;
     private OrderDao mOrderDao;
 
     private boolean accountFound=false; private boolean ordersReceivedForUpdates =false; private boolean orderCancelled=false;
@@ -43,6 +44,7 @@ public class FirebaseDatabaseHelper {
         mItemDao=db.itemDao();
         mUserDao=db.userDao();
         mOrderDao=db.orderDao();
+        mOrderItemDao =db.orderItemDao();
     }
 
 
@@ -214,10 +216,21 @@ public class FirebaseDatabaseHelper {
 
                     for(OrderFirebase orderFirebase:firebaseOrders){
 
-                        Order order=orderFirebase.getOrderObject();
-                        List<OrderItem> orderItems=orderFirebase.getOrderItems();
+                        final Order order=orderFirebase.getOrderObject();
+                        final List<OrderItem> orderItems=orderFirebase.getOrderItems();
 
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
 
+                                mOrderDao.insertOrderToLocal(order);
+
+                                for(OrderItem oi:orderItems){
+                                    mOrderItemDao.insertOrderItemToLocal(oi);
+                                }
+
+                            }
+                        }).start();
                     }
 
                 }
@@ -263,6 +276,8 @@ public class FirebaseDatabaseHelper {
 
     public void updateOrderIDFromFirebase(OrderFirebase currentOrder){
 
+        final int id=currentOrder.getOrderID();
+
         if(firebaseOrders.size()!=0 && ordersReceivedForUpdates){
             currentOrder.setOrderID(firebaseOrders.get(firebaseOrders.size()-1).getOrderID()+1);
 
@@ -273,6 +288,8 @@ public class FirebaseDatabaseHelper {
                 @Override
                 public void run() {
                     mOrderDao.updateLocalOrderID(firebaseOrders.get(firebaseOrders.size()-1).getOrderID()+1);
+                    mOrderItemDao.updateLocalOrderID(firebaseOrders.get(firebaseOrders.size()-1).getOrderID()+1,id);
+
                 }
             }).start();
         }

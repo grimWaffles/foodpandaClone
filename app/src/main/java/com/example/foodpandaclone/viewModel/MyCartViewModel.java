@@ -10,6 +10,7 @@ import com.example.foodpandaclone.database.Repository;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.OrderFirebase;
+import com.example.foodpandaclone.model.OrderItem;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.User;
 
@@ -53,5 +54,14 @@ public class MyCartViewModel extends AndroidViewModel {
 
     public void findRider() {
         mRepo.getAvailableRiders();
+    }
+
+    public void insertOrderItemsToLocal(List<OrderItem> orderItems) {
+
+        mRepo.insertOrderItemsToLocal(orderItems);
+    }
+
+    public LiveData<List<Order>> getOrderFromLocal(){
+        return mRepo.getOrderlist();
     }
 }

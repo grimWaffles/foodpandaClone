@@ -1,6 +1,7 @@
 package com.example.foodpandaclone.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -14,7 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodpandaclone.R;
+import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.viewModel.LogoPageViewModel;
+
+import java.util.List;
 
 import static java.lang.Thread.currentThread;
 
@@ -31,20 +35,27 @@ public class LogoPage extends AppCompatActivity {
         tvName=findViewById(R.id.logo_name);
         pbarMain=findViewById(R.id.progress);
 
-        pbarMain.setVisibility(View.GONE);
+        pbarMain.setVisibility(View.VISIBLE);
 
         mLPVM =new ViewModelProvider(this).get(LogoPageViewModel.class);
 
-       new Thread(new Runnable() {
+        mLPVM.getUserFromLocal().observe(this, new Observer<List<User>>() {
             @Override
-            public void run() {
-                mLPVM.clearLocalStorage();
+            public void onChanged(List<User> users) {
+
+                if(users==null || users.size()==0){
+                    mLPVM.insertBlankUserToLocal();
+                }
+                else if(users.size()>0){
+
+                    mLPVM.clearLocalStorage();
+
+                    Toast.makeText(LogoPage.this, "Update complete", Toast.LENGTH_SHORT).show();
+
+                    startActivity(new Intent(LogoPage.this,LocationAccess.class));
+                }
+
             }
-        }).start();
-
-
-        Toast.makeText(this, "Update complete", Toast.LENGTH_SHORT).show();
-
-        startActivity(new Intent(this,LocationAccess.class));
+        });
     }
 }

@@ -10,13 +10,5 @@
         android:icon="@drawable/cart_empty"
         android:iconTint="@color/colorAccent"
         />
-    <item
-        android:id="@+id/sync_db"
-        android:title="Sync"
-        app:showAsAction="ifRoom"
-        android:iconTint="@android:color/holo_blue_dark"
-        android:icon="@drawable/ic_baseline_sync_24"
-        android:orderInCategory="2"
-        />
 
 </menu>

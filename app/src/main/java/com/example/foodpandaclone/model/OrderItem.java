@@ -39,6 +39,17 @@ public class OrderItem{
         this.itemID=0;
         this.orderID=orderID;
     }
+    
+    public OrderItem(int orderID,Item item){
+        this.name = item.getName();
+        this.description = item.getDescription();
+        this.restaurantID = item.getRestaurantID();
+        this.itemType = item.getItemType();
+        this.price = item.getPrice();
+        this.quantity = item.getQuantity();
+        this.itemID=item.getItemID();
+        this.orderID=orderID;
+    }
 
     public OrderItem(){}
 

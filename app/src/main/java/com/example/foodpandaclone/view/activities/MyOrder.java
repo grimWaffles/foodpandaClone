@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -39,8 +40,12 @@ public class MyOrder extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        adapter=new MyOrderAdapter();
+
         recyclerView=findViewById(R.id.recyclerView);
         llm=new LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(llm);
 
         moVM=new ViewModelProvider(this).get(MyOrderViewModel.class);
 
@@ -48,16 +53,17 @@ public class MyOrder extends AppCompatActivity {
             @Override
             public void onChanged(List<User> users) {
 
+                Log.d("Users fetched","Yes");
+
                 if(users.get(0).getLogin_status().equals("Logged in")){
+
+                    moVM.downloadUserOrders(users.get(0).getUserID());
 
                     moVM.getUserOrders().observe(MyOrder.this, new Observer<List<Order>>() {
                         @Override
                         public void onChanged(List<Order> orders) {
-
                             adapter.setOrderList(orders);
                             recyclerView.setAdapter(adapter);
-                            recyclerView.setLayoutManager(llm);
-
                         }
                     });
 
@@ -69,7 +75,7 @@ public class MyOrder extends AppCompatActivity {
             }
         });
 
-
+        // TODO: 27-Oct-20 Test this
 
     }
 }

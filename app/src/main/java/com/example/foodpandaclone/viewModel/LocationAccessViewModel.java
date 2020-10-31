@@ -37,25 +37,4 @@ public class LocationAccessViewModel extends AndroidViewModel {
             e.printStackTrace();
         }
     }
-
-    public void loadData() {
-
-        mRepo.getFirebaseData();
-    }
-
-    public void insertBlankUserToLocal(){
-
-        User user=new User("1",1,"1");
-
-        mRepo.insertUserToLocal(user);
-    }
-    public boolean noCurrentUserExists(){
-
-        if(mRepo.getLocalUser().size()==0){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
 }

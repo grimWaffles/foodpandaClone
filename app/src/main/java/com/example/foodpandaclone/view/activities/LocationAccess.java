@@ -53,23 +53,6 @@ public class LocationAccess extends AppCompatActivity implements View.OnClickLis
 
         mLAVM = new ViewModelProvider(this).get(LocationAccessViewModel.class);
 
-        //fetches restaurant data from firebase
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mLAVM.loadData();
-                Log.d("Firebase data:-", "Data loading and inserting");
-            }
-        }).start();
-
-        //create new blank user
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mLAVM.insertBlankUserToLocal();
-            }
-        }).start();
-
         //fused location provider used to get location
         client = LocationServices.getFusedLocationProviderClient(this);
 

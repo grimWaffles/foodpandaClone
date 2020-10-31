@@ -21,7 +21,7 @@ public interface RiderDao {
     LiveData<List<Rider>> fetchRiderFromLocal();
 
     @Query("SELECT * FROM rider_table")
-    List<User> getCurrentRiderFromLocal();
+    List<Rider> getCurrentRiderFromLocal();
 
     @Query("UPDATE rider_table SET id=:id, email=:email,password=:password,phone=:phone,type=:type,login_status=:login_status WHERE id=1")
     void updateLocalRiderData(int id, String email, String password, int phone, String type,String login_status);

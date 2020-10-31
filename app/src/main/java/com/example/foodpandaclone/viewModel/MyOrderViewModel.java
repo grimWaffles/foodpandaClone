@@ -29,4 +29,8 @@ public class MyOrderViewModel extends AndroidViewModel {
     public LiveData<List<Order>> getUserOrders(){
         return mRepo.getOrderlist();
     }
+
+    public void downloadUserOrders(int userID) {
+        mRepo.downloadUserOrder(userID);
+    }
 }

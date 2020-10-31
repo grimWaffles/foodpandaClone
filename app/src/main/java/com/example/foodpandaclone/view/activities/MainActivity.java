@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mMAVM=new ViewModelProvider(this).get(MainActivityViewModel.class);
 
+        mMAVM.loadData();
+
         sectionPager=findViewById(R.id.section_pager);
         tabLayout=findViewById(R.id.tablayout_main);
 
@@ -100,13 +102,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onChanged(List<Restaurant> restaurants) {
 
-                ViewPagerMainActivity pagerAdapter=new ViewPagerMainActivity(getSupportFragmentManager(), restaurants);
+               if(restaurants.size()!=0 && restaurants.size()>1){
 
-                sectionPager.setAdapter(pagerAdapter);
-                tabLayout.setupWithViewPager(sectionPager);
+                   ViewPagerMainActivity pagerAdapter=new ViewPagerMainActivity(getSupportFragmentManager(), restaurants);
 
-                sectionPager.setVisibility(View.VISIBLE);
-                pbmain.setVisibility(View.GONE);
+                   sectionPager.setAdapter(pagerAdapter);
+                   tabLayout.setupWithViewPager(sectionPager);
+
+                   sectionPager.setVisibility(View.VISIBLE);
+                   pbmain.setVisibility(View.GONE);
+               }
             }
         });
 
@@ -116,17 +121,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 if(users.size()==1){
                     //get first and only from list
-                User currUser = users.get(0);
+                    User currUser = users.get(0);
 
-                if(currUser.getUserID()==1 && currUser.getEmail().equals("1")){
-                    user_name.setText("User not logged in");
-                    user_email.setText("");
-                }
-                else{
-                    user_name.setText(currUser.getUsername(currUser.getEmail()));
-                    user_email.setText(currUser.getEmail());
-                    btn_login.setVisibility(View.GONE);
-                    btn_logout.setVisibility(View.VISIBLE);
+                    if(currUser.getUserID()==1 && currUser.getEmail().equals("1")){
+                        user_name.setText("User not logged in");
+                        user_email.setText("");
+                    }
+                    else{
+                        user_name.setText(currUser.getUsername(currUser.getEmail()));
+                        user_email.setText(currUser.getEmail());
+                        btn_login.setVisibility(View.GONE);
+                        btn_logout.setVisibility(View.VISIBLE);
                 }
 
                 user_latitude.setText(getAddressFromLocation(currUser.getLatitude(),currUser.getLongitude()));
@@ -134,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 else{
                     //get first and only from list
-                    User currUser = users.get(1);
+                    User currUser = users.get(0);
 
                     if(currUser.getUserID()==1 && currUser.getEmail().equals("1")){
                         user_name.setText("User not logged in");

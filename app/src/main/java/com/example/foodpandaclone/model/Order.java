@@ -46,7 +46,7 @@ public class Order {
         this.orderID = orderID;
         this.userID = userID;
         this.senderID = senderID;
-        this.status="pending";
+        this.status=status;
         this.total_cost=total_cost;
         this.discount=discount;
         this.date=date;

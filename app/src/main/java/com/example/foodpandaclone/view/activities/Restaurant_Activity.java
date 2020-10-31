@@ -51,11 +51,11 @@ public class Restaurant_Activity extends AppCompatActivity {
             @Override
             public void onChanged(Restaurant restaurant) {
 
-                res_delivery.setText("ETA: "+"30 minutes");
+                res_delivery.setText("Delivery: "+"30 minutes");
 
                 Restaurant_Activity.this.setTitle(restaurant.getResName());
 
-                res_location.setText(getAddressFromLocation(restaurant.getLatitude(),restaurant.getLongitude()));
+                res_location.setText("Location: "+getAddressFromLocation(restaurant.getLatitude(),restaurant.getLongitude()));
 
                 mRAVM.getRestaurantItems(restaurant.getResID()).observe(Restaurant_Activity.this, new Observer<List<Item>>() {
                     @Override

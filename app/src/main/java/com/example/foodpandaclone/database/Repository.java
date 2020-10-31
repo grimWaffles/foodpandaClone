@@ -7,11 +7,14 @@ import androidx.lifecycle.LiveData;
 
 import com.example.foodpandaclone.dao.ItemDao;
 import com.example.foodpandaclone.dao.OrderDao;
+import com.example.foodpandaclone.dao.OrderItemDao;
 import com.example.foodpandaclone.dao.RestaurantDao;
+import com.example.foodpandaclone.dao.RiderDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.OrderFirebase;
+import com.example.foodpandaclone.model.OrderItem;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.Rider;
 import com.example.foodpandaclone.model.User;
@@ -21,17 +24,17 @@ import java.util.List;
 public class Repository {
 
     private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private LocalDatabaseHelper db; private UserDao mUserDao;
-    private FirebaseDatabaseHelper fireDB; private OrderDao mOrderDao;
+    private FirebaseDatabaseHelper fireDB; private OrderDao mOrderDao;  private OrderItemDao orderItemDao;  private RiderDao mRiderDao;
 
     public Repository(Application application){
 
         db=LocalDatabaseHelper.getDatabase(application);
-
+        orderItemDao=db.orderItemDao();
         mRestaurantDao=db.restaurantDao();
         mItemDao=db.itemDao();
         mUserDao=db.userDao();
         mOrderDao=db.orderDao();
-
+        mRiderDao=db.riderDao();
         fireDB=new FirebaseDatabaseHelper(application);
     }
 
@@ -62,6 +65,7 @@ public class Repository {
         mUserDao.logoutCurrent();
     }
 
+
     /**Restaurant Functions**/
     public LiveData<List<Restaurant>> getRestaurantFromLocal(){ return mRestaurantDao.fetchRestaurantFromLocal(); }
 
@@ -73,19 +77,11 @@ public class Repository {
 
 
     /**Order Functions**/
-    public void increaseItemQuantity(int itemID, int restaurantID) {
+    public void increaseItemQuantity(int itemID, int restaurantID) { mItemDao.increaseItemQuantity(itemID,restaurantID); }
 
-        mItemDao.increaseItemQuantity(itemID,restaurantID);
-    }
-    public void decreaseItemQuantity(int itemID, int restaurantID) {
+    public void decreaseItemQuantity(int itemID, int restaurantID) { mItemDao.decreaseItemQuantity(itemID,restaurantID); }
 
-        mItemDao.decreaseItemQuantity(itemID,restaurantID);
-    }
-
-    public LiveData<List<Item>> getOrderItemsFromLocal() {
-
-        return mItemDao.getCartItemsFromLocal();
-    }
+    public LiveData<List<Item>> getOrderItemsFromLocal() { return mItemDao.getCartItemsFromLocal(); }
 
     public void deleteOrders() {
         mOrderDao.deleteAllOrderFromLocal();
@@ -95,13 +91,9 @@ public class Repository {
         return mOrderDao.getOrderList();
     }
 
-    public void insertOrderToLocal(Order currentOrder) {
-        mOrderDao.insertOrderToLocal(currentOrder);
-    }
+    public void insertOrderToLocal(Order currentOrder) { mOrderDao.insertOrderToLocal(currentOrder); }
 
-    public void insertOrderToFirebase(OrderFirebase currentOrder) {
-        fireDB.insertOrderToFirebase(currentOrder);
-    }
+    public void insertOrderToFirebase(OrderFirebase currentOrder) { fireDB.insertOrderToFirebase(currentOrder); }
 
     public void cancelOrder(final String s) {
 
@@ -115,6 +107,15 @@ public class Repository {
         }).start();
     }
 
+    public void insertOrderItemsToLocal(List<OrderItem> orderItems) {
+
+        for(OrderItem oi:orderItems){
+            orderItemDao.insertOrderItemToLocal(oi);
+        }
+    }
+
+    public void downloadUserOrder(int userID) { fireDB.getAllOrdersFromFirebase(userID); }
+
 
     /**Rider functions**/
 
@@ -126,9 +127,16 @@ public class Repository {
         fireDB.getAvailableRiders();
     }
 
+
     /**Global Functions**/
-    public void clearAllDataLocal(){ mRestaurantDao.deleteAllRestaurantFromLocal(); mItemDao.deleteAllItemFromLocal(); mUserDao.deleteLocalUser(); mOrderDao.deleteAllOrderFromLocal();}
+    public void clearAllDataLocal(){
 
-
+        mRestaurantDao.deleteAllRestaurantFromLocal();
+        mItemDao.deleteAllItemFromLocal();
+        //mUserDao.deleteLocalUser();
+        mOrderDao.deleteAllOrderFromLocal();
+        orderItemDao.deleteAllItemFromLocal();
+        mRiderDao.deleteLocalRider();
+    }
 
 }

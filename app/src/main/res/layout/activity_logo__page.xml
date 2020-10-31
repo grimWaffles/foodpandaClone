@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.activities.LogoPage"
+    android:background="#d81b60"
     >
 
     <ImageView
@@ -25,10 +26,11 @@
         android:id="@+id/logo_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="fakepanda"
-        android:textColor="@color/colorAccent"
+        android:text="foodpanda"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:layout_marginTop="10dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

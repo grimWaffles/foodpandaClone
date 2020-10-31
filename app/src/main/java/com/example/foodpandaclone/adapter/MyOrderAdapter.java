@@ -1,5 +1,6 @@
 package com.example.foodpandaclone.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.example.foodpandaclone.model.Order;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHolder> {
@@ -45,8 +47,9 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
         TextView tv_status=cardView.findViewById(R.id.tv_status);
 
         tv_date.setText(order.getDate());
-        tv_tcost.setText(Integer.toString(order.getTotal_cost()));
-        tv_orderID.setText(Integer.toString(order.getOrderID()));
+        tv_tcost.setText("BDT."+Integer.toString(order.getTotal_cost()));
+        tv_orderID.setText("#"+Integer.toString(order.getOrderID()));
+        Log.d("Order status",order.getStatus());
         tv_status.setText(order.getStatus());
 
         //onClick functionality
@@ -72,6 +75,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
     }
 
     public void setOrderList(List<Order> orders){
+        this.orderList=new ArrayList<>();
         this.orderList=orders;
         notifyDataSetChanged();
     }

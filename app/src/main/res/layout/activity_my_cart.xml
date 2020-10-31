@@ -11,22 +11,6 @@
         android:id="@+id/toolbar_main"
         />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Your cart:"
-        android:textColor="@android:color/black"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:id="@+id/tv_yourcart"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
-        app:layout_constraintBottom_toTopOf="@id/rv_cart"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_cart"
         android:layout_width="match_parent"
@@ -36,12 +20,12 @@
         android:layout_marginRight="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_yourcart"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_main"
        />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="132dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -53,7 +37,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="132dp">
+            android:layout_height="155dp">
 
             <TextView
                 android:id="@+id/tv_st"
@@ -102,6 +86,30 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_sta" />
 
             <TextView
+                android:id="@+id/tv_del"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="Delivery Cost"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_disa" />
+
+            <TextView
+                android:id="@+id/tv_delamount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="150Tk"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_dis" />
+
+            <TextView
                 android:id="@+id/tv_t"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -113,7 +121,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_dis" />
+                app:layout_constraintTop_toBottomOf="@id/tv_del" />
 
             <TextView
                 android:id="@+id/tv_ta"
@@ -125,7 +133,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_disa" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_delamount" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

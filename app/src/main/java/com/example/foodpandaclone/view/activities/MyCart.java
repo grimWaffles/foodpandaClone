@@ -22,11 +22,13 @@ import com.example.foodpandaclone.adapter.MyCartItemsAdapter;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.OrderFirebase;
+import com.example.foodpandaclone.model.OrderItem;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.viewModel.MyCartViewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -37,14 +39,15 @@ public class MyCart extends AppCompatActivity {
 
     private CardView card_cart_total;
 
-    TextView subtotal,discount,total; //inside the card_cart_total
+    TextView subtotal,discount,delivery_cost,total; //inside the card_cart_total
 
     Button orderNow;
 
     Toolbar toolbar; private ProgressBar progressBar; private int t_discount;
 
     private MyCartItemsAdapter adapter; private MyCartViewModel mcVM; private LinearLayoutManager llm;
-    private List<Restaurant> res; private Restaurant restaurant;private User user; private List<Item> orderItems;
+    private List<Restaurant> res; private Restaurant restaurant;private User user; private List<Item> itemList;
+    private List<OrderItem> orderItems; private boolean orderComplete=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class MyCart extends AppCompatActivity {
         subtotal=card_cart_total.findViewById(R.id.tv_sta);
         discount=card_cart_total.findViewById(R.id.tv_disa);
         total=card_cart_total.findViewById(R.id.tv_ta);
+        delivery_cost=card_cart_total.findViewById(R.id.tv_delamount);
 
         orderNow=findViewById(R.id.order_btn);
 
@@ -76,6 +80,18 @@ public class MyCart extends AppCompatActivity {
         adapter=new MyCartItemsAdapter();
 
         llm=new LinearLayoutManager(this);
+
+        mcVM.getOrderFromLocal().observe(this, new Observer<List<Order>>() {
+            @Override
+            public void onChanged(List<Order> orders) {
+
+                if(orders.size()!=0){
+                    if(orders.get(0).getStatus().equals("pending")){
+                        orderComplete=true;
+                    }
+                }
+            }
+        });
 
         mcVM.getRestaurantData().observe(this, new Observer<List<Restaurant>>() {
             @Override
@@ -95,7 +111,7 @@ public class MyCart extends AppCompatActivity {
                         @Override
                         public void onChanged(final List<Item> items) {
 
-                            adapter.setCartItems(items); orderItems=items;
+                            adapter.setCartItems(items); itemList=items;
 
                             rv_main.setAdapter(adapter);
                             rv_main.setLayoutManager(llm);
@@ -111,7 +127,13 @@ public class MyCart extends AppCompatActivity {
                                     new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            mcVM.decreaseItemFromOrder(item.getItemID(),item.getRestaurantID());
+
+                                            if(!orderComplete){
+                                                mcVM.decreaseItemFromOrder(item.getItemID(),item.getRestaurantID());
+                                            }
+                                            else{
+                                                //idk do something
+                                            }
                                         }
                                     }).start();
                                 }
@@ -137,35 +159,45 @@ public class MyCart extends AppCompatActivity {
 
                else{
 
-                   if(orderItems.size()==0){
+                   if(itemList.size()==0){
                        Toast.makeText(MyCart.this, "Cart is empty!", Toast.LENGTH_SHORT).show();
                    }
                    else{
-                       progressBar.setVisibility(View.VISIBLE);
 
-                       final Order currentOrder=new Order(202010,user.getUserID(),0,"pending",Integer.parseInt(total.getText().toString()),t_discount,getCurrentDate());
+                       if(!orderComplete){
+                           progressBar.setVisibility(View.VISIBLE);
 
-                       Toast.makeText(MyCart.this, "This may take a while XD", Toast.LENGTH_SHORT).show();
+                           final Order currentOrder=new Order(202010,user.getUserID(),0,"pending",Integer.parseInt(total.getText().toString()),t_discount,getCurrentDate());
+                           orderItems=convertItemsToOrderItems(currentOrder,itemList);
 
-                       new Thread(new Runnable() {
-                           @Override
-                           public void run() {
+                           Toast.makeText(MyCart.this, "This may take a while XD", Toast.LENGTH_SHORT).show();
 
-                               mcVM.insertOrderToLocal(currentOrder);
+                           new Thread(new Runnable() {
+                               @Override
+                               public void run() {
 
-                               OrderFirebase orderFirebase=new OrderFirebase(currentOrder,orderItems);
+                                   mcVM.insertOrderToLocal(currentOrder);
+                                   mcVM.insertOrderItemsToLocal(orderItems);
 
-                               mcVM.uploadOrderToFirebase(orderFirebase);
+                                   OrderFirebase orderFirebase=new OrderFirebase(currentOrder, orderItems);
 
-                           }
-                       }).start();
+                                   mcVM.uploadOrderToFirebase(orderFirebase);
 
-                       mcVM.findRider();
+                               }
+                           }).start();
 
-                       progressBar.setVisibility(View.GONE);
+                           // TODO: 27-Oct-20 Uncomment these when testing
 
-                       startActivity(new Intent(MyCart.this,ActiveOrder.class));
-                       finish();
+                           //mcVM.findRider();
+
+                           //progressBar.setVisibility(View.GONE);
+
+                           //startActivity(new Intent(MyCart.this,ActiveOrder.class));
+                           //finish();
+                       }
+                       else{
+                           Toast.makeText(MyCart.this, "Order currently in progress", Toast.LENGTH_SHORT).show();
+                       }
 
                    }
                }
@@ -207,7 +239,7 @@ public class MyCart extends AppCompatActivity {
         t_cost=s_cost-t_discount+t_delivery;
 
         //set values to cards
-        subtotal.setText(Integer.toString(s_cost)); discount.setText(Integer.toString(t_discount)); total.setText(Integer.toString(t_cost));
+        subtotal.setText(Integer.toString(s_cost)); discount.setText(Integer.toString(t_discount)); delivery_cost.setText(Integer.toString(t_delivery));total.setText(Integer.toString(t_cost));
 
     }
 
@@ -216,5 +248,16 @@ public class MyCart extends AppCompatActivity {
         Calendar calendar= Calendar.getInstance();
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         return simpleDateFormat.format(calendar.getTime());
+    }
+    
+    private List<OrderItem> convertItemsToOrderItems(Order order,List<Item> items){
+
+        List<OrderItem> theOrderItems=new ArrayList<>();
+
+        for(Item i:items){
+            theOrderItems.add(new OrderItem(order.getOrderID(),i));
+        }
+
+        return theOrderItems;
     }
 }
