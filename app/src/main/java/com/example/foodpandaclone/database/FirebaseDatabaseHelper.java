@@ -244,6 +244,35 @@ public class FirebaseDatabaseHelper {
         });
     }
 
+    public void getOrderFromFirebase(final int orderID){
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(orderID));
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot ds:snapshot.getChildren()){
+
+                    OrderFirebase of=ds.getValue(OrderFirebase.class);
+
+                    //get and insert order information to the  local db
+                    // TODO: 06-Nov-20
+
+                    if(of.getSenderID()!=0){
+                        mOrderDao.updateOrderRider(of.getSenderID());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public void insertOrderToFirebase(final OrderFirebase currentOrder) {
 
         /**ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(currentOrder.getOrderID()));

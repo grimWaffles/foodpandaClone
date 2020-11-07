@@ -3,9 +3,12 @@ package com.example.foodpandaclone.view.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -26,6 +29,7 @@ public class Restaurant_Activity extends AppCompatActivity {
 
     private TextView res_location,res_delivery;
     private TabLayout  tabLayout; private ViewPager resItemView;
+    private Button btn_to_cart; private boolean cartIsFull=false;
     private RestaurantActivityViewModel  mRAVM;
 
     @Override
@@ -43,6 +47,8 @@ public class Restaurant_Activity extends AppCompatActivity {
         res_delivery=findViewById(R.id.res_delivery);
         tabLayout=findViewById(R.id.tab_layout);
         resItemView=findViewById(R.id.category_pager);
+        btn_to_cart=findViewById(R.id.btn_to_cart);
+        btn_to_cart.setVisibility(View.GONE);
 
         //get data from the viewModel:
         mRAVM=new ViewModelProvider(this).get(RestaurantActivityViewModel.class);
@@ -61,12 +67,28 @@ public class Restaurant_Activity extends AppCompatActivity {
                     @Override
                     public void onChanged(List<Item> items) {
 
+                        for(Item i:items){ if(i.getQuantity()>0){ if(!cartIsFull){cartIsFull=true;} } }
+
+                        if(!cartIsFull){
+                            btn_to_cart.setVisibility(View.GONE);
+                        }
+                        else{
+                            btn_to_cart.setVisibility(View.VISIBLE);
+                        }
+
                         //set up viewpager
                         ViewPagerResActivity adapter=new ViewPagerResActivity(getSupportFragmentManager(),items);
                         resItemView.setAdapter(adapter);
                         tabLayout.setupWithViewPager(resItemView);
                     }
                 });
+            }
+        });
+
+        btn_to_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Restaurant_Activity.this,MyCart.class));
             }
         });
 

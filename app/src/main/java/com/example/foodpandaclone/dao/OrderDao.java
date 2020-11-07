@@ -22,7 +22,7 @@ public interface OrderDao {
     @Query("DELETE FROM order_table")
     void deleteAllOrderFromLocal();
 
-    @Query("UPDATE order_table SET senderid=:id WHERE senderid=0")
+    @Query("UPDATE order_table SET senderid=:id WHERE senderid=0 AND status='pending'")
     void updateOrderRider(int id);
 
     @Query("UPDATE order_table SET id=:i WHERE status='pending'")

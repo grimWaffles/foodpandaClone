@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,8 +37,9 @@ import java.util.List;
 public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap; private ActiveOrderViewModel aoVM; private Toolbar toolbar;
-    private TextView message,sender_name,sender_phone,orderID,total_cost;private Button call_sender,cancel_order;
-    private CardView cardView; private Order order; private User rider; private ProgressBar progressBar;
+    private TextView message,sender_name,sender_phone,orderID,total_cost; private Button call_sender,cancel_order;
+    private CardView cardView; private ProgressBar progressBar; private Order order;
+    private Handler handler; private boolean currentOrderExists=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +53,6 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
         progressBar=findViewById(R.id.progress);
         progressBar.setVisibility(View.GONE);
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
         this.setTitle("Active Order");
 
         cardView=findViewById(R.id.cart_order);
@@ -64,10 +61,50 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
         sender_phone=cardView.findViewById(R.id.sender_phone);
         orderID=cardView.findViewById(R.id.order_id);
         total_cost=cardView.findViewById(R.id.total_cost);
-        call_sender=cardView.findViewById(R.id.call_sender);
+        call_sender=cardView.findViewById(R.id.call_sender); call_sender.setVisibility(View.GONE);
         cancel_order=cardView.findViewById(R.id.cancel_order);
+        handler=new Handler();
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
 
         aoVM=new ViewModelProvider(this).get(ActiveOrderViewModel.class);
+
+        aoVM.getCurrentUser().observe(this, new Observer<List<User>>() {
+            @Override
+            public void onChanged(List<User> users) {
+
+                if(users!=null && users.size()!=0){
+                    updateUserUI(users.get(0));
+                }
+            }
+        });
+
+        aoVM.getCurrentOrders().observe(this, new Observer<List<Order>>() {
+            @Override
+            public void onChanged(List<Order> orders) {
+
+               if(orders!=null && orders.size()!=0){
+                   currentOrderExists=true;
+                   ActiveOrder.this.order=orders.get(0);
+                   updateOrderUI(orders.get(0));
+               }
+            }
+        });
+
+        aoVM.getCurrentRider().observe(this, new Observer<List<Rider>>() {
+            @Override
+            public void onChanged(List<Rider> riders) {
+
+                if(riders!=null && riders.size()!=0) {
+                    call_sender.setVisibility(View.VISIBLE);
+                    updateRiderUI(riders.get(0));
+                }
+
+            }
+        });
 
         call_sender.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +123,7 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         });
+        
         cancel_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,99 +143,66 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+        /**handler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                if(currentOrderExists){
+                    aoVM.processOrder(ActiveOrder.this.order.getOrderID());
+                }
+
+                handler.postDelayed(this,5000); Log.d("Order refreshed","Yes");
+            }
+        });**/
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        aoVM.getCurrentUser().observe(this, new Observer<List<User>>() {
-            @Override
-            public void onChanged(List<User> users) {
-                markUserRiderOnMap(users);
-                Log.d("Acessed ggetCurrentUser()","Yes");
-                Log.d("Size of user list:",Integer.toString(users.size()));
-            }
-        });
+    }
 
-        aoVM.getCurrentOrders().observe(this, new Observer<List<Order>>() {
-            @Override
-            public void onChanged(List<Order> orders) {
-                processOrder(orders);
-                Log.d("Acessed getCurrentOrders()","Yes");
-            }
-        });
+    private void updateUserUI(User user) {
+
+        LatLng currentLocation = new LatLng(user.getLatitude(), user.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(currentLocation).title("You"));
+
+        CameraPosition cameraPosition=new CameraPosition.Builder().target(currentLocation)
+                .zoom(15)
+                .bearing(0)
+                .tilt(30)
+                .build();
+
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+
+    private void updateOrderUI(Order order) {
+
+       if(currentOrderExists){
+           //update order information and UI
+           call_sender.setVisibility(View.VISIBLE);
+           cancel_order.setVisibility(View.VISIBLE);
+
+           orderID.setText(Integer.toString(order.getOrderID()));
+           total_cost.setText(Integer.toString(order.getTotal_cost()) +"Tk");
+       }
+       else{
+           message.setText("You do not have current orders");
+           call_sender.setVisibility(View.GONE);
+           cancel_order.setVisibility(View.GONE);
+       }
 
     }
 
-    public void markUserRiderOnMap(List<User> users) {
+    private void updateRiderUI(Rider rider) {
 
-        if(users.size()==1){
-            LatLng currentLocation = new LatLng(users.get(0).getLatitude(), users.get(0).getLongitude());
-            mMap.addMarker(new MarkerOptions().position(currentLocation).title("You"));
+        //get rid of the progress bar and everything if a rider is found or  else do nothing
 
-            CameraPosition cameraPosition=new CameraPosition.Builder().target(currentLocation)
-                    .zoom(15)
-                    .bearing(0)
-                    .tilt(30)
-                    .build();
-
-            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        }
-
-        if(users.size()==2){
-
-            LatLng currentLocation = new LatLng(users.get(1).getLatitude(), users.get(1).getLongitude());
-            mMap.addMarker(new MarkerOptions().position(currentLocation).title("You"));
-
-            CameraPosition cameraPosition=new CameraPosition.Builder().target(currentLocation)
-                    .zoom(15)
-                    .bearing(0)
-                    .tilt(30)
-                    .build();
-
-            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-            rider=users.get(0);
-
-            LatLng riderLocation = new LatLng(users.get(0).getLatitude(), users.get(0).getLongitude());
-            mMap.addMarker(new MarkerOptions().position(riderLocation).title(rider.getUsername(rider.getEmail())));
-        }
+        sender_name.setText(rider.getUsername(rider.getEmail()));
+        sender_phone.setText(Integer.toString(rider.getPhone()));
+        message.setText("Rider found!");
     }
 
-    private void processOrder(List<Order> orders) {
-
-        if(orders.size()==0){
-            message.setText("You do not have current orders");
-            call_sender.setVisibility(View.GONE);
-            cancel_order.setVisibility(View.GONE);
-        }
-        else{
-
-            call_sender.setVisibility(View.VISIBLE);
-            cancel_order.setVisibility(View.VISIBLE);
-
-            orderID.setText(Integer.toString(orders.get(0).getOrderID()));
-            total_cost.setText(Integer.toString(orders.get(0).getTotal_cost()) +"Tk");
-
-            if(rider==null){
-                //findARider();
-                updateUIValues();
-            }
-            else{
-                updateUIValues();
-            }
-        }
-    }
-
-    public void updateUIValues() {
-
-        if(rider!=null){
-            sender_name.setText(rider.getUsername(rider.getEmail()));
-            sender_phone.setText(Integer.toString(rider.getPhone()));
-            message.setText("Rider found!");
-        }
-    }
-
-    //public void findARider() { aoVM.getAvailableRiders(); }
 }

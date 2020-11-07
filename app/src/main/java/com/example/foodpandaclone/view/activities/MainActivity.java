@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     DrawerLayout drawerLayout; private MainActivityViewModel mMAVM; private ViewPager sectionPager; private TabLayout tabLayout;  NavigationView navigationView;
     Button btn_login,btn_logout; View navView;
-    TextView user_email,user_name,user_latitude;
+    TextView user_email,user_name,user_latitude,loading_message;
     final int LOGIN_ACTIVITY=1; ProgressBar pbmain;
 
     @Override
@@ -87,14 +87,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         btn_login=(Button) navView.findViewById(R.id.login_main);
         btn_login.setOnClickListener(this);
-
-
+        
         btn_logout=(Button) navView.findViewById(R.id.logout_main);
         btn_logout.setOnClickListener(this);
         btn_logout.setVisibility(View.GONE);
 
         user_email=(TextView) navView.findViewById(R.id.useremail_main); user_name=(TextView)navView.findViewById(R.id.username_main);
-        user_latitude=(TextView) navView.findViewById(R.id.userlatitude);
+        user_latitude=(TextView) navView.findViewById(R.id.userlatitude); loading_message=findViewById(R.id.tv_loading_message);
 
         //Initialized ViewPager and the tabView:
 
@@ -111,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                    sectionPager.setVisibility(View.VISIBLE);
                    pbmain.setVisibility(View.GONE);
+                   loading_message.setVisibility(View.GONE);
                }
             }
         });

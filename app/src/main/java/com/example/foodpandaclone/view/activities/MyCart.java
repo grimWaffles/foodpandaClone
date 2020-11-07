@@ -132,7 +132,7 @@ public class MyCart extends AppCompatActivity {
                                                 mcVM.decreaseItemFromOrder(item.getItemID(),item.getRestaurantID());
                                             }
                                             else{
-                                                //idk do something
+                                                Toast.makeText(MyCart.this, "An order  is currently active", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     }).start();
@@ -186,14 +186,10 @@ public class MyCart extends AppCompatActivity {
                                }
                            }).start();
 
-                           // TODO: 27-Oct-20 Uncomment these when testing
+                           progressBar.setVisibility(View.GONE);
 
-                           //mcVM.findRider();
-
-                           //progressBar.setVisibility(View.GONE);
-
-                           //startActivity(new Intent(MyCart.this,ActiveOrder.class));
-                           //finish();
+                           startActivity(new Intent(MyCart.this,ActiveOrder.class));
+                           finish();
                        }
                        else{
                            Toast.makeText(MyCart.this, "Order currently in progress", Toast.LENGTH_SHORT).show();

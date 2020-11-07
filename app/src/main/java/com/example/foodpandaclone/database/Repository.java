@@ -116,6 +116,10 @@ public class Repository {
 
     public void downloadUserOrder(int userID) { fireDB.getAllOrdersFromFirebase(userID); }
 
+    public void getOrderFromFirebase(int orderID) {
+        fireDB.getOrderFromFirebase(orderID);
+    }
+
 
     /**Rider functions**/
 
@@ -127,6 +131,7 @@ public class Repository {
         fireDB.getAvailableRiders();
     }
 
+    public LiveData<List<Rider>> getCurrentRider(){ return mRiderDao.fetchRiderFromLocal();}
 
     /**Global Functions**/
     public void clearAllDataLocal(){
@@ -138,5 +143,4 @@ public class Repository {
         orderItemDao.deleteAllItemFromLocal();
         mRiderDao.deleteLocalRider();
     }
-
 }
