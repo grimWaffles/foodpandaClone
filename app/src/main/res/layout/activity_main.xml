@@ -50,6 +50,7 @@
                 android:text="Loading data. Please wait"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
+                android:textSize="18sp"
                 android:layout_gravity="center"
                 android:layout_marginTop="36dp"
                 android:id="@+id/tv_loading_message"
@@ -68,4 +69,5 @@
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/colorAccent"
         />
+
 </androidx.drawerlayout.widget.DrawerLayout>

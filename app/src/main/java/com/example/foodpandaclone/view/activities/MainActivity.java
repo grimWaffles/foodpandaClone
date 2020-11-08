@@ -161,6 +161,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigationView.getMenu().clear();
                     navigationView.inflateMenu(R.menu.nav_menu_dev);
                 }
+                else if(users.get(0).getType().equals("Rider")){
+                    navigationView.getMenu().clear();
+                    navigationView.inflateMenu(R.menu.nav_menu_rider);
+                }
+                else{
+                    navigationView.getMenu().clear();
+                    navigationView.inflateMenu(R.menu.nav_menu);
+                }
             }
         });
     }
@@ -235,6 +243,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(MainActivity.this,DevMode.class));
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
+
+            case R.id.riderOrders:
+                startActivity(new Intent(MainActivity.this, MyOrder.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+
+            /**case R.id.mapsRider:
+                startActivity(new Intent(MainActivity.this, RiderOrder.class));
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;**/
         }
         return true;
     }

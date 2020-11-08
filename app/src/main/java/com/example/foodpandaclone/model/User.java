@@ -55,6 +55,26 @@ public class User {
         this.login_status="Not logged in";
     }
 
+    public User(String email, int phone, String password,String type) {
+
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+
+        if(email.equals("1")){
+            this.userID=1;
+        }
+
+        else{
+            this.userID=phone;
+        }
+
+        this.type=type;
+        this.latitude=0.000000;
+        this.longitude=0.000000;
+        this.login_status="Not logged in";
+    }
+
     public User(int id,String email,int phone, String password,String type,double latitude,double longitude) {
 
         this.userID=id;

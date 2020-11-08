@@ -30,7 +30,7 @@ public class Login extends AppCompatActivity {
     Toolbar toolbar;
     final int SIGN_UP_ACTIVITY=2;
 
-    LoginViewModel loginViewModel; public boolean accountFound=false;
+    LoginViewModel loginViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

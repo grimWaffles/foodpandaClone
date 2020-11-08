@@ -23,7 +23,7 @@ public class Sign_Up extends AppCompatActivity {
     Button btn_signup;
     Toolbar toolbar;
 
-    Sign_Up_ViewModel svm;
+    Sign_Up_ViewModel suVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class Sign_Up extends AppCompatActivity {
 
         this.setTitle("Fill in the details below");
 
-        svm=new ViewModelProvider(this).get(Sign_Up_ViewModel.class);
+        suVM =new ViewModelProvider(this).get(Sign_Up_ViewModel.class);
 
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +63,7 @@ public class Sign_Up extends AppCompatActivity {
                             @Override
                             public void run() {
                                 User newUser=new User(user_email.getText().toString(),Integer.parseInt(user_phone.getText().toString()),user_password.getText().toString());
-                                svm.addUserToFirebase(newUser);
+                                suVM.addUserToFirebase(newUser);
                             }
                         }).start();
 
@@ -80,7 +80,9 @@ public class Sign_Up extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Rider newUser=new Rider(user_email.getText().toString(),Integer.parseInt(user_phone.getText().toString()),user_password.getText().toString());
-                                svm.addRiderToFirebase(newUser);
+                                suVM.addRiderToFirebase(newUser);
+                                suVM.addUserToFirebase(new User(user_email.getText().toString(),Integer.parseInt(user_phone.getText().toString()),user_password.getText().toString(),"Rider"));
+
                             }
                         }).start();
 
