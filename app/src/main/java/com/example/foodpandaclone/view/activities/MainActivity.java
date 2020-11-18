@@ -5,7 +5,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
-import com.example.foodpandaclone.adapter.RestaurantAdapter;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.viewModel.MainActivityViewModel;
@@ -32,15 +31,13 @@ import android.widget.Toast;
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapter.ViewPagerMainActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
     DrawerLayout drawerLayout; private MainActivityViewModel mMAVM; private ViewPager sectionPager; private TabLayout tabLayout;  NavigationView navigationView;
     Button btn_login,btn_logout; View navView;
-    TextView user_email,user_name,user_latitude,loading_message;
+    TextView user_email,user_name, user_address,loading_message;
     final int LOGIN_ACTIVITY=1; ProgressBar pbmain;
 
     @Override
@@ -94,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btn_logout.setVisibility(View.GONE);
 
         user_email=(TextView) navView.findViewById(R.id.useremail_main); user_name=(TextView)navView.findViewById(R.id.username_main);
-        user_latitude=(TextView) navView.findViewById(R.id.userlatitude); loading_message=findViewById(R.id.tv_loading_message);
+        user_address =(TextView) navView.findViewById(R.id.userlatitude); loading_message=findViewById(R.id.tv_loading_message);
 
         //Initialized ViewPager and the tabView:
 
@@ -117,77 +114,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         mMAVM.getCurrentUser().observe(MainActivity.this, new Observer<List<User>>() {
+
             @Override
             public void onChanged(List<User> users) {
 
                 if(users.size()!=0){
-                    //get first and only from list
-                    User currUser = users.get(0);
-
-                    if(currUser.getUserID()==1 && currUser.getEmail().equals("1")){
-                        user_name.setText("User not logged in");
-                        user_email.setText("");
-                    }
-                    else if(currUser.getType().equals("User")){
-                        user_name.setText(currUser.getUsername(currUser.getEmail()));
-                        user_email.setText(currUser.getEmail());
-                        btn_login.setVisibility(View.GONE);
-                        btn_logout.setVisibility(View.VISIBLE);
-                    }
-                    else if(currUser.getType().equals("Rider")){
-                        startActivity(new Intent(MainActivity.this,MainActivity_Rider.class));
-                        finish();
-                    }
-
-                user_latitude.setText(getAddressFromLocation(currUser.getLatitude(),currUser.getLongitude()));
-                //user_longitude.setText("Longitude: "+String.valueOf(currUser.getLongitude()));
+                    updateUIvalues(users.get(0));
                 }
-                else{
-                    //get first and only from list
-                    User currUser = users.get(0);
-
-                    if(currUser.getUserID()==1 && currUser.getEmail().equals("1")){
-                        user_name.setText("User not logged in");
-                        user_email.setText("");
-                    }
-                    else{
-                        user_name.setText(currUser.getUsername(currUser.getEmail()));
-                        user_email.setText(currUser.getEmail());
-                        btn_login.setVisibility(View.GONE);
-                        btn_logout.setVisibility(View.VISIBLE);
-                    }
-
-                    user_latitude.setText(getAddressFromLocation(currUser.getLatitude(),currUser.getLongitude()));
-                    //user_longitude.setText("Longitude: "+String.valueOf(currUser.getLongitude()));
-                }
-
-                //if user is an admin
-                if(users.get(0).getType().equals("Admin")){
-                    navigationView.getMenu().clear();
-                    navigationView.inflateMenu(R.menu.nav_menu_dev);
-                }
-
-                else{
-                    navigationView.getMenu().clear();
-                    navigationView.inflateMenu(R.menu.nav_menu);
-                }
-
-                // TODO: 14-Nov-20 Change  this to call another main activity if the  userType is a rider
             }
         });
-    }
-
-    private String getAddressFromLocation(double latitude, double longitude) {
-
-        Geocoder geocoder=new Geocoder(this);
-
-        try{
-            List<Address> addressList=geocoder.getFromLocation(latitude,longitude,1);
-            return addressList.get(0).getAddressLine(0);
-        }
-        catch(Exception e){
-            return "Address not found";
-        }
     }
 
     //toolbar methods
@@ -284,6 +219,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(resultCode==RESULT_OK){
                 Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    public void updateUIvalues(User currUser){
+
+        //If user is an admin or a normal customer
+        if(currUser.getType().equals("User") || currUser.getType().equals("Admin") ){
+
+            //If not a blank user
+            if(currUser.getUserID()!=1){
+                user_name.setText(currUser.getUsername(currUser.getEmail()));
+                user_email.setText(currUser.getEmail());
+                btn_login.setVisibility(View.GONE);
+                btn_logout.setVisibility(View.VISIBLE);
+
+                user_address.setText(getAddressFromLocation(currUser.getLatitude(),currUser.getLongitude()));
+
+                //Navbar menu changes
+                if(currUser.getType().equals("Admin")){
+                    navigationView.getMenu().clear();
+                    navigationView.inflateMenu(R.menu.nav_menu_dev);
+                }
+
+                else{
+                    navigationView.getMenu().clear();
+                    navigationView.inflateMenu(R.menu.nav_menu);
+                }
+            }
+
+            //If a blank user
+            else{
+                user_name.setText("Current User");
+                user_email.setText("User not logged in");
+                btn_login.setVisibility(View.VISIBLE);
+                btn_logout.setVisibility(View.GONE);
+
+                user_address.setText("No location set");
+
+                navigationView.getMenu().clear();
+                navigationView.inflateMenu(R.menu.nav_menu);
+            }
+
+        }
+
+        //If he a rider
+        else{
+            startActivity(new Intent(MainActivity.this,MainActivity_Rider.class));
+            finish();
+        }
+
+    }
+
+    private String getAddressFromLocation(double latitude, double longitude) {
+
+        Geocoder geocoder=new Geocoder(this);
+
+        try{
+            List<Address> addressList=geocoder.getFromLocation(latitude,longitude,1);
+            return addressList.get(0).getAddressLine(0);
+        }
+        catch(Exception e){
+            return "Address not found";
         }
     }
 }

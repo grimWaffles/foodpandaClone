@@ -59,7 +59,8 @@ public class MainActivity_Rider extends AppCompatActivity {
         marVM.getCurrentUser().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
-                if(users.get(0).getType().equals(("user"))){
+
+                if(users.get(0).getType().equals(("User"))){
                     startActivity(new Intent(MainActivity_Rider.this,MainActivity.class));
                     finish();
                 }
