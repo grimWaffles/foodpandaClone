@@ -74,8 +74,5 @@ public class MyOrder extends AppCompatActivity {
 
             }
         });
-
-        // TODO: 27-Oct-20 Test this
-
     }
 }

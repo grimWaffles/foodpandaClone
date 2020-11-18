@@ -50,9 +50,21 @@ public class LogoPage extends AppCompatActivity {
 
                     mLPVM.clearLocalStorage();
 
-                    Toast.makeText(LogoPage.this, "Update complete", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LogoPage.this, "Updates complete", Toast.LENGTH_SHORT).show();
 
-                    startActivity(new Intent(LogoPage.this,LocationAccess.class));
+                    Intent intent=new Intent(LogoPage.this,LocationAccess.class);
+
+                    if(users.get(0).getType().equals("Rider")){
+
+                        intent.putExtra("type","Rider");
+                    }
+                    else{
+                        intent.putExtra("type","User");
+                    }
+
+                    startActivity(intent);
+                    finish();
+
                 }
 
             }

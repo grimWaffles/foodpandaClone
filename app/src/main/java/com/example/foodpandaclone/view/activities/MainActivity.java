@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
+import com.example.foodpandaclone.adapter.RestaurantAdapter;
 import com.example.foodpandaclone.model.Restaurant;
 import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.viewModel.MainActivityViewModel;
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onChanged(List<User> users) {
 
-                if(users.size()==1){
+                if(users.size()!=0){
                     //get first and only from list
                     User currUser = users.get(0);
 
@@ -127,12 +128,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         user_name.setText("User not logged in");
                         user_email.setText("");
                     }
-                    else{
+                    else if(currUser.getType().equals("User")){
                         user_name.setText(currUser.getUsername(currUser.getEmail()));
                         user_email.setText(currUser.getEmail());
                         btn_login.setVisibility(View.GONE);
                         btn_logout.setVisibility(View.VISIBLE);
-                }
+                    }
+                    else if(currUser.getType().equals("Rider")){
+                        startActivity(new Intent(MainActivity.this,MainActivity_Rider.class));
+                        finish();
+                    }
 
                 user_latitude.setText(getAddressFromLocation(currUser.getLatitude(),currUser.getLongitude()));
                 //user_longitude.setText("Longitude: "+String.valueOf(currUser.getLongitude()));
@@ -161,14 +166,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigationView.getMenu().clear();
                     navigationView.inflateMenu(R.menu.nav_menu_dev);
                 }
-                else if(users.get(0).getType().equals("Rider")){
-                    navigationView.getMenu().clear();
-                    navigationView.inflateMenu(R.menu.nav_menu_rider);
-                }
+
                 else{
                     navigationView.getMenu().clear();
                     navigationView.inflateMenu(R.menu.nav_menu);
                 }
+
+                // TODO: 14-Nov-20 Change  this to call another main activity if the  userType is a rider
             }
         });
     }

@@ -30,7 +30,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class LocationAccess extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView logo;
-    private Button use_current_loc, select_another;
+    private Button use_current_loc;
     private static final int LOCATION_PERMISSION = 6969;
 
     private LocationAccessViewModel mLAVM;
@@ -39,10 +39,16 @@ public class LocationAccess extends AppCompatActivity implements View.OnClickLis
     LocationRequest locationRequest;
     LocationCallback locationCallback;
 
+    String type="Not specific";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location__access);
+
+        Intent intent=getIntent();
+
+        type=intent.getStringExtra("type");
 
         logo = findViewById(R.id.logo_img);
         use_current_loc = findViewById(R.id.use_current_loc);
@@ -77,8 +83,14 @@ public class LocationAccess extends AppCompatActivity implements View.OnClickLis
 
                findUserLocation();
 
-                startActivity(new Intent(LocationAccess.this,MainActivity.class));
-                //finish();
+                if(type.equals("Rider")){
+                    startActivity(new Intent(LocationAccess.this,MainActivity_Rider.class));
+                    //finish();
+                }
+                else{
+                    startActivity(new Intent(LocationAccess.this,MainActivity.class));
+                    //finish();
+                }
             }
         }
     }

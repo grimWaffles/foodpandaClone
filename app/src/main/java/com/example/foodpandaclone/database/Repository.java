@@ -2,6 +2,7 @@ package com.example.foodpandaclone.database;
 
 import android.app.Application;
 import android.location.Location;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -63,8 +64,10 @@ public class Repository {
 
     public void logoutCurrentUser() {
         mUserDao.logoutCurrent();
+        mOrderDao.deleteAllOrderFromLocal();
+        orderItemDao.deleteAllItemFromLocal();
+        mRiderDao.deleteLocalRider();
     }
-
 
     /**Restaurant Functions**/
     public LiveData<List<Restaurant>> getRestaurantFromLocal(){ return mRestaurantDao.fetchRestaurantFromLocal(); }
@@ -120,6 +123,11 @@ public class Repository {
         fireDB.getOrderFromFirebase(orderID);
     }
 
+    public void checkForPendingOrders() {
+        Log.d("Checking for orders","Yes");
+        fireDB.getAllOrdersFromFirebase();
+    }
+
 
     /**Rider functions**/
 
@@ -143,4 +151,5 @@ public class Repository {
         orderItemDao.deleteAllItemFromLocal();
         mRiderDao.deleteLocalRider();
     }
+
 }

@@ -174,17 +174,33 @@ public class FirebaseDatabaseHelper {
 
     public void getAllOrdersFromFirebase(){
 
-        ref=FirebaseDatabase.getInstance().getReference().child("Order");
+        ref=FirebaseDatabase.getInstance().getReference().child("Order"); firebaseOrders.clear();
 
         ref.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot ds:snapshot.getChildren()){
 
                     OrderFirebase of=ds.getValue(OrderFirebase.class);
-                    firebaseOrders.add(of);
+
+                    if(of.getStatus().equals("pending")){
+                        firebaseOrders.add(of);
+                        Log.d("Pending order found","Yes");
+                    }
                 }
+
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        for(OrderFirebase orderFirebase:firebaseOrders){
+                            mOrderDao.insertOrderToLocal(orderFirebase.getOrderObject());
+                        }
+                    }
+
+                }).start();
             }
 
             @Override
@@ -256,14 +272,10 @@ public class FirebaseDatabaseHelper {
 
                     OrderFirebase of=ds.getValue(OrderFirebase.class);
 
-                    //get and insert order information to the  local db
-                    // TODO: 06-Nov-20
-
                     if(of.getSenderID()!=0){
                         mOrderDao.updateOrderRider(of.getSenderID());
                     }
                 }
-
             }
 
             @Override

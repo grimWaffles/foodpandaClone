@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/my_cart"
+        android:title="Cart"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/cart_empty"
+        android:iconTint="@color/colorAccent"
+        />
+
+    <item
+        android:id="@+id/my_orders"
+        android:title="Orders"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_account_circle_24"
+        android:iconTint="@color/colorAccent"
+        />
+
+</menu>

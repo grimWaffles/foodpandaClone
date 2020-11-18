@@ -19,8 +19,7 @@ import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
 
-
-private List<Restaurant> listOfRestaurants; private int mode;
+    private List<Restaurant> listOfRestaurants; private int mode;
 
     public RestaurantAdapter(List<Restaurant> list, int mode){
 
@@ -113,7 +112,7 @@ private List<Restaurant> listOfRestaurants; private int mode;
 
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
     private CardView cardView;
 
