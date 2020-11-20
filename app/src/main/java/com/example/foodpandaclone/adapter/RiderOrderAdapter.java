@@ -21,6 +21,15 @@ import java.util.List;
 public class RiderOrderAdapter extends RecyclerView.Adapter<RiderOrderAdapter.ViewHolder> {
 
     private List<Order> allOrders=new ArrayList<>();
+    private OnOrderItemClick mOnOrderItemClick;
+
+    public interface OnOrderItemClick{
+        void onOrderItemClick(int id);
+    }
+
+    public RiderOrderAdapter(OnOrderItemClick onOrderItemClick){
+        mOnOrderItemClick=onOrderItemClick;
+    }
 
     @NonNull
     @Override
@@ -28,7 +37,7 @@ public class RiderOrderAdapter extends RecyclerView.Adapter<RiderOrderAdapter.Vi
 
         CardView cardView= (CardView) LayoutInflater.from(parent.getContext()).inflate(com.example.foodpandaclone.R.layout.card_rider_orders,parent,false);
 
-        return new RiderOrderAdapter.ViewHolder(cardView);
+        return new RiderOrderAdapter.ViewHolder(cardView,mOnOrderItemClick);
     }
 
     @Override
@@ -63,16 +72,22 @@ public class RiderOrderAdapter extends RecyclerView.Adapter<RiderOrderAdapter.Vi
        }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        CardView cardView;
+        CardView cardView; OnOrderItemClick onOrderItemClick;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnOrderItemClick onOrderItemClick) {
             super(itemView);
 
             this.cardView=(CardView) itemView;
+            this.onOrderItemClick=onOrderItemClick;
 
-            // TODO: 15-Nov-20 Add onClickListener and add to activity
+            cardView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onOrderItemClick.onOrderItemClick(getAdapterPosition());
         }
     }
 }

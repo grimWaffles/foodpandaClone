@@ -27,10 +27,10 @@ import com.example.foodpandaclone.viewModel.MainActivityRiderViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity_Rider extends AppCompatActivity {
+public class MainActivity_Rider extends AppCompatActivity implements RiderOrderAdapter.OnOrderItemClick {
     
     private Toolbar toolbar; private RecyclerView recyclerView; private LinearLayoutManager linearLayoutManager; private RiderOrderAdapter adapter; private List<Order> orders;
-    private MainActivityRiderViewModel marVM; private Handler handler;
+    private MainActivityRiderViewModel marVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +45,12 @@ public class MainActivity_Rider extends AppCompatActivity {
 
         recyclerView=findViewById(R.id.recycler_view_rider);
         linearLayoutManager=new LinearLayoutManager(this);
-        adapter=new RiderOrderAdapter();
+        adapter=new RiderOrderAdapter(this);
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
         marVM=new ViewModelProvider(this).get(MainActivityRiderViewModel.class);
-
-        handler=new Handler();
 
         marVM.checkForPendingOrders();
 
@@ -93,11 +91,25 @@ public class MainActivity_Rider extends AppCompatActivity {
             case R.id.my_cart:
                 Toast.makeText(this, "Fucntionality not added yet", Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.my_orders:
+                Toast.makeText(this, "Functionality not available yet", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.my_account:
+                Toast.makeText(this, "Functionality not available yet", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.logout_btn:
                 marVM.logoutUser();
                 break;
         }
         
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onOrderItemClick(int id) {
+        Toast.makeText(this, "Slow down bitch!", Toast.LENGTH_SHORT).show();
     }
 }

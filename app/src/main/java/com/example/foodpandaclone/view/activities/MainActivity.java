@@ -144,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     //NavDrawer back button toggle
@@ -156,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else{
             super.onBackPressed();
         }
-
     }
 
     //NavDrawer onClick
