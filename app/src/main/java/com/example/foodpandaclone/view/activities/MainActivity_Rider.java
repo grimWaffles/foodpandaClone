@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,15 +24,16 @@ import com.example.foodpandaclone.adapter.RiderOrderAdapter;
 import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.OrderFirebase;
 import com.example.foodpandaclone.model.User;
+import com.example.foodpandaclone.view.fragments.CustomDialogFragment;
+import com.example.foodpandaclone.view.fragments.RiderOrderListFragment;
 import com.example.foodpandaclone.viewModel.MainActivityRiderViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity_Rider extends AppCompatActivity implements RiderOrderAdapter.OnOrderItemClick {
+public class MainActivity_Rider extends AppCompatActivity implements RiderOrderAdapter.OnOrderItemClick, CustomDialogFragment.OnPromptClick {
     
-    private Toolbar toolbar; private RecyclerView recyclerView; private LinearLayoutManager linearLayoutManager; private RiderOrderAdapter adapter; private List<Order> orders;
-    private MainActivityRiderViewModel marVM;
+    private Toolbar toolbar; private MainActivityRiderViewModel marVM; private List<Order> orders; private FragmentTransaction ft; private FragmentManager fm=getFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +45,6 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        recyclerView=findViewById(R.id.recycler_view_rider);
-        linearLayoutManager=new LinearLayoutManager(this);
-        adapter=new RiderOrderAdapter(this);
-
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
 
         marVM=new ViewModelProvider(this).get(MainActivityRiderViewModel.class);
 
@@ -68,8 +64,11 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         marVM.getPendingOrdersFromFirebase().observe(this,new Observer<List<Order>>() {
             @Override
             public void onChanged(List<Order> orders) {
-                Log.d("Searching for changes","Yes");
-                adapter.setOrders(orders);
+
+                ft=fm.beginTransaction();
+                ft.replace(R.id.frame_layout,new RiderOrderListFragment(MainActivity_Rider.this,orders));
+                ft.commit();
+
             }
         });
 
@@ -110,6 +109,18 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
 
     @Override
     public void onOrderItemClick(int id) {
-        Toast.makeText(this, "Slow down bitch!", Toast.LENGTH_SHORT).show();
+        loadDialogFragment();
+    }
+
+    private void loadDialogFragment() {
+
+        CustomDialogFragment dialogFragment=new CustomDialogFragment();
+
+        dialogFragment.show(fm,"My custom Dialog");
+    }
+
+    @Override
+    public void onPromptClick() {
+        Toast.makeText(this, "Does Absolutely nothing", Toast.LENGTH_SHORT).show();
     }
 }
