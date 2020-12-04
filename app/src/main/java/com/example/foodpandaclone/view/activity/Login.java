@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.view.activities;
+package com.example.foodpandaclone.view.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -79,7 +79,8 @@ public class Login extends AppCompatActivity {
                            else if(users.get(0).getUserID()==1 && users.get(0).getLogin_status().equals("Account not found")){
                                pbmain.setVisibility(View.GONE);
 
-                               Toast.makeText(Login.this, "User account does not exist", Toast.LENGTH_SHORT).show();
+                               // TODO: 28-Nov-20 Change this to alter text field colors
+                               Toast.makeText(Login.this, "Username or password might  be incorrect", Toast.LENGTH_SHORT).show();
                            }
                            else{
                                pbmain.setVisibility(View.GONE);

@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.view.fragments;
+package com.example.foodpandaclone.view.fragment;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;

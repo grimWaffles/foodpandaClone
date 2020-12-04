@@ -1,17 +1,17 @@
-package com.example.foodpandaclone.view.activities;
+package com.example.foodpandaclone.view.activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +23,8 @@ import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.Rider;
 import com.example.foodpandaclone.model.User;
+import com.example.foodpandaclone.service.LocationService;
+import com.example.foodpandaclone.service.OrderTracker;
 import com.example.foodpandaclone.viewModel.ActiveOrderViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,10 +38,17 @@ import java.util.List;
 
 public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap; private ActiveOrderViewModel aoVM; private Toolbar toolbar;
-    private TextView message,sender_name,sender_phone,orderID,total_cost; private Button call_sender,cancel_order;
-    private CardView cardView; private ProgressBar progressBar; private Order order;
-    private Handler handler; private boolean currentOrderExists=false;
+    private static final String TAG="ActiveOrder";
+
+    //ViewModel
+    private ActiveOrderViewModel aoVM;
+
+    //Widgets
+    private GoogleMap mMap;  private Toolbar toolbar;  private TextView message,sender_name,sender_phone,orderID,total_cost;
+    private Button call_sender,cancel_order;  private CardView cardView; private ProgressBar progressBar;
+
+    //Variables
+    private boolean mCurrentOrderExists =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +71,11 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
         orderID=cardView.findViewById(R.id.order_id);
         total_cost=cardView.findViewById(R.id.total_cost);
         call_sender=cardView.findViewById(R.id.call_sender); call_sender.setVisibility(View.GONE);
-        cancel_order=cardView.findViewById(R.id.cancel_order);
-        handler=new Handler();
+        cancel_order=cardView.findViewById(R.id.cancel_order); cancel_order.setVisibility(View.GONE);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
         aoVM=new ViewModelProvider(this).get(ActiveOrderViewModel.class);
 
@@ -77,6 +84,7 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
             public void onChanged(List<User> users) {
 
                 if(users!=null && users.size()!=0){
+                    aoVM.getUserOrders(users.get(0).getUserID());
                     updateUserUI(users.get(0));
                 }
             }
@@ -87,8 +95,11 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
             public void onChanged(List<Order> orders) {
 
                if(orders!=null && orders.size()!=0){
-                   currentOrderExists=true;
-                   ActiveOrder.this.order=orders.get(0);
+
+                   mCurrentOrderExists =true;
+
+                   aoVM.trackOrder(orders.get(0));
+                   Log.d(TAG,"Called trackOrder()");
                    updateOrderUI(orders.get(0));
                }
             }
@@ -99,7 +110,7 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
             public void onChanged(List<Rider> riders) {
 
                 if(riders!=null && riders.size()!=0) {
-                    call_sender.setVisibility(View.VISIBLE);
+                    aoVM.updateOrder(riders.get(0).getRiderID());
                     updateRiderUI(riders.get(0));
                 }
 
@@ -142,19 +153,6 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         });
-
-        /**handler.post(new Runnable() {
-            @Override
-            public void run() {
-
-                if(currentOrderExists){
-                    aoVM.processOrder(ActiveOrder.this.order.getOrderID());
-                }
-
-                handler.postDelayed(this,5000); Log.d("Order refreshed","Yes");
-            }
-        });**/
-
     }
 
     @Override
@@ -180,9 +178,9 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
 
     private void updateOrderUI(Order order) {
 
-       if(currentOrderExists){
+       if(mCurrentOrderExists){
+
            //update order information and UI
-           call_sender.setVisibility(View.VISIBLE);
            cancel_order.setVisibility(View.VISIBLE);
 
            orderID.setText(Integer.toString(order.getOrderID()));
@@ -199,10 +197,16 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
     private void updateRiderUI(Rider rider) {
 
         //get rid of the progress bar and everything if a rider is found or  else do nothing
+        if(rider!=null){
 
-        sender_name.setText(rider.getUsername(rider.getEmail()));
-        sender_phone.setText(Integer.toString(rider.getPhone()));
-        message.setText("Rider found!");
+            call_sender.setVisibility(View.VISIBLE);
+            sender_name.setText(rider.getUsername(rider.getEmail()));
+            sender_phone.setText(Integer.toString(rider.getPhone()));
+            message.setText("Rider found!");
+        }
+
     }
+
+
 
 }

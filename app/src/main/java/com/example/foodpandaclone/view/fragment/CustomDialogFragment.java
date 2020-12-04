@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.view.fragments;
+package com.example.foodpandaclone.view.fragment;
 
 import android.app.DialogFragment;
 import android.content.Context;
@@ -17,7 +17,14 @@ import com.example.foodpandaclone.R;
 
 public class CustomDialogFragment extends DialogFragment {
 
-    private OnPromptClick mOnPromptClick; TextView tv_message; Button btn_yes; ImageView btn_close_prompt;
+    //Interface
+    private OnPromptClick mOnPromptClick;
+
+    //Widgets
+    TextView tv_message; Button btn_yes; ImageView btn_close_prompt; private String message;
+
+    //Booleans
+    private boolean isAPrompt=false;
 
     public interface OnPromptClick{
         void onPromptClick();
@@ -34,22 +41,42 @@ public class CustomDialogFragment extends DialogFragment {
         super();
     }
 
+    public CustomDialogFragment(String message){
+        super();
+
+        if (!message.equals("")){
+            isAPrompt=true;
+            this.message=message;
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.fragment_custom_dialog,container,false);
 
-        //tv_message=view.findViewById(R.id.tv_message);
+        tv_message=view.findViewById(R.id.tv_message);
 
         btn_close_prompt=view.findViewById(R.id.btn_close_prompt);
         btn_yes=view.findViewById(R.id.btn_yes);
 
+        if(isAPrompt){
+            btn_yes.setText("Okay");
+            tv_message.setText(message);
+        }
+
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnPromptClick.onPromptClick();
-                getDialog().dismiss();
+
+                if(isAPrompt){
+                    getDialog().dismiss();
+                }
+                else{
+                    mOnPromptClick.onPromptClick();
+                    getDialog().dismiss();
+                }
             }
         });
 

@@ -24,8 +24,12 @@ import java.util.List;
 
 public class Repository {
 
-    private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private LocalDatabaseHelper db; private UserDao mUserDao;
+    //Dao
+    private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private UserDao mUserDao;
     private FirebaseDatabaseHelper fireDB; private OrderDao mOrderDao;  private OrderItemDao orderItemDao;  private RiderDao mRiderDao;
+
+    //DBref
+    private LocalDatabaseHelper db;
 
     public Repository(Application application){
 
@@ -42,7 +46,15 @@ public class Repository {
     /**User Functions**/
     public LiveData<List<User>> getUserListFromLocal(){ return mUserDao.fetchUserFromLocal(); }
 
-    public void insertUserToLocal(User user) { mUserDao.insertUserToLocal(user); }
+    public void insertUserToLocal(final User user) {
+
+       new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mUserDao.insertUserToLocal(user);
+            }
+        }).start();
+    }
 
     //public void updateLocalUser(User user) { mUserDao.updateLocalUserData(user.getUserID(),user.getEmail(),user.getPassword(),user.getPhone(),user.getType()); }
 
@@ -62,11 +74,21 @@ public class Repository {
         fireDB.insertUserToFirebase(user);
     }
 
-    public void logoutCurrentUser() {
-        mUserDao.logoutCurrent();
-        mOrderDao.deleteAllOrderFromLocal();
-        orderItemDao.deleteAllItemFromLocal();
-        mRiderDao.deleteLocalRider();
+    public void logoutCurrentUser(final User user) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mUserDao.logoutCurrent();
+                mOrderDao.deleteAllOrderFromLocal();
+                orderItemDao.deleteAllItemFromLocal();
+                mRiderDao.deleteLocalRider();
+
+                if(user.getType().equals("Rider")){
+                    fireDB.signOutRider(user.getUserID());
+                }
+            }
+        }).start();
     }
 
     /**Restaurant Functions**/
@@ -87,11 +109,21 @@ public class Repository {
     public LiveData<List<Item>> getOrderItemsFromLocal() { return mItemDao.getCartItemsFromLocal(); }
 
     public void deleteOrders() {
-        mOrderDao.deleteAllOrderFromLocal();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mOrderDao.deleteAllOrderFromLocal();
+            }
+        }).start();
     }
 
     public LiveData<List<Order>> getOrderlist() {
         return mOrderDao.getOrderList();
+    }
+
+    public LiveData<List<Order>> getPendingOrderlist() {
+        return mOrderDao.getPendingOrders();
     }
 
     public void insertOrderToLocal(Order currentOrder) { mOrderDao.insertOrderToLocal(currentOrder); }
@@ -124,7 +156,7 @@ public class Repository {
     }
 
     public void checkForPendingOrders() {
-        Log.d("Checking for orders","Yes");
+
         fireDB.getAllOrdersFromFirebase();
     }
 
@@ -136,6 +168,7 @@ public class Repository {
     }
 
     public void getAvailableRiders() {
+        Log.d("Repository","called FireDB");
         fireDB.getAvailableRiders();
     }
 
@@ -144,12 +177,25 @@ public class Repository {
     /**Global Functions**/
     public void clearAllDataLocal(){
 
-        mRestaurantDao.deleteAllRestaurantFromLocal();
-        mItemDao.deleteAllItemFromLocal();
-        //mUserDao.deleteLocalUser();
-        mOrderDao.deleteAllOrderFromLocal();
-        orderItemDao.deleteAllItemFromLocal();
-        mRiderDao.deleteLocalRider();
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               mRestaurantDao.deleteAllRestaurantFromLocal();
+               mItemDao.deleteAllItemFromLocal();
+               //mUserDao.deleteLocalUser();
+               mOrderDao.deleteAllOrderFromLocal();
+               orderItemDao.deleteAllItemFromLocal();
+               mRiderDao.deleteLocalRider();
+           }
+       }).start();
     }
 
+
+    public void getPendingOrdersFromFirebase(int userID) {
+        fireDB.getAllOrdersFromFirebase(userID);
+    }
+
+    public void updateSenderIDinFirebase(int riderID, int orderID) {
+        fireDB.updateSenderIDFirebase(riderID,orderID);
+    }
 }

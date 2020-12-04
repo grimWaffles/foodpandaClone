@@ -5,8 +5,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.foodpandaclone.model.Restaurant;
-import com.example.foodpandaclone.view.fragments.MainRestaurant_Fragment;
-import com.example.foodpandaclone.view.fragments.Shop_Fragment;
+import com.example.foodpandaclone.view.fragment.MainRestaurant_Fragment;
+import com.example.foodpandaclone.view.fragment.Shop_Fragment;
 
 import java.util.List;
 

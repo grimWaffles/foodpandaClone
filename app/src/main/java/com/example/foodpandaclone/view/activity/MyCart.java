@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.view.activities;
+package com.example.foodpandaclone.view.activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +30,6 @@ import com.example.foodpandaclone.viewModel.MyCartViewModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class MyCart extends AppCompatActivity {
@@ -39,7 +38,7 @@ public class MyCart extends AppCompatActivity {
 
     private CardView card_cart_total;
 
-    TextView subtotal,discount,delivery_cost,total; //inside the card_cart_total
+    TextView subtotal,discount,delivery_cost,total; //inside card_cart_total
 
     Button orderNow;
 
@@ -47,7 +46,7 @@ public class MyCart extends AppCompatActivity {
 
     private MyCartItemsAdapter adapter; private MyCartViewModel mcVM; private LinearLayoutManager llm;
     private List<Restaurant> res; private Restaurant restaurant;private User user; private List<Item> itemList;
-    private List<OrderItem> orderItems; private boolean orderComplete=false;
+    private List<OrderItem> orderItems; private boolean orderPending =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +86,7 @@ public class MyCart extends AppCompatActivity {
 
                 if(orders.size()!=0){
                     if(orders.get(0).getStatus().equals("pending")){
-                        orderComplete=true;
+                        orderPending =true;
                     }
                 }
             }
@@ -128,7 +127,7 @@ public class MyCart extends AppCompatActivity {
                                         @Override
                                         public void run() {
 
-                                            if(!orderComplete){
+                                            if(!orderPending){
                                                 mcVM.decreaseItemFromOrder(item.getItemID(),item.getRestaurantID());
                                             }
                                             else{
@@ -164,7 +163,7 @@ public class MyCart extends AppCompatActivity {
                    }
                    else{
 
-                       if(!orderComplete){
+                       if(!orderPending){
                            progressBar.setVisibility(View.VISIBLE);
 
                            final Order currentOrder=new Order(202010,user.getUserID(),0,"pending",Integer.parseInt(total.getText().toString()),t_discount,getCurrentDate());

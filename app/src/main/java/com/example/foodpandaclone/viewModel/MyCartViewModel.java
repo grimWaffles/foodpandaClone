@@ -62,6 +62,6 @@ public class MyCartViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Order>> getOrderFromLocal(){
-        return mRepo.getOrderlist();
+        return mRepo.getPendingOrderlist();
     }
 }

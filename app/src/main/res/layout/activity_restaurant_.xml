@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.activities.Restaurant_Activity">
+    tools:context=".view.activity.Restaurant_Activity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            >
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <include
                 layout="@layout/toolbar_other"

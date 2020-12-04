@@ -29,15 +29,10 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public LiveData<List<User>> getCurrentUser(){ return mRepo.getUserListFromLocal();}
 
-    public void logoutCurrentUser() {
+    public void logoutCurrentUser(final User user) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mRepo.logoutCurrentUser();
-                mRepo.deleteOrders();
-            }
-        }).start();
+        mRepo.logoutCurrentUser(user);
+        mRepo.deleteOrders();
     }
 
     public void loadData() {

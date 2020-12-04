@@ -2,6 +2,7 @@ package com.example.foodpandaclone.database;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.TableLayout;
 
 import androidx.annotation.NonNull;
 
@@ -9,6 +10,7 @@ import com.example.foodpandaclone.dao.ItemDao;
 import com.example.foodpandaclone.dao.OrderDao;
 import com.example.foodpandaclone.dao.OrderItemDao;
 import com.example.foodpandaclone.dao.RestaurantDao;
+import com.example.foodpandaclone.dao.RiderDao;
 import com.example.foodpandaclone.dao.UserDao;
 import com.example.foodpandaclone.model.Item;
 import com.example.foodpandaclone.model.Order;
@@ -30,11 +32,16 @@ import java.util.List;
 
 public class FirebaseDatabaseHelper {
 
-    private DatabaseReference ref; private List<RestaurantFirebase> restaurants=new ArrayList<>(); private List<OrderFirebase> firebaseOrders=new ArrayList<>();
+    private static final String TAG="FirebaseDatabaseHelper";
 
-    private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private LocalDatabaseHelper db; private UserDao mUserDao; private OrderItemDao mOrderItemDao;
-    private OrderDao mOrderDao;
+    private DatabaseReference ref;
 
+    //Dao
+    private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private LocalDatabaseHelper db;
+    private UserDao mUserDao; private OrderItemDao mOrderItemDao; private OrderDao mOrderDao; private RiderDao mRiderDao;
+
+    //Variables
+    private List<RestaurantFirebase> restaurants=new ArrayList<>(); private List<OrderFirebase> firebaseOrders=new ArrayList<>();
     private boolean accountFound=false; private boolean ordersReceivedForUpdates =false; private boolean orderCancelled=false;
 
     public FirebaseDatabaseHelper(Application application){
@@ -45,6 +52,7 @@ public class FirebaseDatabaseHelper {
         mUserDao=db.userDao();
         mOrderDao=db.orderDao();
         mOrderItemDao =db.orderItemDao();
+        mRiderDao=db.riderDao();
     }
 
 
@@ -54,8 +62,6 @@ public class FirebaseDatabaseHelper {
 
         ref=FirebaseDatabase.getInstance().getReference().child("Restaurant");
 
-        Log.d("Database navigated","True");
-
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -64,16 +70,16 @@ public class FirebaseDatabaseHelper {
 
                     RestaurantFirebase rf= snap.getValue(RestaurantFirebase.class);
                     restaurants.add(rf);
-
-                    Log.d("Size of list",Integer.toString(restaurants.size()));
                 }
-                Log.d("Size of list fetched",Integer.toString(restaurants.size()));
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         insertToLocalDB(restaurants);
                     }
                 }).start();
+
+                return;
             }
 
             @Override
@@ -109,9 +115,6 @@ public class FirebaseDatabaseHelper {
     public void getUserDataFromFirebase(final int phone, final String password) {
 
         ref=FirebaseDatabase.getInstance().getReference().child("User");
-
-        Log.d("User list"," Navigated");
-
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -127,18 +130,22 @@ public class FirebaseDatabaseHelper {
                             public void run() {
                                 User tempUser=mUserDao.getCurrentUserFromLocal().get(0);
 
+                                if(newUser.getType().equals("Rider")){
+                                    updateRiderLocationInFirebase(newUser.getUserID(),tempUser.getLatitude(),tempUser.getLongitude());
+                                }
+
                                 updateUserLocationInFirebase(newUser.getUserID(),tempUser.getLatitude(),tempUser.getLongitude());
+
+                                mUserDao.updateLocalUserData(newUser.getUserID(), newUser.getEmail(), newUser.getPassword(),
+                                        newUser.getPhone(), newUser.getType(),"Logged in");
+
                                 Log.d("Updated user location","Yes! updated");
                             }
                         }).start();
 
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mUserDao.updateLocalUserData(newUser.getUserID(), newUser.getEmail(), newUser.getPassword(),
-                                        newUser.getPhone(), newUser.getType(),"Logged in");
-                            }
-                        }) .start();
+                        if(newUser.getType().equals("Rider")){
+                            setRiderStatus(newUser.getUserID(),"Available");
+                        }
 
                         accountFound=true;
                     }
@@ -153,6 +160,7 @@ public class FirebaseDatabaseHelper {
                         }
                     }).start();
                 }
+                return;
             }
 
             @Override
@@ -162,9 +170,18 @@ public class FirebaseDatabaseHelper {
         });
     }
 
+
     public void updateUserLocationInFirebase(int newUserID,double latitude, double longitude) {
 
         ref=FirebaseDatabase.getInstance().getReference().child("User").child(Integer.toString(newUserID));
+        ref.child("latitude").setValue(latitude);
+        ref.child("longitude").setValue(longitude);
+
+    }
+
+    public void updateRiderLocationInFirebase(int newUserID,double latitude, double longitude) {
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Rider").child(Integer.toString(newUserID));
         ref.child("latitude").setValue(latitude);
         ref.child("longitude").setValue(longitude);
 
@@ -201,6 +218,8 @@ public class FirebaseDatabaseHelper {
                     }
 
                 }).start();
+
+                return;
             }
 
             @Override
@@ -225,32 +244,29 @@ public class FirebaseDatabaseHelper {
                     if(of.getUserID()==userID){
                         firebaseOrders.add(of);
                     }
-
                 }
 
                 if(firebaseOrders.size()!=0 ){
 
-                    for(OrderFirebase orderFirebase:firebaseOrders){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            for(OrderFirebase orderFirebase:firebaseOrders){
 
-                        final Order order=orderFirebase.getOrderObject();
-                        final List<OrderItem> orderItems=orderFirebase.getOrderItems();
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
+                                final Order order=orderFirebase.getOrderObject();
+                                final List<OrderItem> orderItems=orderFirebase.getOrderItems();
 
                                 mOrderDao.insertOrderToLocal(order);
 
                                 for(OrderItem oi:orderItems){
                                     mOrderItemDao.insertOrderItemToLocal(oi);
                                 }
-
                             }
-                        }).start();
-                    }
-
+                        }
+                    }).start();
                 }
 
+                return;
             }
 
             @Override
@@ -268,14 +284,18 @@ public class FirebaseDatabaseHelper {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                OrderFirebase of;
+
                 for(DataSnapshot ds:snapshot.getChildren()){
 
-                    OrderFirebase of=ds.getValue(OrderFirebase.class);
+                    of=ds.getValue(OrderFirebase.class);
 
                     if(of.getSenderID()!=0){
                         mOrderDao.updateOrderRider(of.getSenderID());
                     }
                 }
+
+                return;
             }
 
             @Override
@@ -320,6 +340,7 @@ public class FirebaseDatabaseHelper {
         final int id=currentOrder.getOrderID();
 
         if(firebaseOrders.size()!=0 && ordersReceivedForUpdates){
+
             currentOrder.setOrderID(firebaseOrders.get(firebaseOrders.size()-1).getOrderID()+1);
 
             ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(currentOrder.getOrderID()));
@@ -363,6 +384,8 @@ public class FirebaseDatabaseHelper {
                    ref2.setValue(of);
 
                }
+
+               return;
             }
 
             @Override
@@ -370,6 +393,11 @@ public class FirebaseDatabaseHelper {
 
             }
         });
+    }
+
+    public void updateSenderIDFirebase(int riderID, int orderID) {
+        ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(orderID)).child("senderID");
+        ref.setValue(riderID);
     }
 
     /**Rider Functions**/
@@ -383,7 +411,7 @@ public class FirebaseDatabaseHelper {
 
         ref=FirebaseDatabase.getInstance().getReference().child("Rider");
 
-        Log.d("Rider list"," Navigated");
+        Log.d(TAG," Navigated");
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -391,31 +419,21 @@ public class FirebaseDatabaseHelper {
 
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
 
-                    final Rider newUser=dataSnapshot.getValue(Rider.class);
+                    final Rider rider=dataSnapshot.getValue(Rider.class);
 
-                    if(newUser.getStatus().equals("Available")){
+                    if(rider.getStatus().equals("Available")){
 
-                        Log.d("Rider found:" ,"Yes");
-
-                        final User user=new User(newUser.getRiderID(), newUser.getEmail(),
-                                newUser.getPhone(),newUser.getPassword(), newUser.getType(),newUser.getLatitude(),newUser.getLongitude());
+                        Log.d(TAG,"Available rider found!");
+                        setRiderStatus(rider.getRiderID(),"Busy");
 
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                mUserDao.insertUserToLocal(user);
-
-                               Log.d("Updating user list","Yes");
+                                rider.setStatus("Busy");
+                                mRiderDao.insertUserToLocal(rider);
+                                mOrderDao.updateOrderRider(rider.getRiderID());
                             }
-                        }) .start();
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mOrderDao.updateOrderRider(newUser.getRiderID());
-                                Log.d("Updating order list","Yes");
-                            }
-                        }) .start();
+                        }).start();
                     }
                 }
             }
@@ -426,6 +444,17 @@ public class FirebaseDatabaseHelper {
             }
         });
     }
+
+    private void setRiderStatus(int userID,String status) {
+        ref=FirebaseDatabase.getInstance().getReference().child("Rider").child(Integer.toString(userID)).child("status");
+        ref.setValue(status);
+    }
+
+    public void signOutRider(int userID) {
+        ref=FirebaseDatabase.getInstance().getReference().child("Rider").child(Integer.toString(userID)).child("status");
+        ref.setValue("Unavailable");
+    }
+
 
 
 }

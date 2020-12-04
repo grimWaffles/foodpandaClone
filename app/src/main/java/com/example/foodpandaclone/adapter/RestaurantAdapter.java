@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.model.Restaurant;
-import com.example.foodpandaclone.view.activities.Restaurant_Activity;
+import com.example.foodpandaclone.view.activity.Restaurant_Activity;
 
 import java.util.List;
 

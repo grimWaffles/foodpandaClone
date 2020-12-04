@@ -23,12 +23,7 @@ public class LogoPageViewModel extends AndroidViewModel{
 
     public void clearLocalStorage(){
 
-       new Thread(new Runnable() {
-           @Override
-           public void run() {
-               mRepo.clearAllDataLocal();
-           }
-       }).start();
+        mRepo.clearAllDataLocal();
     }
 
     public LiveData<List<User>> getUserFromLocal(){
@@ -37,14 +32,8 @@ public class LogoPageViewModel extends AndroidViewModel{
 
     public void insertBlankUserToLocal(){
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                User user=new User("1",1,"1");
-                mRepo.insertUserToLocal(user);
-            }
-        }).start();
+        User user=new User("1",1,"1");
+        mRepo.insertUserToLocal(user);
     }
 
 

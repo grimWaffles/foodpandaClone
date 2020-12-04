@@ -23,7 +23,7 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Order>> getPendingOrdersFromFirebase(){
-        return  mRepo.getOrderlist();
+        return  mRepo.getPendingOrderlist();
     }
 
     public void checkForPendingOrders() {
@@ -34,12 +34,7 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
         return mRepo.getUserListFromLocal();
     }
 
-    public void logoutUser() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mRepo.logoutCurrentUser();
-            }
-        }).start();
+    public void logoutUser(final User user) {
+        mRepo.logoutCurrentUser(user);
     }
 }

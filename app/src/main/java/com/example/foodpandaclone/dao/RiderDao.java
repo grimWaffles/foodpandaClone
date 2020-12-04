@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface RiderDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUserToLocal(Rider rider);
 
     @Query("SELECT * FROM rider_table")

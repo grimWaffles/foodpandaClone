@@ -1,39 +1,39 @@
-package com.example.foodpandaclone.view.activities;
+package com.example.foodpandaclone.view.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapter.RiderOrderAdapter;
 import com.example.foodpandaclone.model.Order;
-import com.example.foodpandaclone.model.OrderFirebase;
 import com.example.foodpandaclone.model.User;
-import com.example.foodpandaclone.view.fragments.CustomDialogFragment;
-import com.example.foodpandaclone.view.fragments.RiderOrderListFragment;
+import com.example.foodpandaclone.view.fragment.CustomDialogFragment;
+import com.example.foodpandaclone.view.fragment.RiderOrderListFragment;
 import com.example.foodpandaclone.viewModel.MainActivityRiderViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity_Rider extends AppCompatActivity implements RiderOrderAdapter.OnOrderItemClick, CustomDialogFragment.OnPromptClick {
-    
-    private Toolbar toolbar; private MainActivityRiderViewModel marVM; private List<Order> orders; private FragmentTransaction ft; private FragmentManager fm=getFragmentManager();
+
+    //Widgets
+    private Toolbar toolbar;
+
+    //ViewModel
+    private MainActivityRiderViewModel marVM;
+
+    //Variables
+    private FragmentTransaction ft; private FragmentManager fm=getFragmentManager(); private boolean riderBusy =false; private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,6 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         setContentView(R.layout.activity_main__rider);
 
         this.setTitle("Bhook lagi?");
-        orders=new ArrayList<>();
         
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,6 +57,9 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
                     startActivity(new Intent(MainActivity_Rider.this,MainActivity.class));
                     finish();
                 }
+                else{
+                    mUser=users.get(0);
+                }
             }
         });
 
@@ -65,10 +67,12 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
             @Override
             public void onChanged(List<Order> orders) {
 
-                ft=fm.beginTransaction();
-                ft.replace(R.id.frame_layout,new RiderOrderListFragment(MainActivity_Rider.this,orders));
-                ft.commit();
-
+                if(orders.size()!=0 && !riderBusy){
+                    loadOrderListFragment(orders);
+                }
+                else if(orders==null){
+                    loadDialogFragment("No orders are currently available");
+                }
             }
         });
 
@@ -88,7 +92,7 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         switch(item.getItemId()){
 
             case R.id.my_cart:
-                Toast.makeText(this, "Fucntionality not added yet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Functionality not added yet", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.my_orders:
@@ -100,7 +104,9 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
                 break;
 
             case R.id.logout_btn:
-                marVM.logoutUser();
+                if(mUser!=null){
+                    marVM.logoutUser(mUser);
+                }
                 break;
         }
         
@@ -109,18 +115,24 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
 
     @Override
     public void onOrderItemClick(int id) {
-        loadDialogFragment();
-    }
-
-    private void loadDialogFragment() {
-
-        CustomDialogFragment dialogFragment=new CustomDialogFragment();
-
-        dialogFragment.show(fm,"My custom Dialog");
+        loadDialogFragment("");
     }
 
     @Override
     public void onPromptClick() {
         Toast.makeText(this, "Does Absolutely nothing", Toast.LENGTH_SHORT).show();
+    }
+
+    private void loadDialogFragment(String message) {
+
+        CustomDialogFragment dialogFragment=new CustomDialogFragment(message);
+
+        dialogFragment.show(fm,"My custom Dialog");
+    }
+
+    private void loadOrderListFragment(List<Order> orders) {
+        ft=fm.beginTransaction();
+        ft.replace(R.id.frame_layout,new RiderOrderListFragment(MainActivity_Rider.this,orders));
+        ft.commit();
     }
 }

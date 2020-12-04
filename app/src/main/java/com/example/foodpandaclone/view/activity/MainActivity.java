@@ -1,4 +1,4 @@
-package com.example.foodpandaclone.view.activities;
+package com.example.foodpandaclone.view.activity;
 
 import android.content.Intent;
 import android.location.Address;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout; private MainActivityViewModel mMAVM; private ViewPager sectionPager; private TabLayout tabLayout;  NavigationView navigationView;
     Button btn_login,btn_logout; View navView;
     TextView user_email,user_name, user_address,loading_message;
-    final int LOGIN_ACTIVITY=1; ProgressBar pbmain;
+    final int LOGIN_ACTIVITY=1; ProgressBar pbmain; private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 if(users.size()!=0){
                     updateUIvalues(users.get(0));
+                    MainActivity.this.mUser =users.get(0);
                 }
             }
         });
@@ -202,7 +203,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
         if(v.getId()==btn_logout.getId()){
-            mMAVM.logoutCurrentUser();
+
+            mMAVM.logoutCurrentUser(this.mUser);
             Toast.makeText(this, "Logging out", Toast.LENGTH_LONG).show();
             btn_logout.setVisibility(View.GONE);
             btn_login.setVisibility(View.VISIBLE);

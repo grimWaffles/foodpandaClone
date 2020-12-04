@@ -53,7 +53,7 @@ public class RiderOrderAdapter extends RecyclerView.Adapter<RiderOrderAdapter.Vi
 
         orderID.setText("#OrderID: "+Integer.toString(order.getOrderID()));
         customer_name.setText("Phone Number: "+"+880"+Integer.toString(order.getUserID()));
-        total_price.setText("Total Price: "+Integer.toString(order.getTotal_cost()));
+        total_price.setText("Total Price: "+Integer.toString(order.getTotal_cost())+"Tk");
 
     }
 

@@ -1,13 +1,11 @@
-package com.example.foodpandaclone.view.activities;
+package com.example.foodpandaclone.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -19,8 +17,6 @@ import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.viewModel.LogoPageViewModel;
 
 import java.util.List;
-
-import static java.lang.Thread.currentThread;
 
 public class LogoPage extends AppCompatActivity {
 

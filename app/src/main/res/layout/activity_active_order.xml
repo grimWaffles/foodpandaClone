@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.activities.ActiveOrder">
+    tools:context=".view.activity.ActiveOrder">
 
     <include
         layout="@layout/toolbar_other"
