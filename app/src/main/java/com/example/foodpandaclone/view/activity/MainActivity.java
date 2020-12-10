@@ -49,8 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mMAVM=new ViewModelProvider(this).get(MainActivityViewModel.class);
 
-        mMAVM.loadData();
-
         sectionPager=findViewById(R.id.section_pager);
         tabLayout=findViewById(R.id.tablayout_main);
 
@@ -94,22 +92,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         user_address =(TextView) navView.findViewById(R.id.userlatitude); loading_message=findViewById(R.id.tv_loading_message);
 
         //Initialized ViewPager and the tabView:
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         mMAVM.getTheData().observe(this, new Observer<List<Restaurant>>() {
             @Override
             public void onChanged(List<Restaurant> restaurants) {
 
-               if(restaurants.size()!=0 && restaurants.size()>1){
+                if(restaurants==null || restaurants.size()==0){
+                    mMAVM.loadData();
+                }
 
-                   ViewPagerMainActivity pagerAdapter=new ViewPagerMainActivity(getSupportFragmentManager(), restaurants);
+                else if (restaurants.size()!=0 && restaurants.size()>=2){
 
-                   sectionPager.setAdapter(pagerAdapter);
-                   tabLayout.setupWithViewPager(sectionPager);
+                    ViewPagerMainActivity pagerAdapter=new ViewPagerMainActivity(getSupportFragmentManager(), restaurants);
 
-                   sectionPager.setVisibility(View.VISIBLE);
-                   pbmain.setVisibility(View.GONE);
-                   loading_message.setVisibility(View.GONE);
-               }
+                    sectionPager.setAdapter(pagerAdapter);
+                    tabLayout.setupWithViewPager(sectionPager);
+
+                    sectionPager.setVisibility(View.VISIBLE);
+                    pbmain.setVisibility(View.GONE);
+                    loading_message.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -121,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(users.size()!=0){
                     updateUIvalues(users.get(0));
                     MainActivity.this.mUser =users.get(0);
+                    //mMAVM.downloadUserOrders(users.get(0).getUserID());
                 }
             }
         });

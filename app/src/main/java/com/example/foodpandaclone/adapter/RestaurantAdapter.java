@@ -56,8 +56,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         final Restaurant res= listOfRestaurants.get(i);
 
-         Log.d("Size of restaurantList in adapter",Integer.toString(listOfRestaurants.size()));
-
         if(mode==0 && res.getDiscount()!=0){
             discount.setText("Discount: "+Integer.toString(res.getDiscount()) +" Tk");
         }
@@ -101,12 +99,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     public int getItemCount() {
 
         if(listOfRestaurants==null){
-            Log.d("Size in RestaurantAdapter","Adapter empty");
             return 0;
         }
         else{
 
-            Log.d("Size in RestaurantAdapter",Integer.toString(listOfRestaurants.size()));
             return listOfRestaurants.size();
         }
 

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.foodpandaclone.database.Repository;
 import com.example.foodpandaclone.model.Order;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class ActiveOrderViewModel extends AndroidViewModel {
 
-    private Repository mRepo;  private Context mContext; private Order mOrder;
+    private Repository mRepo;
 
     public ActiveOrderViewModel(@NonNull Application application) {
         super(application);
@@ -34,53 +35,35 @@ public class ActiveOrderViewModel extends AndroidViewModel {
 
     public LiveData<List<Rider>> getCurrentRider(){ return mRepo.getCurrentRider();}
 
-    public void getAvailableRiders() {
-        mRepo.getAvailableRiders();
-    }
-
     public void cancelOrder(String s) {
         mRepo.cancelOrder(s);
-    }
-
-    public void processOrder(int orderID) {
-        mRepo.getOrderFromFirebase(orderID);
     }
 
     public void getUserOrders(int userID) {
         mRepo.getPendingOrdersFromFirebase(userID);
     }
 
-    public void trackOrder(Order order) {
+    public void findRiderForOrder(final Order order) {
 
-        mOrder=order;
-
-        if(!order.getStatus().equals("completed") && order.getSenderID()==0){
-            Log.d("aoVM","Called mRepo");
-            mRepo.getAvailableRiders();
-        }
+        new Thread(new Runnable() {
+               @Override
+               public void run() {
+                   mRepo.getAvailableRiders(order);
+               }
+           }).start();
     }
 
-    //Starts the  Foreground service
-    public void startService(){
+    public void updateOrder(int riderID, int orderID) {
+        mRepo.updateSenderIDinFirebase(riderID,orderID);
+    }
+
+    public void downloadRiderInformation(final int riderID) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new  Intent(mContext, LocationService.class);
-                intent.putExtra("inputExtra","Fuck me");
-
-                ContextCompat.startForegroundService(mContext,intent);
+                mRepo.downloadRiderInfo(riderID);
             }
         }).start();
-    }
-
-    //Stop the Foreground Service
-    public void stopTrackerService(){
-        Intent intent=new Intent(mContext,LocationService.class);
-        stopTrackerService();
-    }
-
-    public void updateOrder(int riderID) {
-        mRepo.updateSenderIDinFirebase(riderID,mOrder.getOrderID());
     }
 }

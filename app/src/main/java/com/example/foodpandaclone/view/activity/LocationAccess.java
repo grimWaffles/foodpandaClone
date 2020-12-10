@@ -66,7 +66,18 @@ public class LocationAccess extends AppCompatActivity implements View.OnClickLis
         locationRequest.setInterval(5000);//5 seconds
         locationRequest.setFastestInterval(3000); //3 seconds
 
+        /**if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            findUserLocation();
 
+            if(type.equals("Rider")){
+                startActivity(new Intent(LocationAccess.this,MainActivity_Rider.class));
+                finish();
+            }
+            else{
+                startActivity(new Intent(LocationAccess.this,MainActivity.class));
+                finish();
+            }
+        }**/
     }
 
     @Override
@@ -83,11 +94,11 @@ public class LocationAccess extends AppCompatActivity implements View.OnClickLis
 
                 if(type.equals("Rider")){
                     startActivity(new Intent(LocationAccess.this,MainActivity_Rider.class));
-                    //finish();
+                    finish();
                 }
                 else{
                     startActivity(new Intent(LocationAccess.this,MainActivity.class));
-                    //finish();
+                    finish();
                 }
             }
         }
@@ -117,12 +128,9 @@ public class LocationAccess extends AppCompatActivity implements View.OnClickLis
                 public void onSuccess(final Location location) {
 
                     Log.d("Location  fetched:", "Yes");
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mLAVM.updateLocalUser(location);
-                        }
-                    }).start();
+                   if(location!=null){
+                       mLAVM.updateLocalUser(location);
+                   }
 
                    /** if (ActivityCompat.checkSelfPermission(LocationAccess.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                             PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(LocationAccess.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

@@ -25,11 +25,15 @@ public interface OrderDao {
     @Query("DELETE FROM order_table")
     void deleteAllOrderFromLocal();
 
+    @Query("UPDATE order_table SET status='cancelled' WHERE id=:orderID")
+    void cancelOrder(int orderID);
+
     @Query("UPDATE order_table SET senderid=:id, status='Rider Found' WHERE senderid=0 AND status='pending'")
     void updateOrderRider(int id);
 
     @Query("UPDATE order_table SET id=:i WHERE status='pending'")
     void updateLocalOrderID(int i);
 
-
+    @Query("UPDATE order_table SET status=:status_message WHERE id=:orderID")
+    void updateOrderMessage(int orderID, String status_message);
 }

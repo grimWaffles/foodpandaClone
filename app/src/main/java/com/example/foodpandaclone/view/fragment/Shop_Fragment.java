@@ -22,8 +22,6 @@ public class Shop_Fragment extends Fragment {
 
         View rootView=inflater.inflate(R.layout.fragment_shop_,container,false);
 
-        stores=(RecyclerView) rootView.findViewById(R.id.stores);
-
         return rootView;
     }
 }

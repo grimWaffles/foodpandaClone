@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface OrderItemDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOrderItemToLocal(OrderItem item);
 
     @Query("SELECT * FROM order_item_table WHERE orderID=:orderID ORDER BY itemType ASC")

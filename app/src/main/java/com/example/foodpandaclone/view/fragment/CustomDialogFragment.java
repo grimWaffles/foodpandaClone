@@ -1,5 +1,6 @@
 package com.example.foodpandaclone.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ public class CustomDialogFragment extends DialogFragment {
     private boolean isAPrompt=false;
 
     public interface OnPromptClick{
-        void onPromptClick();
+        void onPromptClick(String message);
     }
 
     @Override
@@ -41,6 +42,7 @@ public class CustomDialogFragment extends DialogFragment {
         super();
     }
 
+    @SuppressLint("ValidFragment")
     public CustomDialogFragment(String message){
         super();
 
@@ -72,9 +74,11 @@ public class CustomDialogFragment extends DialogFragment {
 
                 if(isAPrompt){
                     getDialog().dismiss();
+                    mOnPromptClick.onPromptClick(message);
+
                 }
                 else{
-                    mOnPromptClick.onPromptClick();
+
                     getDialog().dismiss();
                 }
             }
@@ -89,8 +93,4 @@ public class CustomDialogFragment extends DialogFragment {
 
         return view;
     }
-
-    
-
-
 }

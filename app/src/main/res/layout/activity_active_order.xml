@@ -13,7 +13,8 @@
         />
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="2">
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:layout_width="wrap_content"
@@ -36,11 +37,189 @@
             map:uiCompass="true"
             />
 
-        <include
-            layout="@layout/card_cart_order"
-            android:id="@+id/cart_order"
-            />
-
     </FrameLayout>
+
+    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cart_order"
+        android:layout_gravity="bottom">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status:"
+                    android:textStyle="bold"
+                    android:layout_margin="15dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:id="@+id/status"
+
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/message"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Searching..."
+                    android:id="@+id/message"
+                    android:layout_margin="15dp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/status"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sender: "
+                    android:id="@+id/sender"
+                    android:textStyle="bold"
+                    android:layout_margin="15dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@+id/status"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/sender_name"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:id="@+id/sender_name"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@+id/message"
+                    app:layout_constraintStart_toEndOf="@+id/sender"
+
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone: "
+                    android:textStyle="bold"
+                    android:id="@+id/phone_number"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@+id/sender"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/sender_phone"
+                    />
+
+                <TextView
+                    android:id="@+id/sender_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="20dp"
+                    android:text=""
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@id/call_sender"
+                    app:layout_constraintStart_toEndOf="@id/phone_number"
+                    app:layout_constraintTop_toBottomOf="@+id/sender_name" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/call_sender"
+                    android:background="@color/colorAccent"
+                    android:textColor="@android:color/white"
+                    android:text="Call"
+                    android:paddingRight="4dp"
+                    android:layout_marginStart="5dp"
+                    android:drawableRight="@drawable/ic_baseline_call_24"
+                    app:layout_constraintTop_toBottomOf="@id/sender_name"
+                    app:layout_constraintStart_toEndOf="@+id/sender_phone"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OrderID: "
+                    android:textStyle="bold"
+                    android:id="@+id/order"
+                    android:layout_margin="15dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/phone_number"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/order_id"
+                    />
+
+                <TextView
+                    android:id="@+id/order_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:layout_marginTop="12dp"
+                    android:text=""
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@id/order"
+                    app:layout_constraintTop_toBottomOf="@id/sender_phone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Cost: "
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:id="@+id/t_cost"
+                    app:layout_constraintTop_toBottomOf="@id/order"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/total_cost"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0Tk"
+                    android:layout_margin="20dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:id="@+id/total_cost"
+                    app:layout_constraintTop_toBottomOf="@id/order_id"
+                    app:layout_constraintStart_toEndOf="@id/t_cost"
+
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cancel_order"
+                    android:text="CANCEL ORDER"
+                    android:background="@color/colorAccent"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintTop_toBottomOf="@id/t_cost"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_margin="20dp"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

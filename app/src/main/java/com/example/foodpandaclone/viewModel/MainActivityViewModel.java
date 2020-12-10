@@ -39,4 +39,9 @@ public class MainActivityViewModel extends AndroidViewModel {
 
         mRepo.getFirebaseData();
     }
+
+    public void downloadUserOrders(final int userID) {
+
+        mRepo.downloadUserOrder(userID);
+    }
 }

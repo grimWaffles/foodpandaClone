@@ -49,6 +49,12 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
 
         marVM.checkForPendingOrders();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         marVM.getCurrentUser().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
@@ -119,7 +125,7 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
     }
 
     @Override
-    public void onPromptClick() {
+    public void onPromptClick(String message) {
         Toast.makeText(this, "Does Absolutely nothing", Toast.LENGTH_SHORT).show();
     }
 

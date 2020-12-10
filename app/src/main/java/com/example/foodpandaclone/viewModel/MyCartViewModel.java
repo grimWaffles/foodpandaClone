@@ -52,10 +52,6 @@ public class MyCartViewModel extends AndroidViewModel {
         mRepo.insertOrderToFirebase(currentOrder);
     }
 
-    public void findRider() {
-        mRepo.getAvailableRiders();
-    }
-
     public void insertOrderItemsToLocal(List<OrderItem> orderItems) {
 
         mRepo.insertOrderItemsToLocal(orderItems);

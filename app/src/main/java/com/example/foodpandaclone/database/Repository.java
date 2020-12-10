@@ -58,7 +58,15 @@ public class Repository {
 
     //public void updateLocalUser(User user) { mUserDao.updateLocalUserData(user.getUserID(),user.getEmail(),user.getPassword(),user.getPhone(),user.getType()); }
 
-    public void updateLocalUserLocation(Location location) { mUserDao.updateLocalUserLocation(location.getLatitude(),location.getLongitude()); }
+    public void updateLocalUserLocation(final Location location) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mUserDao.updateLocalUserLocation(location.getLatitude(),location.getLongitude());
+            }
+        }).start();
+    }
 
     public List<User> getLocalUser() { return mUserDao.getCurrentUserFromLocal();}
 
@@ -136,7 +144,7 @@ public class Repository {
             @Override
             public void run() {
                 mUserDao.deleteLocalRider();
-                mOrderDao.deleteAllOrderFromLocal();
+                mOrderDao.cancelOrder(Integer.parseInt(s));
                 fireDB.cancelOrderFirebase(s);
             }
         }).start();
@@ -160,6 +168,14 @@ public class Repository {
         fireDB.getAllOrdersFromFirebase();
     }
 
+    public void getPendingOrdersFromFirebase(int userID) {
+        fireDB.getAllOrdersFromFirebase(userID);
+    }
+
+    public void updateSenderIDinFirebase(int riderID, int orderID) {
+        fireDB.updateSenderIDFirebase(riderID,orderID);
+    }
+
 
     /**Rider functions**/
 
@@ -167,12 +183,16 @@ public class Repository {
         fireDB.insertRiderToFireBase(newUser);
     }
 
-    public void getAvailableRiders() {
-        Log.d("Repository","called FireDB");
-        fireDB.getAvailableRiders();
+    public void getAvailableRiders(Order order) {
+        Log.d("Repository","called FireDB"); //Change this to  get and set rider to order
+        fireDB.getAvailableRiders(order);
     }
 
     public LiveData<List<Rider>> getCurrentRider(){ return mRiderDao.fetchRiderFromLocal();}
+
+    public void downloadRiderInfo(int riderID) {
+        fireDB.downloadRiderInfo(riderID);
+    }
 
     /**Global Functions**/
     public void clearAllDataLocal(){
@@ -191,11 +211,4 @@ public class Repository {
     }
 
 
-    public void getPendingOrdersFromFirebase(int userID) {
-        fireDB.getAllOrdersFromFirebase(userID);
-    }
-
-    public void updateSenderIDinFirebase(int riderID, int orderID) {
-        fireDB.updateSenderIDFirebase(riderID,orderID);
-    }
 }
