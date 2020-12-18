@@ -17,7 +17,7 @@ public interface UserDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertUserToLocal(User user);
 
-    @Query("SELECT * FROM user_table")
+    @Query("SELECT * FROM user_table ORDER BY ")
     LiveData<List<User>> fetchUserFromLocal();
 
     @Query("SELECT * FROM user_table")

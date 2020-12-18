@@ -99,6 +99,10 @@ public class Repository {
         }).start();
     }
 
+    public void downloadUserInformationFromFirebase(int userID){
+        fireDB.downloadUserInformationFromFirebase(userID);
+    }
+
     /**Restaurant Functions**/
     public LiveData<List<Restaurant>> getRestaurantFromLocal(){ return mRestaurantDao.fetchRestaurantFromLocal(); }
 
@@ -157,19 +161,23 @@ public class Repository {
         }
     }
 
-    public void downloadUserOrder(int userID) { fireDB.getAllOrdersFromFirebase(userID); }
+    public void downloadUserOrder(int userID) { fireDB.getAllOrdersOfUser(userID); }
 
     public void getOrderFromFirebase(int orderID) {
         fireDB.getOrderFromFirebase(orderID);
     }
 
-    public void checkForPendingOrders() {
+    public void getRidersCurrentOrder(int riderID) {
 
-        fireDB.getAllOrdersFromFirebase();
+        fireDB.getRidersCurrentOrder(riderID);
+    }
+
+    public void downloadAllPendingOrdersFromFirebase(){
+        fireDB.getAllPendingOrdersFromFirebase();
     }
 
     public void getPendingOrdersFromFirebase(int userID) {
-        fireDB.getAllOrdersFromFirebase(userID);
+        fireDB.getAllOrdersOfUser(userID);
     }
 
     public void updateSenderIDinFirebase(int riderID, int orderID) {

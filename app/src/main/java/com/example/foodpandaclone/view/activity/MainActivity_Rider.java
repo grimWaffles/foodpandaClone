@@ -17,10 +17,13 @@ import android.widget.Toast;
 import com.example.foodpandaclone.R;
 import com.example.foodpandaclone.adapter.RiderOrderAdapter;
 import com.example.foodpandaclone.model.Order;
+import com.example.foodpandaclone.model.Rider;
 import com.example.foodpandaclone.model.User;
 import com.example.foodpandaclone.view.fragment.CustomDialogFragment;
+import com.example.foodpandaclone.view.fragment.MapsRider;
 import com.example.foodpandaclone.view.fragment.RiderOrderListFragment;
 import com.example.foodpandaclone.viewModel.MainActivityRiderViewModel;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
@@ -33,7 +36,8 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
     private MainActivityRiderViewModel marVM;
 
     //Variables
-    private FragmentTransaction ft; private FragmentManager fm=getFragmentManager(); private boolean riderBusy =false; private User mUser;
+    private FragmentTransaction ft; private FragmentManager fm=getFragmentManager(); private boolean riderBusy =false;
+    private User mUser; private LatLng riderLocation; private LatLng userLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +50,6 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         setSupportActionBar(toolbar);
 
         marVM=new ViewModelProvider(this).get(MainActivityRiderViewModel.class);
-
-        marVM.checkForPendingOrders();
 
     }
 
@@ -63,22 +65,51 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
                     startActivity(new Intent(MainActivity_Rider.this,MainActivity.class));
                     finish();
                 }
-                else{
+
+                else if(users.size()!=0){
                     mUser=users.get(0);
+                    riderLocation=new LatLng(mUser.getLatitude(),mUser.getLongitude());
+                    marVM.getRiderInformation(users.get(0).getUserID());
+                }
+                else if(users.size()>1){
+                    Toast.makeText(MainActivity_Rider.this, "You have 1 order", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
-        marVM.getPendingOrdersFromFirebase().observe(this,new Observer<List<Order>>() {
+        marVM.getCurrentRider().observe(this, new Observer<List<Rider>>() {
+            @Override
+            public void onChanged(List<Rider> riders) {
+                if(riders!=null  && riders.size()!=0){
+
+                    if(riders.get(0).getStatus().equals("Busy")){
+                        riderBusy=true;
+                        marVM.getThisRidersOrder(riders.get(0).getRiderID());
+                    }
+                    else{
+                        riderBusy=false;
+                        marVM.downloadAllPendingOrdersFromFirebase();
+                    }
+                }
+            }
+        });
+
+        marVM.getPendingOrders().observe(this,new Observer<List<Order>>() {
             @Override
             public void onChanged(List<Order> orders) {
 
-                if(orders.size()!=0 && !riderBusy){
+                if(orders.size()==0){
+                    //loadDialogFragment("No orders are currently available");
+                }
+
+                else if(!riderBusy){
                     loadOrderListFragment(orders);
                 }
-                else if(orders==null){
-                    loadDialogFragment("No orders are currently available");
+                else if(riderBusy){
+                    marVM.downLoadUserInformationFromFirebase(orders.get(0).getUserID());
+                    //loadMapFragment(riderLocation);
                 }
+
             }
         });
 
@@ -140,5 +171,9 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         ft=fm.beginTransaction();
         ft.replace(R.id.frame_layout,new RiderOrderListFragment(MainActivity_Rider.this,orders));
         ft.commit();
+    }
+
+    private void loadMapFragment(LatLng riderLocation) {
+       getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new MapsRider(riderLocation)).commit();
     }
 }

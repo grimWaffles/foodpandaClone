@@ -189,11 +189,44 @@ public class FirebaseDatabaseHelper {
 
     }
 
+    public void downloadUserInformationFromFirebase(final int userID){
+
+        ref=FirebaseDatabase.getInstance().getReference().child("User");
+
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot snap:snapshot.getChildren()){
+                    final User user=snap.getValue(User.class);
+
+                    if(user.getUserID()==userID){
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mUserDao.insertUserToLocal(user);
+                            }
+                        }).start();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     /**Order Functions**/
 
-    public void getAllOrdersFromFirebase(){
+    public void getAllPendingOrdersFromFirebase(){
 
-        ref=FirebaseDatabase.getInstance().getReference().child("Order"); firebaseOrders.clear();
+        firebaseOrders.clear();
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Order");
 
         ref.addValueEventListener(new ValueEventListener() {
 
@@ -204,9 +237,49 @@ public class FirebaseDatabaseHelper {
 
                     OrderFirebase of=ds.getValue(OrderFirebase.class);
 
-                    if(of.getStatus().equals("pending")){
+                    firebaseOrders.add(of);
+                }
+
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        for(OrderFirebase orderFirebase:firebaseOrders){
+                            mOrderDao.insertOrderToLocal(orderFirebase.getOrderObject());
+                        }
+
+                    }
+
+                }).start();
+
+                ref.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void getRidersCurrentOrder(final int riderID){
+
+        firebaseOrders.clear();
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Order");
+
+        ref.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot ds:snapshot.getChildren()){
+
+                    OrderFirebase of=ds.getValue(OrderFirebase.class);
+
+                    if(!of.getStatus().equals("completed") && of.getSenderID()==riderID ){
                         firebaseOrders.add(of);
-                        Log.d("Pending order found","Yes");
                     }
                 }
 
@@ -216,6 +289,10 @@ public class FirebaseDatabaseHelper {
                     public void run() {
                         for(OrderFirebase orderFirebase:firebaseOrders){
                             mOrderDao.insertOrderToLocal(orderFirebase.getOrderObject());
+
+                            for(OrderItem item: orderFirebase.getOrderItems()){
+                                mOrderItemDao.insertOrderItemToLocal(item);
+                            }
                         }
 
 
@@ -233,7 +310,7 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public void getAllOrdersFromFirebase(final int userID){
+    public void getAllOrdersOfUser(final int userID){
 
         ref=FirebaseDatabase.getInstance().getReference().child("Order");
 
