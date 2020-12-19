@@ -46,6 +46,15 @@ public class LogoPage extends AppCompatActivity {
 
                     mLPVM.clearLocalStorage();
 
+                   synchronized (this){
+                       try{
+                           Thread.sleep(5000);
+                       }
+                       catch(Exception e) {
+                           e.printStackTrace();
+                       }
+                   }
+
                     Toast.makeText(LogoPage.this, "Updates complete", Toast.LENGTH_SHORT).show();
 
                     Intent intent=new Intent(LogoPage.this,LocationAccess.class);

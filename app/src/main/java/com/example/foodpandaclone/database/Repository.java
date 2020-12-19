@@ -214,6 +214,8 @@ public class Repository {
                mOrderDao.deleteAllOrderFromLocal();
                orderItemDao.deleteAllItemFromLocal();
                mRiderDao.deleteLocalRider();
+
+
            }
        }).start();
     }

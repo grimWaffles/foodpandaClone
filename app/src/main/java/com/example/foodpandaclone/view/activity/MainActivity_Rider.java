@@ -10,6 +10,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -39,6 +40,8 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
     private FragmentTransaction ft; private FragmentManager fm=getFragmentManager(); private boolean riderBusy =false;
     private User mUser; private LatLng riderLocation; private LatLng userLocation;
 
+    public static final String TAG="MainActivityRider";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +53,6 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         setSupportActionBar(toolbar);
 
         marVM=new ViewModelProvider(this).get(MainActivityRiderViewModel.class);
-
     }
 
     @Override
@@ -60,20 +62,29 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         marVM.getCurrentUser().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
+                try{
+                    if(users.get(0).getType().equals(("User"))){
+                        startActivity(new Intent(MainActivity_Rider.this,MainActivity.class));
+                        finish();
+                    }
 
-                if(users.get(0).getType().equals(("User"))){
-                    startActivity(new Intent(MainActivity_Rider.this,MainActivity.class));
-                    finish();
+                    else if(users.size()!=0){
+                        mUser=users.get(0);
+                        riderLocation=new LatLng(mUser.getLatitude(),mUser.getLongitude());
+                        // TODO: 19-Dec-20 Loading mapFragment causes problems
+                        //loadMapFragment(riderLocation);
+                        marVM.getRiderInformation(users.get(0).getUserID());
+                    }
+                    else if(users.size()>1){
+                        Toast.makeText(MainActivity_Rider.this, "You have 1 order", Toast.LENGTH_LONG).show();
+                    }
                 }
 
-                else if(users.size()!=0){
-                    mUser=users.get(0);
-                    riderLocation=new LatLng(mUser.getLatitude(),mUser.getLongitude());
-                    marVM.getRiderInformation(users.get(0).getUserID());
+                catch(Exception e){
+                    Log.d(TAG,"Failed to get user");
+                    e.printStackTrace();
                 }
-                else if(users.size()>1){
-                    Toast.makeText(MainActivity_Rider.this, "You have 1 order", Toast.LENGTH_LONG).show();
-                }
+
             }
         });
 
@@ -82,13 +93,20 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
             public void onChanged(List<Rider> riders) {
                 if(riders!=null  && riders.size()!=0){
 
-                    if(riders.get(0).getStatus().equals("Busy")){
-                        riderBusy=true;
-                        marVM.getThisRidersOrder(riders.get(0).getRiderID());
+                    try{
+                        if(riders.get(0).getStatus().equals("Busy")){
+                            riderBusy=true;
+                            marVM.getThisRidersOrder(riders.get(0).getRiderID());
+
+                        }
+                        else{
+                            riderBusy=false;
+                            marVM.downloadAllPendingOrdersFromFirebase();
+                        }
                     }
-                    else{
-                        riderBusy=false;
-                        marVM.downloadAllPendingOrdersFromFirebase();
+                    catch (Exception e){
+                        Log.d(TAG,"Failed to get rider");
+                        e.printStackTrace();
                     }
                 }
             }
@@ -98,21 +116,24 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
             @Override
             public void onChanged(List<Order> orders) {
 
-                if(orders.size()==0){
-                    //loadDialogFragment("No orders are currently available");
-                }
+               try{
+                   if(orders.size()==0){
+                       //loadDialogFragment("No orders are currently available");
+                   }
 
-                else if(!riderBusy){
-                    loadOrderListFragment(orders);
-                }
-                else if(riderBusy){
-                    marVM.downLoadUserInformationFromFirebase(orders.get(0).getUserID());
-                    //loadMapFragment(riderLocation);
-                }
-
+                   else if(!riderBusy){
+                       loadOrderListFragment(orders);
+                   }
+                   else{
+                       marVM.downLoadUserInformationFromFirebase(orders.get(0).getUserID());
+                   }
+               }
+               catch (Exception e){
+                   Log.d(TAG,"Failed to get order");
+                   e.printStackTrace();
+               }
             }
         });
-
     }
 
     @Override
@@ -175,5 +196,14 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
 
     private void loadMapFragment(LatLng riderLocation) {
        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new MapsRider(riderLocation)).commit();
+    }
+
+    private void updateUIMessages(String message){
+        if(message.equals("on")){
+
+        }
+        else{
+
+        }
     }
 }
