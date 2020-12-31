@@ -28,7 +28,7 @@ public class MyCartViewModel extends AndroidViewModel {
     //add functions here
 
     public LiveData<List<Item>> getOrderItemsFromLocal(){
-        return mRepo.getOrderItemsFromLocal();
+        return mRepo.getCartItemsFromLocal();
     }
 
     public void decreaseItemFromOrder(int itemID, int restaurantID) {

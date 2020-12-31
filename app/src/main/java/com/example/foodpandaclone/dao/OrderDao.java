@@ -22,6 +22,9 @@ public interface OrderDao {
     @Query("SELECT * FROM order_table WHERE status!='completed'")
     LiveData<List<Order>> getPendingOrders();
 
+    @Query("SELECT * FROM order_table WHERE status!='completed'")
+    List<Order> getPendingOrdersFromLocal();
+
     @Query("DELETE FROM order_table")
     void deleteAllOrderFromLocal();
 

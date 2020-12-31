@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 public class FirebaseDatabaseHelper {
 
@@ -45,6 +46,9 @@ public class FirebaseDatabaseHelper {
     private boolean accountFound=false; private boolean ordersReceivedForUpdates =false; private boolean orderCancelled=false;
     private boolean riderFound=false;
 
+    //Executor
+    private ExecutorService executorService;
+
     public FirebaseDatabaseHelper(Application application){
 
         db=LocalDatabaseHelper.getDatabase(application);
@@ -54,10 +58,61 @@ public class FirebaseDatabaseHelper {
         mOrderDao=db.orderDao();
         mOrderItemDao =db.orderItemDao();
         mRiderDao=db.riderDao();
+        executorService=LocalDatabaseHelper.databaseWriterExecutor;
+
     }
 
-
     /**Restaurant Functions**/
+
+    public void downloadSpecificRestaurantData(final List<Integer> restaurants) {
+
+        final List<RestaurantFirebase> rfList=new ArrayList<>();
+
+        ref=FirebaseDatabase.getInstance().getReference().child("Restaurant");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot snap:snapshot.getChildren()){
+                    RestaurantFirebase rf=snap.getValue(RestaurantFirebase.class);
+
+                    if(restaurantsInList(restaurants,rf.getRestaurantID())){
+                        rfList.add(rf);
+                    }
+                }
+
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        for(RestaurantFirebase rf:rfList){
+                            mRestaurantDao.insertRestaurantToLocal(new Restaurant(rf.getRestaurantID(),rf.getName(),rf.getPhoneNumber(),rf.getLatitude(),
+                                    rf.getLongitude(),rf.getLocation(),rf.getDeliveryCost(),rf.getDiscount(),rf.getNumberOfReviews(),rf.getRating()));
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private boolean restaurantsInList(List<Integer> restaurants, int restaurantID) {
+
+        boolean doesExist=false;
+
+        for (Integer i:restaurants){
+            if(i==restaurantID){
+                doesExist=true;
+            }
+        }
+
+        return doesExist;
+    }
 
     public void loadRestaurantDataFromFirebase(){
 
@@ -269,7 +324,7 @@ public class FirebaseDatabaseHelper {
 
         ref=FirebaseDatabase.getInstance().getReference().child("Order");
 
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -283,10 +338,11 @@ public class FirebaseDatabaseHelper {
                     }
                 }
 
-                new Thread(new Runnable() {
-
+                executorService.execute(new Runnable() {
                     @Override
                     public void run() {
+                        Log.d(TAG,"Writing order to database");
+
                         for(OrderFirebase orderFirebase:firebaseOrders){
                             mOrderDao.insertOrderToLocal(orderFirebase.getOrderObject());
 
@@ -294,11 +350,8 @@ public class FirebaseDatabaseHelper {
                                 mOrderItemDao.insertOrderItemToLocal(item);
                             }
                         }
-
-
                     }
-
-                }).start();
+                });
 
                 ref.removeEventListener(this);
             }
@@ -561,9 +614,12 @@ public class FirebaseDatabaseHelper {
 
                     if(rider.getRiderID()==riderID){
 
+                        Log.d(TAG,"Rider Found");
+
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
+                                Log.d(TAG,"Writing to DB");
                                 mRiderDao.insertUserToLocal(rider);
                             }
                         }).start();

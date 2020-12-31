@@ -21,12 +21,15 @@ import com.example.foodpandaclone.model.Rider;
 import com.example.foodpandaclone.model.User;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 public class Repository {
 
+    public static final String TAG="Repository";
+
     //Dao
-    private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private UserDao mUserDao;
-    private FirebaseDatabaseHelper fireDB; private OrderDao mOrderDao;  private OrderItemDao orderItemDao;  private RiderDao mRiderDao;
+    private RestaurantDao mRestaurantDao; private ItemDao mItemDao; private UserDao mUserDao; ExecutorService executorService;
+    private FirebaseDatabaseHelper fireDB; private OrderDao mOrderDao;  private OrderItemDao mOrderItemDao;  private RiderDao mRiderDao;
 
     //DBref
     private LocalDatabaseHelper db;
@@ -34,12 +37,13 @@ public class Repository {
     public Repository(Application application){
 
         db=LocalDatabaseHelper.getDatabase(application);
-        orderItemDao=db.orderItemDao();
+        mOrderItemDao =db.orderItemDao();
         mRestaurantDao=db.restaurantDao();
         mItemDao=db.itemDao();
         mUserDao=db.userDao();
         mOrderDao=db.orderDao();
         mRiderDao=db.riderDao();
+        executorService= LocalDatabaseHelper.databaseWriterExecutor;
         fireDB=new FirebaseDatabaseHelper(application);
     }
 
@@ -48,12 +52,12 @@ public class Repository {
 
     public void insertUserToLocal(final User user) {
 
-       new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mUserDao.insertUserToLocal(user);
-            }
-        }).start();
+       executorService.execute(new Runnable() {
+           @Override
+           public void run() {
+               mUserDao.insertUserToLocal(user);
+           }
+       });
     }
 
     //public void updateLocalUser(User user) { mUserDao.updateLocalUserData(user.getUserID(),user.getEmail(),user.getPassword(),user.getPhone(),user.getType()); }
@@ -89,7 +93,7 @@ public class Repository {
             public void run() {
                 mUserDao.logoutCurrent();
                 mOrderDao.deleteAllOrderFromLocal();
-                orderItemDao.deleteAllItemFromLocal();
+                mOrderItemDao.deleteAllItemFromLocal();
                 mRiderDao.deleteLocalRider();
 
                 if(user.getType().equals("Rider")){
@@ -112,22 +116,27 @@ public class Repository {
 
     public LiveData<Restaurant> getSingleRestaurant(int id){ return mRestaurantDao.getSingleRestaurant(id);}
 
+    public void downloadSpecificRestaurantData(List<Integer> restaurants) {
+        fireDB.downloadSpecificRestaurantData(restaurants);
+    }
+
+
 
     /**Order Functions**/
     public void increaseItemQuantity(int itemID, int restaurantID) { mItemDao.increaseItemQuantity(itemID,restaurantID); }
 
     public void decreaseItemQuantity(int itemID, int restaurantID) { mItemDao.decreaseItemQuantity(itemID,restaurantID); }
 
-    public LiveData<List<Item>> getOrderItemsFromLocal() { return mItemDao.getCartItemsFromLocal(); }
+    public LiveData<List<Item>> getCartItemsFromLocal() { return mItemDao.getCartItemsFromLocal(); }
 
     public void deleteOrders() {
 
-        new Thread(new Runnable() {
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
                 mOrderDao.deleteAllOrderFromLocal();
             }
-        }).start();
+        });
     }
 
     public LiveData<List<Order>> getOrderlist() {
@@ -137,6 +146,8 @@ public class Repository {
     public LiveData<List<Order>> getPendingOrderlist() {
         return mOrderDao.getPendingOrders();
     }
+
+    public List<Order> getPendingOrderListFromLocal(){return mOrderDao.getPendingOrdersFromLocal();}
 
     public void insertOrderToLocal(Order currentOrder) { mOrderDao.insertOrderToLocal(currentOrder); }
 
@@ -157,7 +168,7 @@ public class Repository {
     public void insertOrderItemsToLocal(List<OrderItem> orderItems) {
 
         for(OrderItem oi:orderItems){
-            orderItemDao.insertOrderItemToLocal(oi);
+            mOrderItemDao.insertOrderItemToLocal(oi);
         }
     }
 
@@ -169,6 +180,7 @@ public class Repository {
 
     public void getRidersCurrentOrder(int riderID) {
 
+        Log.d(TAG,"Getting rider's current order");
         fireDB.getRidersCurrentOrder(riderID);
     }
 
@@ -182,6 +194,10 @@ public class Repository {
 
     public void updateSenderIDinFirebase(int riderID, int orderID) {
         fireDB.updateSenderIDFirebase(riderID,orderID);
+    }
+
+    public List<OrderItem> getOrderItemFromLocal(){
+        return mOrderItemDao.getOrderItemFromLocal();
     }
 
 
@@ -198,7 +214,11 @@ public class Repository {
 
     public LiveData<List<Rider>> getCurrentRider(){ return mRiderDao.fetchRiderFromLocal();}
 
+    public List<Rider> getCurrentRiderList(){return mRiderDao.getCurrentRiderFromLocal();}
+
     public void downloadRiderInfo(int riderID) {
+
+        Log.d(TAG,"Downloading rider information");
         fireDB.downloadRiderInfo(riderID);
     }
 
@@ -212,13 +232,11 @@ public class Repository {
                mItemDao.deleteAllItemFromLocal();
                //mUserDao.deleteLocalUser();
                mOrderDao.deleteAllOrderFromLocal();
-               orderItemDao.deleteAllItemFromLocal();
+               mOrderItemDao.deleteAllItemFromLocal();
                mRiderDao.deleteLocalRider();
 
 
            }
        }).start();
     }
-
-
 }

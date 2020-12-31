@@ -30,6 +30,8 @@ import java.util.List;
 
 public class MainActivity_Rider extends AppCompatActivity implements RiderOrderAdapter.OnOrderItemClick, CustomDialogFragment.OnPromptClick {
 
+    public static final String TAG="MainActivityRider";
+
     //Widgets
     private Toolbar toolbar;
 
@@ -39,8 +41,6 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
     //Variables
     private FragmentTransaction ft; private FragmentManager fm=getFragmentManager(); private boolean riderBusy =false;
     private User mUser; private LatLng riderLocation; private LatLng userLocation;
-
-    public static final String TAG="MainActivityRider";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,50 +53,50 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         setSupportActionBar(toolbar);
 
         marVM=new ViewModelProvider(this).get(MainActivityRiderViewModel.class);
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        //For login purposes
         marVM.getCurrentUser().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
-                try{
-                    if(users.get(0).getType().equals(("User"))){
-                        startActivity(new Intent(MainActivity_Rider.this,MainActivity.class));
-                        finish();
-                    }
 
-                    else if(users.size()!=0){
-                        mUser=users.get(0);
-                        riderLocation=new LatLng(mUser.getLatitude(),mUser.getLongitude());
-                        // TODO: 19-Dec-20 Loading mapFragment causes problems
-                        //loadMapFragment(riderLocation);
-                        marVM.getRiderInformation(users.get(0).getUserID());
-                    }
-                    else if(users.size()>1){
-                        Toast.makeText(MainActivity_Rider.this, "You have 1 order", Toast.LENGTH_LONG).show();
+                try{
+                    if(users.size()!=0){
+                        //if the account type is a user
+                        if(users.get(0).getType().equals(("User"))){
+                            startActivity(new Intent(MainActivity_Rider.this,MainActivity.class));
+                            finish();
+                        }
+                        else{
+                            mUser=users.get(0);
+                            riderLocation=new LatLng(mUser.getLatitude(),mUser.getLongitude());
+
+                            marVM.downloadRiderInformation(users.get(0).getUserID());
+                        }
                     }
                 }
-
                 catch(Exception e){
                     Log.d(TAG,"Failed to get user");
                     e.printStackTrace();
                 }
-
             }
         });
 
+        //The actual fun bit
         marVM.getCurrentRider().observe(this, new Observer<List<Rider>>() {
             @Override
             public void onChanged(List<Rider> riders) {
-                if(riders!=null  && riders.size()!=0){
+                if(riders.size()!=0){
 
                     try{
                         if(riders.get(0).getStatus().equals("Busy")){
                             riderBusy=true;
-                            marVM.getThisRidersOrder(riders.get(0).getRiderID());
+                            marVM.downloadThisRidersOrder(riders.get(0).getRiderID());
 
                         }
                         else{
@@ -117,11 +117,8 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
             public void onChanged(List<Order> orders) {
 
                try{
-                   if(orders.size()==0){
-                       //loadDialogFragment("No orders are currently available");
-                   }
 
-                   else if(!riderBusy){
+                   if(!riderBusy){
                        loadOrderListFragment(orders);
                    }
                    else{
@@ -134,6 +131,10 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
                }
             }
         });
+
+
+
+
     }
 
     @Override
@@ -150,7 +151,14 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         switch(item.getItemId()){
 
             case R.id.my_cart:
-                Toast.makeText(this, "Functionality not added yet", Toast.LENGTH_SHORT).show();
+
+                if(riderBusy){
+                    startActivity(new Intent(MainActivity_Rider.this, RiderCartActivity.class));
+                }
+                else{
+                    loadDialogFragment("You do not have current order");
+                }
+
                 break;
 
             case R.id.my_orders:

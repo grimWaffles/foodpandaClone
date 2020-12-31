@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -41,38 +42,32 @@ public class LogoPage extends AppCompatActivity {
 
                 if(users==null || users.size()==0){
                     mLPVM.insertBlankUserToLocal();
+                    Log.d("Logo Page","Created blank user");
+                    //loadNextActivity("User");
                 }
                 else if(users.size()>0){
-
                     mLPVM.clearLocalStorage();
-
-                   synchronized (this){
-                       try{
-                           Thread.sleep(5000);
-                       }
-                       catch(Exception e) {
-                           e.printStackTrace();
-                       }
-                   }
-
-                    Toast.makeText(LogoPage.this, "Updates complete", Toast.LENGTH_SHORT).show();
-
-                    Intent intent=new Intent(LogoPage.this,LocationAccess.class);
-
-                    if(users.get(0).getType().equals("Rider")){
-
-                        intent.putExtra("type","Rider");
-                    }
-                    else{
-                        intent.putExtra("type","User");
-                    }
-
-                    startActivity(intent);
-                    finish();
-
+                    loadNextActivity(users.get(0).getType());
                 }
 
             }
         });
+    }
+
+    public void loadNextActivity(String type){
+        Toast.makeText(LogoPage.this, "Updates complete", Toast.LENGTH_SHORT).show();
+
+        Intent intent=new Intent(LogoPage.this,LocationAccess.class);
+
+        if(type.equals("Rider")){
+
+            intent.putExtra("type","Rider");
+        }
+        else{
+            intent.putExtra("type","User");
+        }
+
+        startActivity(intent);
+        finish();
     }
 }
