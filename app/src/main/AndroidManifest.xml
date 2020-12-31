@@ -82,6 +82,8 @@
             android:parentActivityName=".view.activity.LocationAccess"
             android:screenOrientation="sensorPortrait" />
 
+        <activity android:name=".view.activity.RiderCartActivity" android:parentActivityName=".view.activity.MainActivity_Rider"/>
+
         <service android:name=".service.LocationService" />
         <service
             android:name=".service.OrderTracker"

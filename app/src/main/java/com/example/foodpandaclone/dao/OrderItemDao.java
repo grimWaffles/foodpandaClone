@@ -17,8 +17,8 @@ public interface OrderItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOrderItemToLocal(OrderItem item);
 
-    @Query("SELECT * FROM order_item_table WHERE orderID=:orderID ORDER BY itemType ASC")
-    LiveData<List<OrderItem>> fetchItemForOrderFromLocal(int orderID);
+    @Query("SELECT * FROM order_item_table  ORDER BY resID ASC")
+    List<OrderItem> getOrderItemFromLocal();
 
     @Query("DELETE FROM order_item_table")
     void deleteAllItemFromLocal();

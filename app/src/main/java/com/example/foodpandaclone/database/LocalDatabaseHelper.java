@@ -36,7 +36,7 @@ public abstract class LocalDatabaseHelper extends RoomDatabase {
 
     public static volatile LocalDatabaseHelper INSTANCE;
 
-    static final ExecutorService databaseWriterExecutor= Executors.newFixedThreadPool(4);
+    public static final ExecutorService databaseWriterExecutor= Executors.newFixedThreadPool(4);
 
     static final Migration MIGRATION_1_2 = new Migration(1,2){
 

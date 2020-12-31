@@ -73,20 +73,22 @@ public class Login extends AppCompatActivity {
                        @Override
                        public void onChanged(List<User> users) {
 
-                           if(users.get(0).getUserID()==1 && users.get(0).getLogin_status().equals("Not logged in")){
-                               pbmain.setVisibility(View.VISIBLE);
-                           }
-                           else if(users.get(0).getUserID()==1 && users.get(0).getLogin_status().equals("Account not found")){
-                               pbmain.setVisibility(View.GONE);
+                           if(users!=null){
+                               if(users.get(0).getUserID()==1 && users.get(0).getLogin_status().equals("Not logged in")){
+                                   pbmain.setVisibility(View.VISIBLE);
+                               }
+                               else if(users.get(0).getUserID()==1 && users.get(0).getLogin_status().equals("Account not found")){
+                                   pbmain.setVisibility(View.GONE);
 
-                               // TODO: 28-Nov-20 Change this to alter text field colors
-                               Toast.makeText(Login.this, "Username or password might  be incorrect", Toast.LENGTH_SHORT).show();
-                           }
-                           else{
-                               pbmain.setVisibility(View.GONE);
-                               Toast.makeText(Login.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-                               setResult(RESULT_OK,new Intent());
-                               finish();
+                                   // TODO: 28-Nov-20 Change this to alter text field colors
+                                   Toast.makeText(Login.this, "Username or password might  be incorrect", Toast.LENGTH_SHORT).show();
+                               }
+                               else{
+                                   pbmain.setVisibility(View.GONE);
+                                   Toast.makeText(Login.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+                                   setResult(RESULT_OK,new Intent());
+                                   finish();
+                               }
                            }
 
                        }
