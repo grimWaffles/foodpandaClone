@@ -117,10 +117,11 @@ public class Repository {
     public LiveData<Restaurant> getSingleRestaurant(int id){ return mRestaurantDao.getSingleRestaurant(id);}
 
     public void downloadSpecificRestaurantData(List<Integer> restaurants) {
-        fireDB.downloadSpecificRestaurantData(restaurants);
+
+        if(restaurants!=null && restaurants.size()!=0){
+            fireDB.downloadSpecificRestaurantData(restaurants);
+        }
     }
-
-
 
     /**Order Functions**/
     public void increaseItemQuantity(int itemID, int restaurantID) { mItemDao.increaseItemQuantity(itemID,restaurantID); }
@@ -196,7 +197,7 @@ public class Repository {
         fireDB.updateSenderIDFirebase(riderID,orderID);
     }
 
-    public List<OrderItem> getOrderItemFromLocal(){
+    public LiveData<List<OrderItem>> getOrderItemFromLocal(){
         return mOrderItemDao.getOrderItemFromLocal();
     }
 

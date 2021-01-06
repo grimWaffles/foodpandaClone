@@ -258,6 +258,8 @@ public class FirebaseDatabaseHelper {
 
                     if(user.getUserID()==userID){
 
+                        user.setLogin_status("customer");
+
                         new Thread(new Runnable() {
                             @Override
                             public void run() {

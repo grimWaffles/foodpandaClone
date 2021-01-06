@@ -18,7 +18,7 @@ public interface OrderItemDao {
     void insertOrderItemToLocal(OrderItem item);
 
     @Query("SELECT * FROM order_item_table  ORDER BY resID ASC")
-    List<OrderItem> getOrderItemFromLocal();
+    LiveData<List<OrderItem>> getOrderItemFromLocal();
 
     @Query("DELETE FROM order_item_table")
     void deleteAllItemFromLocal();
