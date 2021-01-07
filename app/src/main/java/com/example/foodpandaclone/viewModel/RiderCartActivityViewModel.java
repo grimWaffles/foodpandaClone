@@ -41,39 +41,11 @@ public class RiderCartActivityViewModel extends AndroidViewModel {
 
     public LiveData<List<OrderItem>> getOrderItems(){
 
-        if(orderItemList==null){
-            loadOrderItems();
-        }
-
-        return orderItemList;
+        return mRepo.getOrderItemFromLocal();
     }
 
     public LiveData<List<Restaurant>> getRestaurantList(){
         return mRepo.getRestaurantFromLocal();
-    }
-
-    private void loadOrderItems() {
-
-       final Runnable getingOrderItems=new Runnable() {
-           @Override
-           public void run() {
-
-               List<OrderItem> items=mRepo.getOrderItemFromLocal();
-
-                if(items.size()!=0){
-
-                    try{
-                        orderItemList.postValue(items);
-                        Log.d(TAG,Integer.toString(items.size()));
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-           }
-       };
-
-       service.schedule(getingOrderItems,3, TimeUnit.SECONDS);
     }
 
     public void getRestaurantIDs(List<OrderItem> orderItems) {
@@ -93,8 +65,9 @@ public class RiderCartActivityViewModel extends AndroidViewModel {
                 restaurants.add(orderItems.get(i).getRestaurantID());
             }
         }
+    }
 
-        mRepo.downloadSpecificRestaurantData(restaurants);
-        Log.d(TAG,"downloading restaurant data");
+    public void updateOrderItemsBought(String orderID) {
+        mRepo.updateOrderItemsBought(orderID);
     }
 }

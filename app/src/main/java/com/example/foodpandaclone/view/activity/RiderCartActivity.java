@@ -1,7 +1,9 @@
 package com.example.foodpandaclone.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -23,7 +25,7 @@ import java.util.List;
 
 public class RiderCartActivity extends AppCompatActivity implements RiderCartAdapter.RiderCartListener {
 
-    public static final  String TAG="RiderCartActivity";
+    public static final String TAG="RiderCartActivity";
 
     //ViewModel
     private RiderCartActivityViewModel rcVM;
@@ -33,7 +35,7 @@ public class RiderCartActivity extends AppCompatActivity implements RiderCartAda
     private Button btn_items_bought;
 
     //Variables
-    private List<OrderItem> orderItems;
+    private List<OrderItem> orderItems; private String orderID="";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +50,10 @@ public class RiderCartActivity extends AppCompatActivity implements RiderCartAda
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        if(getIntent().getExtras().getString("orderID")!=null){
+            orderID=getIntent().getExtras().getString("orderID");
+        }
+
         recyclerView=findViewById(R.id.recycler_view);
         adapter=new RiderCartAdapter();
         llm=new LinearLayoutManager(this);
@@ -58,19 +64,28 @@ public class RiderCartActivity extends AppCompatActivity implements RiderCartAda
 
         rcVM= new ViewModelProvider(this).get(RiderCartActivityViewModel.class);
 
+        btn_items_bought.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rcVM.updateOrderItemsBought(orderID);
 
+                startActivity(new Intent(RiderCartActivity.this,MainActivity_Rider.class));
+                finish();
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+
+
         rcVM.getOrderItems().observe(this, new Observer<List<OrderItem>>() {
             @Override
             public void onChanged(final List<OrderItem> orderItems) {
 
                 RiderCartActivity.this.orderItems=orderItems;
-                rcVM.getRestaurantIDs(orderItems);
             }
         });
 

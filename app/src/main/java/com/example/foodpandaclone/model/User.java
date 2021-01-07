@@ -101,9 +101,15 @@ public class User {
 
 
     public String getUsername(String email){
-        int i=email.indexOf('@');
 
-        return email.substring(0,i);
+        if(email==null){
+            return "";
+        }
+        else{
+            int i=email.indexOf('@');
+
+            return email.substring(0,i);
+        }
     }
 
     public boolean checkIfRider(String email){
