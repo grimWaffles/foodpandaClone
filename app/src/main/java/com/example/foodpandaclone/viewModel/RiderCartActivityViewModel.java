@@ -48,7 +48,6 @@ public class RiderCartActivityViewModel extends AndroidViewModel {
         return mRepo.getRestaurantFromLocal();
     }
 
-
     public void getRestaurantIDs(List<OrderItem> orderItems) {
 
         List<Integer> restaurants=new ArrayList<>();
@@ -66,8 +65,9 @@ public class RiderCartActivityViewModel extends AndroidViewModel {
                 restaurants.add(orderItems.get(i).getRestaurantID());
             }
         }
+    }
 
-        mRepo.downloadSpecificRestaurantData(restaurants);
-        Log.d(TAG,"downloading restaurant data");
+    public void updateOrderItemsBought(String orderID) {
+        mRepo.updateOrderItemsBought(orderID);
     }
 }

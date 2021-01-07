@@ -525,6 +525,11 @@ public class FirebaseDatabaseHelper {
         ref.setValue(riderID);
     }
 
+    public void updateOrderItemsBough(String orderID) {
+        ref=FirebaseDatabase.getInstance().getReference().child("Order").child(orderID).child("status");
+        ref.setValue("Items bought");
+    }
+
     private void setOrderStatus(int id,String status_message) {
         ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(id)).child("status");
         ref.setValue(status_message);
@@ -636,4 +641,6 @@ public class FirebaseDatabaseHelper {
             }
         });
     }
+
+
 }

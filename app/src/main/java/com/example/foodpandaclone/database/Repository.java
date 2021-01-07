@@ -240,4 +240,8 @@ public class Repository {
            }
        }).start();
     }
+
+    public void updateOrderItemsBought(String orderID) {
+        fireDB.updateOrderItemsBough(orderID);
+    }
 }

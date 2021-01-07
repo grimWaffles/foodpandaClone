@@ -55,7 +55,7 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
     //Variables
     private FragmentTransaction ft; private FragmentManager fm=getFragmentManager(); private boolean riderBusy =false;
     private User mUser; private LatLng riderLocation;
-    private boolean orderItemsAreDownloaded=false;
+    private boolean orderItemsAreDownloaded=false; private int user_count=0; private boolean itemsbought=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         progressBar=findViewById(R.id.pb_main);
         progressBar.setVisibility(View.GONE);
 
-        rider_name=findViewById(R.id.rider_name); rider_status=findViewById(R.id.rider_name);
+        rider_name=findViewById(R.id.rider_name); rider_status=findViewById(R.id.rider_status);
         orderID=findViewById(R.id.order_id);order_status=findViewById(R.id.order_status);order_items_loaded=findViewById(R.id.order_items_loaded);total_cost=findViewById(R.id.total_cost);
         customer_name=findViewById(R.id.customer_name);customer_address=findViewById(R.id.customer_address);customer_phone=findViewById(R.id.customer_phone);
     }
@@ -81,14 +81,14 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
     protected void onStart() {
         super.onStart();
 
-        progressBar.setVisibility(View.VISIBLE);
-
         //For login purposes
         marVM.getCurrentUser().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> users) {
 
                 if(users.size()!=0){
+
+                    user_count=users.size();
 
                     try{
                         //multiple entries
@@ -131,7 +131,7 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
                         }
                     }
                     catch(Exception e){
-                        Log.d(TAG,"Failed to get user"); // TODO: 04-Jan-21
+                        Log.d(TAG,"Failed to get user, count: "+Integer.toString(users.size())); // TODO: 04-Jan-21
                         e.printStackTrace();
                     }
                 }
@@ -152,15 +152,14 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
                                 marVM.downloadThisRidersOrder(riders.get(0).getRiderID());
                             }
                         }
-                        /*else{
+                        /*
+                        else{
                             riderBusy=false;
 
                             if(!marVM.downloadingAllPendingOrders()){
                                 marVM.downloadAllPendingOrdersFromFirebase();
                             }
-                        }
-
-                         */
+                        }*/
 
                         updateRiderUI(riders);
                     }
@@ -172,26 +171,27 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
             }
         });
 
+
         marVM.getPendingOrders().observe(this,new Observer<List<Order>>() {
             @Override
             public void onChanged(List<Order> orders) {
 
-               if(orders.size()!=0){
+               if(orders.size()!=0 && orders!=null){
                    try{
+                       Log.d(TAG, "Rider status");
 
-                       if(!riderBusy){
-                           loadOrderListFragment(orders);
-                       }
-                       else{
-                           if(!marVM.downloadUserInformation()){
+                       if(!marVM.downloadUserInformation()){
 
+                           if(user_count<=1){
                                marVM.downLoadUserInformationFromFirebase(orders.get(0).getUserID());
                            }
                        }
 
-                       updateOrderUI(orders);
+                       if(orders.get(0).getStatus().equals("Items bought")){
+                           itemsbought=true;
+                       }
 
-                       progressBar.setVisibility(View.GONE);
+                       updateOrderUI(orders);
                    }
                    catch (Exception e){
                        Log.d(TAG,"Failed to get order");
@@ -201,6 +201,7 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
             }
         });
 
+
         marVM.getOrderItemsList().observe(this, new Observer<List<OrderItem>>() {
             @Override
             public void onChanged(List<OrderItem> orderItems) {
@@ -208,6 +209,7 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
                 if(orderItems.size()!=0){
 
                     orderItemsAreDownloaded=true;
+                    order_items_loaded.setText("Items are loaded"); order_items_loaded.setTextColor(ContextCompat.getColor(MainActivity_Rider.this,R.color.otherAccent3));
                     marVM.downloadSpecificRestaurantData(orderItems);
                 }
             }
@@ -231,10 +233,11 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
 
     private void updateOrderUI(List<Order> orders) {
 
-        if(orders!=null || orders.size()!=0){
+        if(orders!=null && orders.size()!=0){
+
             Order order=orders.get(0);
 
-            orderID.setText(order.getOrderID());
+            orderID.setText(Integer.toString(order.getOrderID()));
             order_status.setText(order.getStatus());
 
             if(orderItemsAreDownloaded){
@@ -244,7 +247,13 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
                 order_items_loaded.setText("No"); order_items_loaded.setTextColor(ContextCompat.getColor(this,R.color.redcolor));
             }
 
-            total_cost.setText(order.getTotal_cost()); total_cost.setTextColor(ContextCompat.getColor(this,R.color.colorAccent));
+            if(order.getStatus().equals("Items bought")){
+                itemsbought=true;
+                order_status.setTextColor(ContextCompat.getColor(MainActivity_Rider.this,R.color.otherAccent3));
+            }
+
+            total_cost.setText(Integer.toString(order.getTotal_cost())); total_cost.setTextColor(ContextCompat.getColor(this,R.color.colorAccent));
+
         }
     }
 
@@ -253,7 +262,7 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         if(customer!=null){
             customer_name.setText(customer.getUsername(customer.getEmail()));
             customer_address.setText(getAddressFromLocation(customer.getLatitude(),customer.getLongitude()));
-            customer_phone.setText(customer.getPhone());
+            customer_phone.setText(Integer.toString(customer.getPhone()));
         }
     }
 
@@ -272,8 +281,12 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
 
             case R.id.my_cart:
 
-                if(riderBusy){
-                    startActivity(new Intent(MainActivity_Rider.this, RiderCartActivity.class));
+                if(riderBusy && orderItemsAreDownloaded &&  !itemsbought){
+
+                    Intent intent=new Intent(MainActivity_Rider.this, RiderCartActivity.class);
+                    intent.putExtra("orderID",orderID.getText());
+
+                    startActivity(intent);
                 }
                 else{
                     loadDialogFragment("You do not have current order");
@@ -281,8 +294,9 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
 
                 break;
 
-            case R.id.my_orders:
-                Toast.makeText(this, "Functionality not available yet", Toast.LENGTH_SHORT).show();
+            case R.id.refresh:
+                startActivity(new Intent(this,MainActivity_Rider.class));
+                finish();
                 break;
 
             case R.id.my_account:

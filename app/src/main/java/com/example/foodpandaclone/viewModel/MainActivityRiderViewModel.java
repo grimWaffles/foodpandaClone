@@ -77,8 +77,14 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
     public void downloadRiderInformation(final int userID){
 
         isRiderInformationDownloading=true;
-        mRepo.downloadRiderInfo(userID);
-        Log.d(TAG,"downloadedRiderInformation");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mRepo.downloadRiderInfo(userID);
+                Log.d(TAG,"downloadedRiderInformation");
+            }
+        }).start();
     }
 
     public void downloadAllPendingOrdersFromFirebase(){
@@ -89,11 +95,16 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
         Log.d(TAG,"downloadAllPendingOrdersFromFirebase");
     }
 
-    public void downLoadUserInformationFromFirebase(int userID){
+    public void downLoadUserInformationFromFirebase(final int userID){
 
         downloadingUserInformation=true;
-        mRepo.downloadUserInformationFromFirebase(userID);
-        Log.d(TAG,"downloadUserInformation");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mRepo.downloadUserInformationFromFirebase(userID);
+                Log.d(TAG,"downloadUserInformation");
+            }
+        }).start();
     }
 
     public void downloadSpecificRestaurantData(List<OrderItem> itemsList) {
@@ -101,7 +112,12 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
         if(orderItemList.size()==0){
             orderItemList=itemsList;
 
-            mRepo.downloadSpecificRestaurantData(getRestaurantIDs(orderItemList));
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mRepo.downloadSpecificRestaurantData(getRestaurantIDs(orderItemList));
+                }
+            }).start();
         }
         else if(orderItemList.size()<itemsList.size()){
 
@@ -110,7 +126,15 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
             resIDs=findTheDifferenceInResID(itemsList);
 
             if(resIDs.size()!=0){
-                mRepo.downloadSpecificRestaurantData(resIDs);
+
+                final List<Integer> finalResIDs = resIDs;
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRepo.downloadSpecificRestaurantData(finalResIDs);
+                    }
+                }).start();
             }
         }
     }
@@ -167,7 +191,7 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
         User newUser=new User();
 
         for(User user: users){
-            if(user.getLogin_status()!=null){
+            if(user.getLogin_status().equals("Logged in")){
                 newUser=user;
             }
         }
@@ -179,7 +203,7 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
         User  newUser=new User();
 
         for(User user: users){
-            if(user.getLogin_status()==null){
+            if(user.getLogin_status().equals("customer")){
                 newUser=user;
             }
         }
