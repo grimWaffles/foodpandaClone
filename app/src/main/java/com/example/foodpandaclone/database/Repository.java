@@ -232,10 +232,10 @@ public class Repository {
                mRestaurantDao.deleteAllRestaurantFromLocal();
                mItemDao.deleteAllItemFromLocal();
                //mUserDao.deleteLocalUser();
+               mUserDao.deleteCustomer();
                mOrderDao.deleteAllOrderFromLocal();
                mOrderItemDao.deleteAllItemFromLocal();
                mRiderDao.deleteLocalRider();
-
 
            }
        }).start();
@@ -243,5 +243,13 @@ public class Repository {
 
     public void updateOrderItemsBought(String orderID) {
         fireDB.updateOrderItemsBough(orderID);
+    }
+
+    public void updateOrderAskForPayment(int orderID) {
+        fireDB.updateOrderAskForPayment(orderID);
+    }
+
+    public void updateOrderCompleted(int orderID) {
+        fireDB.updateOrderCompleted(orderID);
     }
 }

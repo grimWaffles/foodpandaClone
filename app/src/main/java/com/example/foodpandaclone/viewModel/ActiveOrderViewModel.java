@@ -1,28 +1,28 @@
 package com.example.foodpandaclone.viewModel;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.foodpandaclone.database.Repository;
 import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.Rider;
 import com.example.foodpandaclone.model.User;
-import com.example.foodpandaclone.service.LocationService;
-import com.example.foodpandaclone.view.activity.ActiveOrder;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ActiveOrderViewModel extends AndroidViewModel {
 
-    private Repository mRepo;
+    public static final String TAG="ActiveOrderViewModel";
+
+    private Repository mRepo; private ScheduledExecutorService service=Executors.newSingleThreadScheduledExecutor(); private boolean serivceRunning=false;
+    private int userID; private Runnable trackOrder;
 
     public ActiveOrderViewModel(@NonNull Application application) {
         super(application);
@@ -65,5 +65,31 @@ public class ActiveOrderViewModel extends AndroidViewModel {
                 mRepo.downloadRiderInfo(riderID);
             }
         }).start();
+    }
+
+    public void trackOrder(final Order order){
+
+        if(!serivceRunning ){
+            serivceRunning=true;
+            trackOrder=new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG,"Tracking order");
+                    getUserOrders(userID);
+                }
+            };
+            service.schedule(trackOrder,6,TimeUnit.SECONDS);
+        }
+    }
+
+    public void stopTracker(){
+        if(serivceRunning){
+            serivceRunning=false;
+            service.shutdown();
+        }
+    }
+
+    public void setUserID(int userID) {
+        this.userID=userID;
     }
 }

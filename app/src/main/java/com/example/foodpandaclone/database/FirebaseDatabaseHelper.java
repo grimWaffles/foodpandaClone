@@ -535,6 +535,17 @@ public class FirebaseDatabaseHelper {
         ref.setValue(status_message);
     }
 
+
+    public void updateOrderAskForPayment(int orderID) {
+        ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(orderID)).child("status");
+        ref.setValue("payment pending");
+    }
+
+    public void updateOrderCompleted(int orderID) {
+        ref=FirebaseDatabase.getInstance().getReference().child("Order").child(Integer.toString(orderID)).child("status");
+        ref.setValue("completed");
+    }
+
     /**Rider Functions**/
 
     public void insertRiderToFireBase(Rider newUser) {
@@ -599,9 +610,41 @@ public class FirebaseDatabaseHelper {
 
 
 
-    private void setRiderStatus(int userID,String status) {
-        ref=FirebaseDatabase.getInstance().getReference().child("Rider").child(Integer.toString(userID)).child("status");
+    private void setRiderStatus(final int userID, String status) {
+        /*ref=FirebaseDatabase.getInstance().getReference().child("Rider").child(Integer.toString(userID)).child("status");
         ref.setValue(status);
+
+         */
+
+        DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("Order");
+        ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                boolean marked=false;
+
+                for(DataSnapshot snapshot1:snapshot.getChildren()){
+                    OrderFirebase orderFirebase=snapshot1.getValue(OrderFirebase.class);
+
+                    if(!orderFirebase.getStatus().equals("completed") || !orderFirebase.getStatus().equals("cancelled") && orderFirebase.getSenderID()==userID){
+                        ref=FirebaseDatabase.getInstance().getReference().child("Rider").child(Integer.toString(userID)).child("status");
+                        ref.setValue("Busy");
+                        marked=true;
+                        break;
+                    }
+                }
+
+                if(!marked){
+                    ref=FirebaseDatabase.getInstance().getReference().child("Rider").child(Integer.toString(userID)).child("status");
+                    ref.setValue("Available");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void signOutRider(int userID) {
@@ -641,6 +684,4 @@ public class FirebaseDatabaseHelper {
             }
         });
     }
-
-
 }

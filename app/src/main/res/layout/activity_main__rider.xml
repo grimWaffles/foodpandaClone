@@ -353,6 +353,22 @@
                 app:layout_constraintStart_toEndOf="@id/tv_customer_address"
                 />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_order_delivered"
+                android:text="Order Delivered"
+                 android:textColor="@android:color/white"
+                android:background="@color/colorAccent"
+
+                android:layout_marginTop="25dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/customer_address"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
