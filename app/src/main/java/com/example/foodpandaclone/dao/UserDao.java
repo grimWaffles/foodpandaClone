@@ -43,4 +43,7 @@ public interface UserDao {
 
     @Query("UPDATE user_table SET login_status=:status WHERE id=1")
     void updateLoginStatus(String status);
+
+    @Query("DELETE FROM user_table WHERE login_status='customer'")
+    void deleteCustomerFromLocal();
 }

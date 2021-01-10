@@ -337,10 +337,22 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
     public void onPromptClick(String message) {
 
        if(message.equals("Ask for payment")){
-           // TODO: 09-Jan-21
-           //set order completed
            marVM.updateOrderCompleted(Integer.parseInt(String.valueOf(orderID.getText())));
+           finishUp();
        }
+    }
+
+    private void finishUp() {
+
+        //setting rider ID to available
+        marVM.settingRiderStatusOrderComplete(mUser.getUserID());
+        //deleting customer data
+        marVM.deleteCustomerFromLocal();
+
+        //reload actvity
+        startActivity(new Intent(this,MainActivity_Rider.class));
+        finish();
+
     }
 
     public void orderDelivered(){

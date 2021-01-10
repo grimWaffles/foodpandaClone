@@ -1,6 +1,8 @@
 package com.example.foodpandaclone.viewModel;
 
 import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -67,26 +69,23 @@ public class ActiveOrderViewModel extends AndroidViewModel {
         }).start();
     }
 
-    public void trackOrder(final Order order){
+    public void trackOrder(final int orderID){
 
-        if(!serivceRunning ){
-            serivceRunning=true;
-            trackOrder=new Runnable() {
-                @Override
-                public void run() {
+        Handler handler=new Handler(Looper.getMainLooper());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(serivceRunning){
                     Log.d(TAG,"Tracking order");
-                    getUserOrders(userID);
+                    mRepo.getOrderFromFirebase(orderID);
                 }
-            };
-            service.schedule(trackOrder,6,TimeUnit.SECONDS);
-        }
+            }
+        }, 5000);
     }
 
     public void stopTracker(){
-        if(serivceRunning){
-            serivceRunning=false;
-            service.shutdown();
-        }
+        serivceRunning=false;
     }
 
     public void setUserID(int userID) {

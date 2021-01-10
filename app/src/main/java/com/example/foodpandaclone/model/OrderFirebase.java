@@ -26,6 +26,7 @@ public class OrderFirebase {
         this.orderItems=items;
         this.status=order.getStatus();
         this.total_cost=order.getTotal_cost();
+        this.discount=order.getDiscount();
         this.date=order.getDate();
     }
 

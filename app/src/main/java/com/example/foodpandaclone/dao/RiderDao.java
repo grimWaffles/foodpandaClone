@@ -37,4 +37,7 @@ public interface RiderDao {
 
     @Query("UPDATE rider_table SET status=:status")
     void updateLoginStatus(String status);
+
+    @Query("UPDATE rider_table SET status=:status")
+    void updateRiderStatus(String status);
 }

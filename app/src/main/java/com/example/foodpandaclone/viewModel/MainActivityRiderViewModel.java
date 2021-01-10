@@ -219,4 +219,13 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
     public void updateOrderCompleted(int orderID) {
         mRepo.updateOrderCompleted(orderID);
     }
+
+    public void settingRiderStatusOrderComplete(int userID) {
+
+        mRepo.settingRiderStatusOrderComplete(userID);
+    }
+
+    public void deleteCustomerFromLocal(){
+        mRepo.deleteCustomerFromLocal();
+    }
 }

@@ -48,8 +48,8 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
     private Button call_sender,cancel_order;  private CardView cardView; private ProgressBar progressBar;
 
     //Variables
-    private boolean mCurrentOrderExists =false; private Order mOrder;
-    private FragmentManager fm=getFragmentManager();
+    private boolean mCurrentOrderExists =false; private Order mOrder; private Rider mRider;
+    private FragmentManager fm=getFragmentManager(); boolean paymentPrompted=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,20 +167,27 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
                             aoVM.findRiderForOrder(orders.get(0));
                         }
                         else {
-                            aoVM.downloadRiderInformation(orders.get(0).getSenderID());
+                            if(mRider==null){
+                                aoVM.downloadRiderInformation(orders.get(0).getSenderID());
+                            }
                         }
 
-                        //aoVM.trackOrder();
+                        aoVM.trackOrder(mOrder.getOrderID());
 
                         updateOrderUI(orders.get(0));
                         //progressBar.setVisibility(View.GONE);
                     }
+
                     catch(Exception e){
 
                         Log.d(TAG,"Failed to get order");
                         e.printStackTrace();
                     }
                 }
+                else{
+                    message.setText("No current Order");
+                }
+
 
             }
         });
@@ -191,6 +198,7 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
 
                 if(riders!=null && riders.size()!=0) {
                     try{
+                        mRider=riders.get(0);
                         updateRiderUI(riders.get(0));
                     }
                     catch(Exception e){
@@ -204,7 +212,6 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
     }
 
     private void updateUserUI(User user) {
@@ -251,8 +258,13 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
            total_cost.setText(Integer.toString(order.getTotal_cost()) +"Tk");
            message.setText(order.getStatus());
 
-           if(order.getStatus().equals("payment pending")){
+           if(order.getStatus().equals("payment pending") && !paymentPrompted){
+               paymentPrompted=true;
                loadDialogFragment("Please pay "+"Tk."+total_cost.getText());
+           }
+
+           if(!order.getStatus().equals("pending") || !order.getStatus().equals("Rider found")){
+               cancel_order.setVisibility(View.GONE);
            }
        }
 
@@ -277,7 +289,11 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
     public void onPromptClick(String message) {
 
        if(message.startsWith("Please")){
-
+            loadDialogFragment("Order Complete!");
+            mCurrentOrderExists=false;
+       }
+       else if(message.equals("Order Complete!")){
+           mCurrentOrderExists=false;
        }
        else{
            mCurrentOrderExists=false;
