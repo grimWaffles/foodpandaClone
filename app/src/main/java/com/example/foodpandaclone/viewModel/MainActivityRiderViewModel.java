@@ -191,7 +191,7 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
         User newUser=new User();
 
         for(User user: users){
-            if(user.getLogin_status().equals("Logged in")){
+            if(user.getLogin_status().equals("Logged in") || user.getLogin_status().equals("Not logged in")){
                 newUser=user;
             }
         }
@@ -210,4 +210,24 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
 
         return newUser;
     }
+
+    public void updateOrderAskForPayment(int orderID) {
+
+        mRepo.updateOrderAskForPayment(orderID);
+    }
+
+    public void updateOrderCompleted(int orderID) {
+        mRepo.updateOrderCompleted(orderID);
+    }
+
+    public void settingRiderStatusOrderComplete(int userID) {
+
+        mRepo.settingRiderStatusOrderComplete(userID);
+    }
+
+    public void deleteLocalDataAfterOrder(){
+        mRepo.deleteLocalDataAfterOrder();
+    }
+
+
 }

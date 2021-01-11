@@ -178,23 +178,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent=new Intent(this, MyOrder.class);
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return  true;
+                break;
 
             case R.id.mapsOrder:
                 intent=new Intent(this, ActiveOrder.class);
                 startActivity(intent);
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return  true;
+                break;
 
             case R.id.developerSettings:
                 startActivity(new Intent(MainActivity.this,DevMode.class));
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                break;
 
             case R.id.riderOrders:
                 startActivity(new Intent(MainActivity.this, MyOrder.class));
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
+                break;
 
             /**case R.id.mapsRider:
                 startActivity(new Intent(MainActivity.this, RiderOrder.class));

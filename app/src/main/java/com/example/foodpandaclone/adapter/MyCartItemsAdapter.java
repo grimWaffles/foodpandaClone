@@ -70,7 +70,7 @@ public class MyCartItemsAdapter extends RecyclerView.Adapter<MyCartItemsAdapter.
 
     @Override
     public int getItemCount() {
-        if(cartItems.size()==0){
+        if(cartItems==null ||cartItems.size()==0){
             return 0;
         }
         else{

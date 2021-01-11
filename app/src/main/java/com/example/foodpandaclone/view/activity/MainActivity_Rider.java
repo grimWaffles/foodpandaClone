@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +41,7 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
     public static final String TAG="MainActivityRider";
 
     //Widgets
-    private Toolbar toolbar; private ProgressBar progressBar;
+    private Toolbar toolbar; private ProgressBar progressBar; private Button btn_order_delivered;
 
         //Rider
         TextView rider_name,rider_status;
@@ -72,9 +73,21 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         progressBar=findViewById(R.id.pb_main);
         progressBar.setVisibility(View.GONE);
 
+        btn_order_delivered=findViewById(R.id.btn_order_delivered);
+        btn_order_delivered.setVisibility(View.GONE);
+
         rider_name=findViewById(R.id.rider_name); rider_status=findViewById(R.id.rider_status);
         orderID=findViewById(R.id.order_id);order_status=findViewById(R.id.order_status);order_items_loaded=findViewById(R.id.order_items_loaded);total_cost=findViewById(R.id.total_cost);
         customer_name=findViewById(R.id.customer_name);customer_address=findViewById(R.id.customer_address);customer_phone=findViewById(R.id.customer_phone);
+
+        btn_order_delivered.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v){
+                orderDelivered();
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -94,7 +107,7 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
                         //multiple entries
                         if(users.size()>1){
 
-                            User loggedInUser=marVM.getLoggedInUser(users);
+                            User loggedInUser=marVM.getLoggedInUser(users); mUser=loggedInUser;
                             User customer=marVM.getCustomer(users);
 
                             if(loggedInUser.getType().equals(("User"))){
@@ -189,6 +202,8 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
 
                        if(orders.get(0).getStatus().equals("Items bought")){
                            itemsbought=true;
+
+                           btn_order_delivered.setVisibility(View.VISIBLE);
                        }
 
                        updateOrderUI(orders);
@@ -289,7 +304,7 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
                     startActivity(intent);
                 }
                 else{
-                    loadDialogFragment("You do not have current order");
+                    loadDialogFragment("Items already purchased!");
                 }
 
                 break;
@@ -320,7 +335,38 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
 
     @Override
     public void onPromptClick(String message) {
-        Toast.makeText(this, "Does Absolutely nothing", Toast.LENGTH_SHORT).show();
+
+       if(message.equals("Ask for payment")){
+           marVM.updateOrderCompleted(Integer.parseInt(String.valueOf(orderID.getText())));
+           finishUp();
+       }
+    }
+
+    private void finishUp() {
+
+        //setting rider ID to available
+        marVM.settingRiderStatusOrderComplete(mUser.getUserID());
+        //deleting customer data
+        marVM.deleteLocalDataAfterOrder();
+
+        synchronized (this){
+            try{
+                wait(2000);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        //reload activity
+        startActivity(new Intent(this,MainActivity_Rider.class));
+        finish();
+
+    }
+
+    public void orderDelivered(){
+        marVM.updateOrderAskForPayment(Integer.parseInt(String.valueOf(orderID.getText())));
+        loadDialogFragment("Ask for payment");
     }
 
     private void loadDialogFragment(String message) {
@@ -328,6 +374,19 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         CustomDialogFragment dialogFragment=new CustomDialogFragment(message);
 
         dialogFragment.show(fm,"My custom Dialog");
+    }
+
+    private String getAddressFromLocation(double latitude, double longitude) {
+
+        Geocoder geocoder=new Geocoder(this);
+
+        try{
+            List<Address> addressList=geocoder.getFromLocation(latitude,longitude,1);
+            return addressList.get(0).getAddressLine(0);
+        }
+        catch(Exception e){
+            return "Address not found";
+        }
     }
 
     private void loadOrderListFragment(List<Order> orders) {
@@ -342,16 +401,5 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
 
 
 
-    private String getAddressFromLocation(double latitude, double longitude) {
 
-        Geocoder geocoder=new Geocoder(this);
-
-        try{
-            List<Address> addressList=geocoder.getFromLocation(latitude,longitude,1);
-            return addressList.get(0).getAddressLine(0);
-        }
-        catch(Exception e){
-            return "Address not found";
-        }
-    }
 }

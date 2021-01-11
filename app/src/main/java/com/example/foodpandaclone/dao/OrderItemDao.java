@@ -23,6 +23,6 @@ public interface OrderItemDao {
     @Query("DELETE FROM order_item_table")
     void deleteAllItemFromLocal();
 
-    @Query("UPDATE order_item_table SET orderID=:i WHERE orderID=:id")
-    void updateLocalOrderID(int i,int id);
+    @Query("UPDATE order_item_table SET orderID=:id WHERE orderID=1")
+    void updateLocalOrderID(int id);
 }

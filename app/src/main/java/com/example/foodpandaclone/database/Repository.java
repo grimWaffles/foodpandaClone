@@ -107,6 +107,15 @@ public class Repository {
         fireDB.downloadUserInformationFromFirebase(userID);
     }
 
+    public void deleteCustomerFromLocal() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mUserDao.deleteCustomerFromLocal();
+            }
+        }).start();
+    }
+
     /**Restaurant Functions**/
     public LiveData<List<Restaurant>> getRestaurantFromLocal(){ return mRestaurantDao.fetchRestaurantFromLocal(); }
 
@@ -150,7 +159,16 @@ public class Repository {
 
     public List<Order> getPendingOrderListFromLocal(){return mOrderDao.getPendingOrdersFromLocal();}
 
-    public void insertOrderToLocal(Order currentOrder) { mOrderDao.insertOrderToLocal(currentOrder); }
+    public void insertOrderToLocal(final Order currentOrder) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mOrderDao.insertOrderToLocal(currentOrder);
+            }
+        }).start();
+
+    }
 
     public void insertOrderToFirebase(OrderFirebase currentOrder) { fireDB.insertOrderToFirebase(currentOrder); }
 
@@ -166,11 +184,17 @@ public class Repository {
         }).start();
     }
 
-    public void insertOrderItemsToLocal(List<OrderItem> orderItems) {
+    public void insertOrderItemsToLocal(final List<OrderItem> orderItems) {
 
-        for(OrderItem oi:orderItems){
-            mOrderItemDao.insertOrderItemToLocal(oi);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                for(OrderItem oi:orderItems){
+                    mOrderItemDao.insertOrderItemToLocal(oi);
+                }
+            }
+        }).start();
     }
 
     public void downloadUserOrder(int userID) { fireDB.getAllOrdersOfUser(userID); }
@@ -223,6 +247,17 @@ public class Repository {
         fireDB.downloadRiderInfo(riderID);
     }
 
+    public void settingRiderStatusOrderComplete(int userID) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mRiderDao.updateRiderStatus("Available");
+            }
+        }).start();
+
+        fireDB.updateRiderStatusInFirebase(userID);
+    }
+
     /**Global Functions**/
     public void clearAllDataLocal(){
 
@@ -232,10 +267,10 @@ public class Repository {
                mRestaurantDao.deleteAllRestaurantFromLocal();
                mItemDao.deleteAllItemFromLocal();
                //mUserDao.deleteLocalUser();
+               mUserDao.deleteCustomer();
                mOrderDao.deleteAllOrderFromLocal();
                mOrderItemDao.deleteAllItemFromLocal();
                mRiderDao.deleteLocalRider();
-
 
            }
        }).start();
@@ -243,5 +278,35 @@ public class Repository {
 
     public void updateOrderItemsBought(String orderID) {
         fireDB.updateOrderItemsBough(orderID);
+    }
+
+    public void updateOrderAskForPayment(int orderID) {
+        fireDB.updateOrderAskForPayment(orderID);
+    }
+
+    public void updateOrderCompleted(int orderID) {
+        fireDB.updateOrderCompleted(orderID);
+    }
+
+    public void deleteAllRiders() {
+
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               mRiderDao.deleteLocalRider();
+           }
+       }).start();
+    }
+
+    public void deleteLocalDataAfterOrder() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mUserDao.deleteCustomerFromLocal();
+                mOrderDao.deleteAllOrderFromLocal();
+                mOrderItemDao.deleteAllItemFromLocal();
+            }
+        }).start();
     }
 }

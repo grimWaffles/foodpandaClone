@@ -64,7 +64,12 @@ public class CustomDialogFragment extends DialogFragment {
         btn_yes=view.findViewById(R.id.btn_yes);
 
         if(isAPrompt){
-            btn_yes.setText("Okay");
+            if(this.message.equals("Ask for payment")){
+                btn_yes.setText("Payment Received");
+            }
+            else{
+                btn_yes.setText("Okay");
+            }
             tv_message.setText(message);
         }
 

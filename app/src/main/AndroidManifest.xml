@@ -34,6 +34,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".view.activity.MyOrder"
             android:parentActivityName=".view.activity.MainActivity"
@@ -81,8 +85,9 @@
             android:label=""
             android:parentActivityName=".view.activity.LocationAccess"
             android:screenOrientation="sensorPortrait" />
-
-        <activity android:name=".view.activity.RiderCartActivity" android:parentActivityName=".view.activity.MainActivity_Rider"/>
+        <activity
+            android:name=".view.activity.RiderCartActivity"
+            android:parentActivityName=".view.activity.MainActivity_Rider" />
 
         <service android:name=".service.LocationService" />
         <service

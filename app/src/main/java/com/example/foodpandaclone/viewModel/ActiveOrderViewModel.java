@@ -1,28 +1,30 @@
 package com.example.foodpandaclone.viewModel;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.foodpandaclone.database.Repository;
 import com.example.foodpandaclone.model.Order;
 import com.example.foodpandaclone.model.Rider;
 import com.example.foodpandaclone.model.User;
-import com.example.foodpandaclone.service.LocationService;
-import com.example.foodpandaclone.view.activity.ActiveOrder;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ActiveOrderViewModel extends AndroidViewModel {
 
-    private Repository mRepo;
+    public static final String TAG="ActiveOrderViewModel";
+
+    private Repository mRepo; private ScheduledExecutorService service=Executors.newSingleThreadScheduledExecutor(); private boolean serivceRunning=false;
+    private int userID; private Runnable trackOrder;
 
     public ActiveOrderViewModel(@NonNull Application application) {
         super(application);
@@ -65,5 +67,32 @@ public class ActiveOrderViewModel extends AndroidViewModel {
                 mRepo.downloadRiderInfo(riderID);
             }
         }).start();
+    }
+
+    public void trackOrder(final int orderID){
+
+        Handler handler=new Handler(Looper.getMainLooper());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(serivceRunning){
+                    Log.d(TAG,"Tracking order");
+                    mRepo.getOrderFromFirebase(orderID);
+                }
+            }
+        }, 5000);
+    }
+
+    public void stopTracker(){
+        serivceRunning=false;
+    }
+
+    public void setUserID(int userID) {
+        this.userID=userID;
+    }
+
+    public void clearRider() {
+        mRepo.deleteAllRiders();
     }
 }
