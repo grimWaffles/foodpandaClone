@@ -374,6 +374,8 @@ public class FirebaseDatabaseHelper {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                firebaseOrders.clear();
+
                 for(DataSnapshot ds:snapshot.getChildren()){
 
                     OrderFirebase of=ds.getValue(OrderFirebase.class);
@@ -383,7 +385,7 @@ public class FirebaseDatabaseHelper {
                     }
                 }
 
-                if(firebaseOrders.size()!=0 && firebaseOrders!=null){
+                if(firebaseOrders.size()!=0){
 
                     Log.d(TAG,Integer.toString(firebaseOrders.size()));
 

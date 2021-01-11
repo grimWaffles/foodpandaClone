@@ -163,7 +163,7 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
                     try{
                         mOrder=orders.get(0);mCurrentOrderExists =true;
 
-                        if(orders.get(0).getSenderID()==0){
+                        if(orders.get(0).getSenderID()==0 && !orders.get(0).getStatus().equals("payment pending")){
                             aoVM.findRiderForOrder(orders.get(0));
                         }
                         else {
@@ -172,10 +172,14 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
                             }
                         }
 
-                        aoVM.trackOrder(mOrder.getOrderID());
+                        if(!orders.get(0).getStatus().equals("payment pending")){
 
+                            aoVM.trackOrder(mOrder.getOrderID());
+
+
+                            //progressBar.setVisibility(View.GONE);
+                        }
                         updateOrderUI(orders.get(0));
-                        //progressBar.setVisibility(View.GONE);
                     }
 
                     catch(Exception e){
@@ -249,7 +253,7 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
 
     private void updateOrderUI(Order order) {
 
-       if(mCurrentOrderExists){
+       if(mCurrentOrderExists && order!=null){
 
            //update order information and UI
            cancel_order.setVisibility(View.VISIBLE);
@@ -277,6 +281,26 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
        }
 
     }
+    private void clearOrderUI() {
+        message.setText("You do not have an active order");
+        orderID.setText("");
+        total_cost.setText("");
+        call_sender.setVisibility(View.GONE);
+        cancel_order.setVisibility(View.GONE);
+
+       aoVM.clearRider();
+
+       synchronized (this){
+           try{
+               wait(2000);
+           }
+           catch (Exception e){
+               e.printStackTrace();
+           }
+       }
+
+       finish();
+    }
 
     private void loadDialogFragment(String message) {
 
@@ -289,11 +313,12 @@ public class ActiveOrder extends AppCompatActivity implements OnMapReadyCallback
     public void onPromptClick(String message) {
 
        if(message.startsWith("Please")){
-            loadDialogFragment("Order Complete!");
             mCurrentOrderExists=false;
+            loadDialogFragment("Order Complete!");
+
        }
        else if(message.equals("Order Complete!")){
-           mCurrentOrderExists=false;
+           clearOrderUI();
        }
        else{
            mCurrentOrderExists=false;

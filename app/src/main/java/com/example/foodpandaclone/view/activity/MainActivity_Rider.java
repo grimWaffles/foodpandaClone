@@ -347,9 +347,18 @@ public class MainActivity_Rider extends AppCompatActivity implements RiderOrderA
         //setting rider ID to available
         marVM.settingRiderStatusOrderComplete(mUser.getUserID());
         //deleting customer data
-        marVM.deleteCustomerFromLocal();
+        marVM.deleteLocalDataAfterOrder();
 
-        //reload actvity
+        synchronized (this){
+            try{
+                wait(2000);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        //reload activity
         startActivity(new Intent(this,MainActivity_Rider.class));
         finish();
 

@@ -91,4 +91,8 @@ public class ActiveOrderViewModel extends AndroidViewModel {
     public void setUserID(int userID) {
         this.userID=userID;
     }
+
+    public void clearRider() {
+        mRepo.deleteAllRiders();
+    }
 }

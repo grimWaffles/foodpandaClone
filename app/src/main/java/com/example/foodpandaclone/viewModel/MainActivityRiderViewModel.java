@@ -225,7 +225,9 @@ public class MainActivityRiderViewModel extends AndroidViewModel {
         mRepo.settingRiderStatusOrderComplete(userID);
     }
 
-    public void deleteCustomerFromLocal(){
-        mRepo.deleteCustomerFromLocal();
+    public void deleteLocalDataAfterOrder(){
+        mRepo.deleteLocalDataAfterOrder();
     }
+
+
 }

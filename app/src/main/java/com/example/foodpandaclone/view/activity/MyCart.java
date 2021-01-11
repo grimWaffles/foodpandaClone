@@ -134,8 +134,17 @@ public class MyCart extends AppCompatActivity {
 
                            progressBar.setVisibility(View.GONE);
 
-                           //startActivity(new Intent(MyCart.this,ActiveOrder.class));
-                           //finish();
+                           synchronized (this){
+                               try{
+                                   wait(3000);
+                               }
+                               catch(Exception e){
+                                   e.printStackTrace();
+                               }
+                           }
+
+                           startActivity(new Intent(MyCart.this,ActiveOrder.class));
+                           finish();
 
                            // TODO: 10-Jan-21 Uncomment these and test
                        }

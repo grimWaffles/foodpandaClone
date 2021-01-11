@@ -288,4 +288,25 @@ public class Repository {
         fireDB.updateOrderCompleted(orderID);
     }
 
+    public void deleteAllRiders() {
+
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               mRiderDao.deleteLocalRider();
+           }
+       }).start();
+    }
+
+    public void deleteLocalDataAfterOrder() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mUserDao.deleteCustomerFromLocal();
+                mOrderDao.deleteAllOrderFromLocal();
+                mOrderItemDao.deleteAllItemFromLocal();
+            }
+        }).start();
+    }
 }
