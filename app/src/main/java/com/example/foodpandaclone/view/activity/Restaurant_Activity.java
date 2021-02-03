@@ -61,7 +61,7 @@ public class Restaurant_Activity extends AppCompatActivity {
 
                 Restaurant_Activity.this.setTitle(restaurant.getResName());
 
-                res_location.setText("Location: "+getAddressFromLocation(restaurant.getLatitude(),restaurant.getLongitude()));
+                res_location.setText(getAddressFromLocation(restaurant.getLatitude(),restaurant.getLongitude()));
 
                 mRAVM.getRestaurantItems(restaurant.getResID()).observe(Restaurant_Activity.this, new Observer<List<Item>>() {
                     @Override

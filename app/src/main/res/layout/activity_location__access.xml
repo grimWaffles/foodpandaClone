@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activity.LocationAccess">
+    tools:context=".view.activity.LocationAccess"
+    android:backgroundTint="@color/colorAccent">
 
     <ImageView
         android:id="@+id/logo_img"
-        android:layout_width="252dp"
-        android:layout_height="335dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_marginTop="16dp"
         android:scaleType="centerCrop"
 
-        app:srcCompat="@drawable/location"
+        app:srcCompat="@drawable/g_map_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,9 +26,9 @@
         android:layout_width="212dp"
         android:layout_height="64dp"
         android:backgroundTint="@color/colorAccent"
+        android:background="@drawable/button_round"
         android:text="Find My Location"
         android:textColor="@android:color/white"
-
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
