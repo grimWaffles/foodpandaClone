@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item
+            android:id="@+id/vendor_management"
+            android:icon="@drawable/my_orrders"
+            android:title="Vendors"
+            />
+        <item
+            android:id="@+id/rider_management"
+            android:icon="@drawable/help"
+            android:title="Riders"
+            />
+        <item
+            android:id="@+id/developerSettings"
+            android:icon="@drawable/ic_baseline_developer_board_24"
+            android:title="Users"
+            />
+    </group>
+</menu>

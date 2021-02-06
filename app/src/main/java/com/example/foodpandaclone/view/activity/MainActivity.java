@@ -200,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(MainActivity.this, RiderOrder.class));
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;**/
+
+            //do something about this^
         }
         return true;
     }
